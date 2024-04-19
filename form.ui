@@ -213,7 +213,7 @@ Preview</string>
                  </size>
                 </property>
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <property name="documentMode">
                  <bool>true</bool>
@@ -949,13 +949,6 @@ v
       </widget>
      </widget>
     </item>
-    <item>
-     <widget class="QLabel" name="status_label">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -1048,11 +1041,140 @@ v
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>import_excel_skip_rows_lineEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>953</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_excel_sheet_lineEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>953</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_excel_header_lineEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>953</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_csv_delimiter_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>952</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_csv_encoding_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>952</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_csv_skip_rows_lineEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>953</x>
+     <y>234</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_csv_skip_blank_lines_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>980</x>
+     <y>271</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_csv_freeform_options_plainTextEdit</sender>
+   <signal>textChanged()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>914</x>
+     <y>477</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
   <slot>filepathname_changed()</slot>
   <slot>import_csv_file()</slot>
   <slot>import_excel_file()</slot>
+  <slot>load_file_preview()</slot>
  </slots>
 </ui>

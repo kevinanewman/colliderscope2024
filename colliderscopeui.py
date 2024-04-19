@@ -54,13 +54,19 @@ class ColliderScopeUI(QMainWindow):
         self.ui.setupUi(self)
         # timer.start()
 
-    def load_file_preview(self, file_pathname):
+    def load_file_preview(self, file_pathname=None):
+        num_preview_rows = 256
+
+        if file_pathname is None:
+            file_pathname = self.ui.filepathname_lineEdit.text()
+
         if 'xls' in file_pathname.split('.')[-1]:
             self.ui.file_import_tabWidget.setCurrentIndex(1)
-            # need some way to preview Excel files...?
-            self.ui.file_preview_tableWidget.clearContents()
-            while self.ui.file_preview_tableWidget.rowCount() > 1:
-                self.ui.file_preview_tableWidget.removeRow(0)
+
+            df = self.import_excel_file(nrows=num_preview_rows)
+            if df is not None:
+                self.preview_dataframe(df, num_preview_rows)
+
         else:
             self.ui.file_import_tabWidget.setCurrentIndex(0)
 
@@ -68,12 +74,36 @@ class ColliderScopeUI(QMainWindow):
             self.ui.file_preview_tableWidget.setRowCount(0)
             self.ui.file_preview_tableWidget.setColumnCount(1)
 
-            with open(file_pathname, 'r') as f_read:
-                for i in range(0, 256):
-                    line = f_read.readline()
-                    if line:
-                        self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
-                        self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+            df = self.import_csv_file(nrows=num_preview_rows)
+            if df is not None:
+                self.preview_dataframe(df, num_preview_rows)
+            else:
+                with open(file_pathname, 'r') as f_read:
+                    for i in range(0, num_preview_rows):
+                        line = f_read.readline()
+                        if line:
+                            self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
+                            self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+
+                    self.ui.file_preview_tableWidget.horizontalHeader().setVisible(False)
+                    self.ui.file_preview_tableWidget.resizeColumnsToContents()
+
+    def preview_dataframe(self, df, num_preview_rows):
+        # Set row and column count
+        self.ui.file_preview_tableWidget.setRowCount(df.shape[0])
+        self.ui.file_preview_tableWidget.setColumnCount(df.shape[1])
+
+        # Set headers
+        self.ui.file_preview_tableWidget.setHorizontalHeaderLabels(df.columns)
+
+        # Populate the table
+        for i in range(df.shape[0]):
+            for j in range(df.shape[1]):
+                item = QTableWidgetItem(str(df.iloc[i, j]))
+                self.ui.file_preview_tableWidget.setItem(i, j, item)
+
+        self.ui.file_preview_tableWidget.horizontalHeader().setVisible(True)
+        self.ui.file_preview_tableWidget.resizeColumnsToContents()
 
     def filepathname_changed(self):
         self.load_file_preview(self.ui.filepathname_lineEdit.text())
@@ -85,10 +115,9 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview(file_pathname)
 
-    def import_csv_file(self):
+    def import_csv_file(self, nrows=None):
         global status_bar_message, data
 
-        print('import CSV file here!!')
         file_pathname = self.ui.filepathname_lineEdit.text()
 
         if file_pathname:
@@ -104,25 +133,26 @@ class ColliderScopeUI(QMainWindow):
 
             try:
                 data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
-                               delimiter=delimiter,
-                               encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                               skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                               skiprows=skiprows
-                               )
+                                   delimiter=delimiter,
+                                   encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                   skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                   skiprows=skiprows,
+                                   nrows=nrows,
+                                   )
             except Exception as e:
                 QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
-                            (file_pathname, repr(e))).exec()
+                            (file_pathname, str(e))).exec()
+                return None
 
             self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
-            print(data.columns)
-            print(data.head())
+            return data
         else:
             self.ui.statusbar.showMessage('WARNING: select an input file first', 2000)
+            return None
 
-    def import_excel_file(self):
+    def import_excel_file(self, nrows=None):
         global status_bar_message, data
 
-        print('import EXCEL file here!!')
         file_pathname = self.ui.filepathname_lineEdit.text()
 
         if file_pathname:
@@ -149,16 +179,18 @@ class ColliderScopeUI(QMainWindow):
                                      sheet_name=sheet,
                                      skiprows=skiprows,
                                      header=header,
+                                     nrows=nrows,
                                      )
                 self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
-                print(data.columns)
-                print(data.head())
+                return data
+
             except Exception as e:
                 QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
-                            (file_pathname, repr(e))).exec()
+                            (file_pathname, str(e))).exec()
+                return None
         else:
             self.ui.statusbar.showMessage('WARNING: select an input file first', 2000)
-
+            return None
 
 def status_bar():
     # print(time.time())

@@ -550,11 +550,6 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_4.addWidget(self.tabWidget_main)
 
-        self.status_label = QLabel(self.centralwidget)
-        self.status_label.setObjectName(u"status_label")
-
-        self.verticalLayout_4.addWidget(self.status_label)
-
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
@@ -574,9 +569,17 @@ class Ui_ColliderScopeUI(object):
         self.filepathname_lineEdit.returnPressed.connect(ColliderScopeUI.filepathname_changed)
         self.import_csv_pushButton.clicked.connect(ColliderScopeUI.import_csv_file)
         self.file_import_browse_pushButton.clicked.connect(ColliderScopeUI.import_filebrowse)
+        self.import_excel_skip_rows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.import_excel_sheet_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.import_excel_header_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_delimiter_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_encoding_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_skip_rows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_skip_blank_lines_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_freeform_options_plainTextEdit.textChanged.connect(ColliderScopeUI.load_file_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
-        self.file_import_tabWidget.setCurrentIndex(1)
+        self.file_import_tabWidget.setCurrentIndex(0)
         self.import_excel_pushButton.setDefault(False)
         self.tabWidget_preview.setCurrentIndex(0)
 
@@ -650,7 +653,6 @@ class Ui_ColliderScopeUI(object):
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_triage), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_plot), QCoreApplication.translate("ColliderScopeUI", u"Plotting", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_export), QCoreApplication.translate("ColliderScopeUI", u"Export", None))
-        self.status_label.setText("")
         self.menuColliderScope2024.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Menu", None))
     # retranslateUi
 
