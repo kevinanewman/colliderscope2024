@@ -54,7 +54,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -599,7 +599,7 @@ Preview</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_triage">
+      <widget class="QWidget" name="triage_tab">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -708,7 +708,7 @@ color: black
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_copytostring">
+             <widget class="QPushButton" name="copytostring_pushButton">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -729,7 +729,7 @@ color: black
            </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_add2script">
+           <widget class="QPushButton" name="add2script_pushButton">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
@@ -1006,7 +1006,7 @@ color: black;
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_convertonumeric">
+             <widget class="QPushButton" name="convertonumeric_pushButton">
               <property name="text">
                <string>Convert to Numeric (update Script)</string>
               </property>
@@ -1020,7 +1020,7 @@ color: black;
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_ignore">
+             <widget class="QPushButton" name="ignore_pushButton">
               <property name="autoFillBackground">
                <bool>false</bool>
               </property>
@@ -1033,7 +1033,7 @@ color: black;
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_unignore">
+             <widget class="QPushButton" name="unignore_pushButton">
               <property name="text">
                <string>&lt;&lt;&lt;</string>
               </property>
@@ -1070,7 +1070,7 @@ color: black;
              </widget>
             </item>
             <item>
-             <widget class="QListWidget" name="listWidget_ignore">
+             <widget class="QListWidget" name="triage_ignore_listWidget">
               <property name="styleSheet">
                <string notr="true">background-color: rgb(253, 223, 223);</string>
               </property>
@@ -1081,7 +1081,7 @@ color: black;
          </layout>
         </item>
         <item>
-         <widget class="QTabWidget" name="tabWidget_preview">
+         <widget class="QTabWidget" name="preview_tabWidget">
           <property name="cursor">
            <cursorShape>ArrowCursor</cursorShape>
           </property>
@@ -1089,7 +1089,7 @@ color: black;
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="documentMode">
            <bool>true</bool>
@@ -1097,7 +1097,7 @@ color: black;
           <property name="tabsClosable">
            <bool>false</bool>
           </property>
-          <widget class="QWidget" name="tab_text">
+          <widget class="QWidget" name="text_preview_tab">
            <attribute name="title">
             <string>Text Preview</string>
            </attribute>
@@ -1115,11 +1115,11 @@ color: black;
              <number>5</number>
             </property>
             <item>
-             <widget class="QTextBrowser" name="textBrowser_preview"/>
+             <widget class="QTextBrowser" name="text_preview_textBrowser"/>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_graphic">
+          <widget class="QWidget" name="graphic_preview_tab">
            <attribute name="title">
             <string>Graphic Preview</string>
            </attribute>
@@ -1137,11 +1137,11 @@ color: black;
              <number>5</number>
             </property>
             <item>
-             <widget class="QGraphicsView" name="graphicsView"/>
+             <widget class="QGraphicsView" name="graphic_preview_graphicsView"/>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_script">
+          <widget class="QWidget" name="script_preview_tab">
            <attribute name="title">
             <string>Preprocess Script</string>
            </attribute>
@@ -1159,7 +1159,7 @@ color: black;
              <number>5</number>
             </property>
             <item>
-             <widget class="QTextEdit" name="textEdit_script"/>
+             <widget class="QTextEdit" name="script_preview_textEdit"/>
             </item>
            </layout>
           </widget>
@@ -1412,5 +1412,6 @@ color: black;
   <slot>import_csv_file()</slot>
   <slot>import_excel_file()</slot>
   <slot>load_file_preview()</slot>
+  <slot>update_string_preview()</slot>
  </slots>
 </ui>

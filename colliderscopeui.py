@@ -125,7 +125,7 @@ class ColliderScopeUI(QMainWindow):
 
     def setup_initial_triage_lists(self):
         global data
-        self.ui.tab_triage.setEnabled(True)
+        self.ui.triage_tab.setEnabled(True)
         self.ui.tabWidget_main.setCurrentIndex(1)
         data = data.convert_dtypes()
         non_string_columns = data.select_dtypes(exclude='string').columns
