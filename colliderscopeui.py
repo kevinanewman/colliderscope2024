@@ -2,8 +2,12 @@
 import sys
 import time
 import pandas as pd
+import pyqtgraph as pg
+from pyqtgraph import PlotWidget
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem, QLabel, QMessageBox
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QFileDialog, QTableWidget, QTableWidgetItem, QLabel,
+                               QMessageBox, QGraphicsScene, QGraphicsWidget, QGraphicsProxyWidget, QSizePolicy,
+                               QVBoxLayout, QHBoxLayout)
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -52,6 +56,16 @@ class ColliderScopeUI(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
+
+        self.ui.graphic_preview_scene = QGraphicsScene()
+        self.ui.graphic_preview_graphicsView.setScene(self.ui.graphic_preview_scene)
+
+        self.ui.graphic_preview_plot_widget = PlotWidget()
+
+        layout = QHBoxLayout(self.ui.graphic_preview_graphicsView)
+        layout.setContentsMargins(5, 5, 5, 5)
+        layout.addWidget(self.ui.graphic_preview_plot_widget)
+
         # timer.start()
 
     def load_file_preview(self, file_pathname=None):
@@ -132,7 +146,8 @@ class ColliderScopeUI(QMainWindow):
         latest_item = self.ui.triage_numeric_listWidget.selectedItems()[-1].text()
         self.ui.text_preview_listWidget.clear()
         self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
-
+        self.ui.graphic_preview_plot_widget.clear()
+        self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item])
 
     def setup_initial_triage_lists(self):
         global data

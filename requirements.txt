@@ -5,3 +5,5 @@ pandas
 multitimer
 
 openpyxl
+
+pyqtgraph

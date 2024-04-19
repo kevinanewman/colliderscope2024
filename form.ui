@@ -23,7 +23,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
     <property name="leftMargin">
      <number>5</number>
     </property>
@@ -1095,7 +1095,7 @@ color: black;
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="documentMode">
            <bool>true</bool>
@@ -1129,7 +1129,7 @@ color: black;
            <attribute name="title">
             <string>Graphic Preview</string>
            </attribute>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
             <property name="leftMargin">
              <number>5</number>
             </property>
@@ -1143,7 +1143,11 @@ color: black;
              <number>5</number>
             </property>
             <item>
-             <widget class="QGraphicsView" name="graphic_preview_graphicsView"/>
+             <widget class="QGraphicsView" name="graphic_preview_graphicsView">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>

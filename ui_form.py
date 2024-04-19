@@ -39,9 +39,9 @@ class Ui_ColliderScopeUI(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
         self.centralwidget.setSizePolicy(sizePolicy)
-        self.verticalLayout_4 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(5, 5, 5, 5)
         self.tabWidget_main = QTabWidget(self.centralwidget)
         self.tabWidget_main.setObjectName(u"tabWidget_main")
         self.tabWidget_main.setEnabled(True)
@@ -563,13 +563,14 @@ class Ui_ColliderScopeUI(object):
         self.preview_tabWidget.addTab(self.text_preview_tab, "")
         self.graphic_preview_tab = QWidget()
         self.graphic_preview_tab.setObjectName(u"graphic_preview_tab")
-        self.horizontalLayout_5 = QHBoxLayout(self.graphic_preview_tab)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout_3 = QHBoxLayout(self.graphic_preview_tab)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(5, 5, 5, 5)
         self.graphic_preview_graphicsView = QGraphicsView(self.graphic_preview_tab)
         self.graphic_preview_graphicsView.setObjectName(u"graphic_preview_graphicsView")
+        self.graphic_preview_graphicsView.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_5.addWidget(self.graphic_preview_graphicsView)
+        self.horizontalLayout_3.addWidget(self.graphic_preview_graphicsView)
 
         self.preview_tabWidget.addTab(self.graphic_preview_tab, "")
         self.script_preview_tab = QWidget()
@@ -596,7 +597,7 @@ class Ui_ColliderScopeUI(object):
         self.export_tab.setEnabled(False)
         self.tabWidget_main.addTab(self.export_tab, "")
 
-        self.verticalLayout_4.addWidget(self.tabWidget_main)
+        self.horizontalLayout_2.addWidget(self.tabWidget_main)
 
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
@@ -631,7 +632,7 @@ class Ui_ColliderScopeUI(object):
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_excel_pushButton.setDefault(False)
-        self.preview_tabWidget.setCurrentIndex(0)
+        self.preview_tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(ColliderScopeUI)
