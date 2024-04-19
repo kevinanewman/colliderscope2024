@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QListWidgetItem, QMainWindow, QMenu, QMenuBar,
     QPlainTextEdit, QPushButton, QSizePolicy, QSpacerItem,
     QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
-    QTextBrowser, QTextEdit, QVBoxLayout, QWidget)
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
@@ -403,6 +403,7 @@ class Ui_ColliderScopeUI(object):
 "")
         self.triage_numeric_listWidget.setProperty("showDropIndicator", True)
         self.triage_numeric_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.triage_numeric_listWidget.setSortingEnabled(True)
 
         self.verticalLayout_numeric.addWidget(self.triage_numeric_listWidget)
 
@@ -488,6 +489,7 @@ class Ui_ColliderScopeUI(object):
 "")
         self.triage_string_listWidget.setFrameShape(QFrame.StyledPanel)
         self.triage_string_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
+        self.triage_string_listWidget.setSortingEnabled(True)
 
         self.verticalLayout_string.addWidget(self.triage_string_listWidget)
 
@@ -553,10 +555,10 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout = QHBoxLayout(self.text_preview_tab)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
-        self.text_preview_textBrowser = QTextBrowser(self.text_preview_tab)
-        self.text_preview_textBrowser.setObjectName(u"text_preview_textBrowser")
+        self.text_preview_listWidget = QListWidget(self.text_preview_tab)
+        self.text_preview_listWidget.setObjectName(u"text_preview_listWidget")
 
-        self.horizontalLayout.addWidget(self.text_preview_textBrowser)
+        self.horizontalLayout.addWidget(self.text_preview_listWidget)
 
         self.preview_tabWidget.addTab(self.text_preview_tab, "")
         self.graphic_preview_tab = QWidget()
@@ -623,11 +625,13 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_skip_rows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_skip_blank_lines_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_freeform_options_plainTextEdit.textChanged.connect(ColliderScopeUI.load_file_preview)
+        self.triage_string_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_string_preview)
+        self.triage_numeric_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_numeric_preview)
 
-        self.tabWidget_main.setCurrentIndex(1)
+        self.tabWidget_main.setCurrentIndex(0)
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_excel_pushButton.setDefault(False)
-        self.preview_tabWidget.setCurrentIndex(2)
+        self.preview_tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(ColliderScopeUI)

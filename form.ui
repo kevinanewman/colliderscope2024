@@ -54,7 +54,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -705,6 +705,9 @@ color: black
               <property name="selectionMode">
                <enum>QAbstractItemView::ExtendedSelection</enum>
               </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -1003,6 +1006,9 @@ color: black;
               <property name="selectionMode">
                <enum>QAbstractItemView::ExtendedSelection</enum>
               </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item>
@@ -1089,7 +1095,7 @@ color: black;
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="documentMode">
            <bool>true</bool>
@@ -1115,7 +1121,7 @@ color: black;
              <number>5</number>
             </property>
             <item>
-             <widget class="QTextBrowser" name="text_preview_textBrowser"/>
+             <widget class="QListWidget" name="text_preview_listWidget"/>
             </item>
            </layout>
           </widget>
@@ -1405,6 +1411,38 @@ color: black;
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>triage_string_listWidget</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>update_string_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>533</x>
+     <y>246</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>triage_numeric_listWidget</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>update_numeric_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
@@ -1413,5 +1451,6 @@ color: black;
   <slot>import_excel_file()</slot>
   <slot>load_file_preview()</slot>
   <slot>update_string_preview()</slot>
+  <slot>update_numeric_preview()</slot>
  </slots>
 </ui>

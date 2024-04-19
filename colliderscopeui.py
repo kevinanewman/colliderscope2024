@@ -123,6 +123,17 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview(file_pathname)
 
+    def update_string_preview(self):
+        latest_item = self.ui.triage_string_listWidget.selectedItems()[-1].text()
+        self.ui.text_preview_listWidget.clear()
+        self.ui.text_preview_listWidget.addItems(data[latest_item].unique())
+
+    def update_numeric_preview(self):
+        latest_item = self.ui.triage_numeric_listWidget.selectedItems()[-1].text()
+        self.ui.text_preview_listWidget.clear()
+        self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
+
+
     def setup_initial_triage_lists(self):
         global data
         self.ui.triage_tab.setEnabled(True)
@@ -130,7 +141,9 @@ class ColliderScopeUI(QMainWindow):
         data = data.convert_dtypes()
         non_string_columns = data.select_dtypes(exclude='string').columns
         string_columns = data.select_dtypes(include='string').columns
+        self.ui.triage_numeric_listWidget.clear()
         self.ui.triage_numeric_listWidget.addItems(non_string_columns)
+        self.ui.triage_string_listWidget.clear()
         self.ui.triage_string_listWidget.addItems(string_columns)
 
     def import_csv_file(self, nrows=False):
@@ -156,7 +169,8 @@ class ColliderScopeUI(QMainWindow):
                                    skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
                                    skiprows=skiprows,
                                    )
-            else:
+                self.setup_initial_triage_lists()
+            else: # just reading in a preview
                 data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
                                    delimiter=delimiter,
                                    encoding=self.ui.import_csv_encoding_comboBox.currentText(),
@@ -167,8 +181,6 @@ class ColliderScopeUI(QMainWindow):
 
             self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
                                           (len(data), len(data.columns)), 10000)
-
-            self.setup_initial_triage_lists()
 
             return data
 
@@ -202,7 +214,7 @@ class ColliderScopeUI(QMainWindow):
 
         try:
             if nrows is False:
-                nrows=None
+                nrows = None
 
             data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
                                  sheet_name=sheet,
@@ -210,10 +222,12 @@ class ColliderScopeUI(QMainWindow):
                                  header=header,
                                  nrows=nrows,
                                  )
+
+            if nrows is None:
+                self.setup_initial_triage_lists()
+
             self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
                                           (len(data), len(data.columns)), 10000)
-
-            self.setup_initial_triage_lists()
 
             return data
 
