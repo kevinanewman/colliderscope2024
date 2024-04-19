@@ -21,6 +21,8 @@ widget = None
 data = None
 status_bar_message = ''
 
+pg.setConfigOptions(antialias=True)
+
 
 def file_dialog(file_pathname, file_type_filter, file_dialog_title):
     """
@@ -57,8 +59,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
 
-        self.ui.graphic_preview_scene = QGraphicsScene()
-        self.ui.graphic_preview_graphicsView.setScene(self.ui.graphic_preview_scene)
+        self.ui.graphic_preview_graphicsView.setScene(QGraphicsScene())
 
         self.ui.graphic_preview_plot_widget = PlotWidget()
 
@@ -147,7 +148,8 @@ class ColliderScopeUI(QMainWindow):
         self.ui.text_preview_listWidget.clear()
         self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
         self.ui.graphic_preview_plot_widget.clear()
-        self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item])
+        self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item],
+                                                 pen=pg.mkPen(color='w', width=1.5))
 
     def setup_initial_triage_lists(self):
         global data
