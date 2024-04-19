@@ -148,8 +148,11 @@ class ColliderScopeUI(QMainWindow):
         self.ui.text_preview_listWidget.clear()
         self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
         self.ui.graphic_preview_plot_widget.clear()
-        self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item],
-                                                 pen=pg.mkPen(color='w', width=1.5))
+        self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item], pen=None,
+                                                 symbolBrush='w', symbolPen='w', symbol='o',
+                                                 symbolSize=2)
+
+
 
     def setup_initial_triage_lists(self):
         global data
