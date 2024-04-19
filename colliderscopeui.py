@@ -3,7 +3,7 @@ import sys
 import time
 import pandas as pd
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidgetItem, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidgetItem, QLabel, QMessageBox
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -55,6 +55,9 @@ class ColliderScopeUI(QMainWindow):
         # timer.start()
 
     def load_file_preview(self, file_pathname):
+
+        # need some way to preview Excel files...?
+
         # preview first N lines of input file
         self.ui.file_preview_tableWidget.setRowCount(0)
         self.ui.file_preview_tableWidget.setColumnCount(1)
@@ -80,7 +83,9 @@ class ColliderScopeUI(QMainWindow):
         global status_bar_message, data
 
         print('import CSV file here!!')
-        if self.ui.filepathname_lineEdit.text():
+        file_pathname = self.ui.filepathname_lineEdit.text()
+
+        if file_pathname:
             delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
             if delimiter == 'Auto':
                 delimiter = None
@@ -91,12 +96,16 @@ class ColliderScopeUI(QMainWindow):
             else:
                 skiprows = int(skiprows)
 
-            data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
+            try:
+                data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
                                delimiter=delimiter,
                                encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
                                skiprows=skiprows
                                )
+            except Exception as e:
+                QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
+                            (file_pathname, repr(e))).exec()
 
             self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
             print(data.columns)
@@ -108,7 +117,9 @@ class ColliderScopeUI(QMainWindow):
         global status_bar_message, data
 
         print('import EXCEL file here!!')
-        if self.ui.filepathname_lineEdit.text():
+        file_pathname = self.ui.filepathname_lineEdit.text()
+
+        if file_pathname:
             skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
             if skiprows.startswith('[') and skiprows.endswith(']'):
                 skiprows = eval(skiprows)
@@ -116,7 +127,7 @@ class ColliderScopeUI(QMainWindow):
                 skiprows = int(skiprows)
 
             sheet = self.ui.import_excel_sheet_lineEdit.text()
-            if sheet.startswith('[') and sheet.endswith(']'):
+            if sheet.startswith('[') and sheet.endswith(']') or str.isnumeric(sheet):
                 sheet = eval(sheet)
 
             header = self.ui.import_excel_header_lineEdit.text()
@@ -127,15 +138,18 @@ class ColliderScopeUI(QMainWindow):
             else:
                 header = int(header)
 
-            data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
-                                 sheet_name=sheet,
-                                 skiprows=skiprows,
-                                 header=header,
-                                 )
-
-            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
-            print(data.columns)
-            print(data.head())
+            try:
+                data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
+                                     sheet_name=sheet,
+                                     skiprows=skiprows,
+                                     header=header,
+                                     )
+                self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
+                print(data.columns)
+                print(data.head())
+            except Exception as e:
+                QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
+                            (file_pathname, repr(e))).exec()
         else:
             self.ui.statusbar.showMessage('WARNING: select an input file first', 2000)
 
