@@ -1,14 +1,21 @@
 # This Python file uses the following encoding: utf-8
 import sys
+import time
+import pandas as pd
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidgetItem
-
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidgetItem, QLabel
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_form import Ui_ColliderScopeUI
+
+
+app = None
+widget = None
+data = None
+status_bar_message = ''
 
 
 def file_dialog(file_pathname, file_type_filter, file_dialog_title):
@@ -45,6 +52,7 @@ class ColliderScopeUI(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
+        # timer.start()
 
     def load_file_preview(self, file_pathname):
         # preview first N lines of input file
@@ -68,11 +76,82 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview(file_pathname)
 
-    def import_file(self):
-        print('import the file here!!')
-        
+    def import_csv_file(self):
+        global status_bar_message, data
+
+        print('import CSV file here!!')
+        if self.ui.filepathname_lineEdit.text():
+            delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
+            if delimiter == 'Auto':
+                delimiter = None
+
+            skiprows = self.ui.import_csv_skip_rows_lineEdit.text()
+            if skiprows.startswith('[') and skiprows.endswith(']'):
+                skiprows = eval(skiprows)
+            else:
+                skiprows = int(skiprows)
+
+            data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
+                               delimiter=delimiter,
+                               encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                               skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                               skiprows=skiprows
+                               )
+
+            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
+            print(data.columns)
+            print(data.head())
+        else:
+            self.ui.statusbar.showMessage('WARNING: select an input file first', 2000)
+
+    def import_excel_file(self):
+        global status_bar_message, data
+
+        print('import EXCEL file here!!')
+        if self.ui.filepathname_lineEdit.text():
+            skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
+            if skiprows.startswith('[') and skiprows.endswith(']'):
+                skiprows = eval(skiprows)
+            else:
+                skiprows = int(skiprows)
+
+            sheet = self.ui.import_excel_sheet_lineEdit.text()
+            if sheet.startswith('[') and sheet.endswith(']'):
+                sheet = eval(sheet)
+
+            header = self.ui.import_excel_header_lineEdit.text()
+            if header == 'None':
+                header = None
+            elif header.startswith('[') and header.endswith(']'):
+                header = eval(sheet)
+            else:
+                header = int(header)
+
+            data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
+                                 sheet_name=sheet,
+                                 skiprows=skiprows,
+                                 header=header,
+                                 )
+
+            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
+            print(data.columns)
+            print(data.head())
+        else:
+            self.ui.statusbar.showMessage('WARNING: select an input file first', 2000)
+
+
+def status_bar():
+    # print(time.time())
+    # if widget:
+    #     widget.ui.statusbar.showMessage(status_bar_message, 1000)
+    pass
+
 
 if __name__ == "__main__":
+    import multitimer
+
+    timer = multitimer.MultiTimer(interval=1, function=status_bar)
+
     app = QApplication(sys.argv)
     widget = ColliderScopeUI()
     widget.show()

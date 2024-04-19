@@ -28,7 +28,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1083, 710)
+        ColliderScopeUI.resize(1083, 723)
         ColliderScopeUI.setTabShape(QTabWidget.Rounded)
         self.actionsubmenu = QAction(ColliderScopeUI)
         self.actionsubmenu.setObjectName(u"actionsubmenu")
@@ -128,11 +128,6 @@ class Ui_ColliderScopeUI(object):
 
         self.file_preview_horizontalLayout.addWidget(self.file_preview_tableWidget)
 
-
-        self.horizontalLayout_7.addLayout(self.file_preview_horizontalLayout)
-
-        self.verticalLayout_6 = QVBoxLayout()
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.file_import_tabWidget = QTabWidget(self.tab_import)
         self.file_import_tabWidget.setObjectName(u"file_import_tabWidget")
         self.file_import_tabWidget.setEnabled(True)
@@ -195,23 +190,23 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout.addLayout(self.import_csv_encoding_horizontalLayout)
 
-        self.import_csv_header_horizontalLayout = QHBoxLayout()
-        self.import_csv_header_horizontalLayout.setObjectName(u"import_csv_header_horizontalLayout")
-        self.import_csv_header_label = QLabel(self.import_csv_tab)
-        self.import_csv_header_label.setObjectName(u"import_csv_header_label")
-        self.import_csv_header_label.setMinimumSize(QSize(70, 0))
+        self.import_csv_skip_rows_horizontalLayout = QHBoxLayout()
+        self.import_csv_skip_rows_horizontalLayout.setObjectName(u"import_csv_skip_rows_horizontalLayout")
+        self.import_csv_skip_rows_label = QLabel(self.import_csv_tab)
+        self.import_csv_skip_rows_label.setObjectName(u"import_csv_skip_rows_label")
+        self.import_csv_skip_rows_label.setMinimumSize(QSize(70, 0))
 
-        self.import_csv_header_horizontalLayout.addWidget(self.import_csv_header_label)
+        self.import_csv_skip_rows_horizontalLayout.addWidget(self.import_csv_skip_rows_label)
 
-        self.import_csv_header_lineEdit = QLineEdit(self.import_csv_tab)
-        self.import_csv_header_lineEdit.setObjectName(u"import_csv_header_lineEdit")
-        self.import_csv_header_lineEdit.setMaximumSize(QSize(16777215, 16777215))
-        self.import_csv_header_lineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.import_csv_skip_rows_lineEdit = QLineEdit(self.import_csv_tab)
+        self.import_csv_skip_rows_lineEdit.setObjectName(u"import_csv_skip_rows_lineEdit")
+        self.import_csv_skip_rows_lineEdit.setMaximumSize(QSize(16777215, 16777215))
+        self.import_csv_skip_rows_lineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
-        self.import_csv_header_horizontalLayout.addWidget(self.import_csv_header_lineEdit)
+        self.import_csv_skip_rows_horizontalLayout.addWidget(self.import_csv_skip_rows_lineEdit)
 
 
-        self.verticalLayout.addLayout(self.import_csv_header_horizontalLayout)
+        self.verticalLayout.addLayout(self.import_csv_skip_rows_horizontalLayout)
 
         self.import_csv_skip_blank_lines_horizontalLayout = QHBoxLayout()
         self.import_csv_skip_blank_lines_horizontalLayout.setObjectName(u"import_csv_skip_blank_lines_horizontalLayout")
@@ -245,19 +240,93 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout.addWidget(self.import_csv_freeform_options_plainTextEdit)
 
+        self.import_csv_pushButton = QPushButton(self.import_csv_tab)
+        self.import_csv_pushButton.setObjectName(u"import_csv_pushButton")
+        self.import_csv_pushButton.setAutoDefault(True)
+
+        self.verticalLayout.addWidget(self.import_csv_pushButton)
+
         self.file_import_tabWidget.addTab(self.import_csv_tab, "")
         self.import_excel_tab = QWidget()
         self.import_excel_tab.setObjectName(u"import_excel_tab")
+        self.verticalLayout_8 = QVBoxLayout(self.import_excel_tab)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.import_excel_skip_rows_horizontalLayout = QHBoxLayout()
+        self.import_excel_skip_rows_horizontalLayout.setObjectName(u"import_excel_skip_rows_horizontalLayout")
+        self.import_excel_skip_rows_label = QLabel(self.import_excel_tab)
+        self.import_excel_skip_rows_label.setObjectName(u"import_excel_skip_rows_label")
+        self.import_excel_skip_rows_label.setMinimumSize(QSize(70, 0))
+
+        self.import_excel_skip_rows_horizontalLayout.addWidget(self.import_excel_skip_rows_label)
+
+        self.import_excel_skip_rows_lineEdit = QLineEdit(self.import_excel_tab)
+        self.import_excel_skip_rows_lineEdit.setObjectName(u"import_excel_skip_rows_lineEdit")
+        self.import_excel_skip_rows_lineEdit.setMaximumSize(QSize(16777215, 16777215))
+        self.import_excel_skip_rows_lineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.import_excel_skip_rows_horizontalLayout.addWidget(self.import_excel_skip_rows_lineEdit)
+
+
+        self.verticalLayout_8.addLayout(self.import_excel_skip_rows_horizontalLayout)
+
+        self.import_excel_sheet_horizontalLayout = QHBoxLayout()
+        self.import_excel_sheet_horizontalLayout.setObjectName(u"import_excel_sheet_horizontalLayout")
+        self.import_excel_sheet_label = QLabel(self.import_excel_tab)
+        self.import_excel_sheet_label.setObjectName(u"import_excel_sheet_label")
+        self.import_excel_sheet_label.setMinimumSize(QSize(70, 0))
+
+        self.import_excel_sheet_horizontalLayout.addWidget(self.import_excel_sheet_label)
+
+        self.import_excel_sheet_lineEdit = QLineEdit(self.import_excel_tab)
+        self.import_excel_sheet_lineEdit.setObjectName(u"import_excel_sheet_lineEdit")
+        self.import_excel_sheet_lineEdit.setMaximumSize(QSize(16777215, 16777215))
+        self.import_excel_sheet_lineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.import_excel_sheet_horizontalLayout.addWidget(self.import_excel_sheet_lineEdit)
+
+
+        self.verticalLayout_8.addLayout(self.import_excel_sheet_horizontalLayout)
+
+        self.import_excel_header_horizontalLayout = QHBoxLayout()
+        self.import_excel_header_horizontalLayout.setObjectName(u"import_excel_header_horizontalLayout")
+        self.import_excel_header_label = QLabel(self.import_excel_tab)
+        self.import_excel_header_label.setObjectName(u"import_excel_header_label")
+        self.import_excel_header_label.setMinimumSize(QSize(70, 0))
+
+        self.import_excel_header_horizontalLayout.addWidget(self.import_excel_header_label)
+
+        self.import_excel_header_lineEdit = QLineEdit(self.import_excel_tab)
+        self.import_excel_header_lineEdit.setObjectName(u"import_excel_header_lineEdit")
+        self.import_excel_header_lineEdit.setMaximumSize(QSize(16777215, 16777215))
+        self.import_excel_header_lineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+
+        self.import_excel_header_horizontalLayout.addWidget(self.import_excel_header_lineEdit)
+
+
+        self.verticalLayout_8.addLayout(self.import_excel_header_horizontalLayout)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_8.addItem(self.verticalSpacer_2)
+
+        self.import_excel_pushButton = QPushButton(self.import_excel_tab)
+        self.import_excel_pushButton.setObjectName(u"import_excel_pushButton")
+        sizePolicy5.setHeightForWidth(self.import_excel_pushButton.sizePolicy().hasHeightForWidth())
+        self.import_excel_pushButton.setSizePolicy(sizePolicy5)
+        self.import_excel_pushButton.setAutoDefault(True)
+        self.import_excel_pushButton.setFlat(False)
+
+        self.verticalLayout_8.addWidget(self.import_excel_pushButton)
+
         self.file_import_tabWidget.addTab(self.import_excel_tab, "")
 
-        self.verticalLayout_6.addWidget(self.file_import_tabWidget)
+        self.file_preview_horizontalLayout.addWidget(self.file_import_tabWidget)
 
-        self.file_import_pushButton = QPushButton(self.tab_import)
-        self.file_import_pushButton.setObjectName(u"file_import_pushButton")
-        self.file_import_pushButton.setAutoDefault(True)
 
-        self.verticalLayout_6.addWidget(self.file_import_pushButton)
+        self.horizontalLayout_7.addLayout(self.file_preview_horizontalLayout)
 
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
 
         self.horizontalLayout_7.addLayout(self.verticalLayout_6)
 
@@ -481,6 +550,11 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_4.addWidget(self.tabWidget_main)
 
+        self.status_label = QLabel(self.centralwidget)
+        self.status_label.setObjectName(u"status_label")
+
+        self.verticalLayout_4.addWidget(self.status_label)
+
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
@@ -496,12 +570,14 @@ class Ui_ColliderScopeUI(object):
         self.menuColliderScope2024.addAction(self.actionsubmenu)
 
         self.retranslateUi(ColliderScopeUI)
-        self.file_import_browse_pushButton.clicked.connect(ColliderScopeUI.import_filebrowse)
+        self.import_excel_pushButton.clicked.connect(ColliderScopeUI.import_excel_file)
         self.filepathname_lineEdit.returnPressed.connect(ColliderScopeUI.filepathname_changed)
-        self.file_import_pushButton.clicked.connect(ColliderScopeUI.import_file)
+        self.import_csv_pushButton.clicked.connect(ColliderScopeUI.import_csv_file)
+        self.file_import_browse_pushButton.clicked.connect(ColliderScopeUI.import_filebrowse)
 
         self.tabWidget_main.setCurrentIndex(0)
-        self.file_import_tabWidget.setCurrentIndex(0)
+        self.file_import_tabWidget.setCurrentIndex(1)
+        self.import_excel_pushButton.setDefault(False)
         self.tabWidget_preview.setCurrentIndex(0)
 
 
@@ -517,24 +593,31 @@ class Ui_ColliderScopeUI(object):
         self.file_preview_label.setText(QCoreApplication.translate("ColliderScopeUI", u"File\n"
 "Preview", None))
         self.import_csv_delimiter_label.setText(QCoreApplication.translate("ColliderScopeUI", u"delimiter", None))
-        self.import_csv_delimiter_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"None", None))
+        self.import_csv_delimiter_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"Auto", None))
         self.import_csv_delimiter_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u",", None))
         self.import_csv_delimiter_comboBox.setItemText(2, QCoreApplication.translate("ColliderScopeUI", u";", None))
         self.import_csv_delimiter_comboBox.setItemText(3, QCoreApplication.translate("ColliderScopeUI", u"\\t", None))
 
         self.import_csv_encoding_label.setText(QCoreApplication.translate("ColliderScopeUI", u"encoding", None))
 
-        self.import_csv_header_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header", None))
-        self.import_csv_header_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"infer", None))
+        self.import_csv_skip_rows_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skiprows", None))
+        self.import_csv_skip_rows_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
         self.import_csv_skip_blank_lines_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skip_blank_lines", None))
         self.import_csv_skip_blank_lines_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
         self.import_csv_skip_blank_lines_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
 
         self.import_csv_freeform_label.setText(QCoreApplication.translate("ColliderScopeUI", u"read_csv freeform options:", None))
         self.import_csv_freeform_options_plainTextEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"e.g. nrows=100, engine=python, etc...", None))
+        self.import_csv_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_csv_tab), QCoreApplication.translate("ColliderScopeUI", u"CSV", None))
+        self.import_excel_skip_rows_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skiprows", None))
+        self.import_excel_skip_rows_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
+        self.import_excel_sheet_label.setText(QCoreApplication.translate("ColliderScopeUI", u"sheet", None))
+        self.import_excel_sheet_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
+        self.import_excel_header_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header", None))
+        self.import_excel_header_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"None", None))
+        self.import_excel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_excel_tab), QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
-        self.file_import_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_import), QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.label.setText(QCoreApplication.translate("ColliderScopeUI", u"Data Preview and Triage", None))
         self.label_filter.setText(QCoreApplication.translate("ColliderScopeUI", u"Filter", None))
@@ -567,6 +650,7 @@ class Ui_ColliderScopeUI(object):
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_triage), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_plot), QCoreApplication.translate("ColliderScopeUI", u"Plotting", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.tab_export), QCoreApplication.translate("ColliderScopeUI", u"Export", None))
+        self.status_label.setText("")
         self.menuColliderScope2024.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Menu", None))
     # retranslateUi
 

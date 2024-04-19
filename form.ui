@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1083</width>
-    <height>710</height>
+    <height>723</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -195,10 +195,6 @@ Preview</string>
                 <column/>
                </widget>
               </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
                <widget class="QTabWidget" name="file_import_tabWidget">
                 <property name="enabled">
@@ -217,7 +213,7 @@ Preview</string>
                  </size>
                 </property>
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>1</number>
                 </property>
                 <property name="documentMode">
                  <bool>true</bool>
@@ -270,7 +266,7 @@ Preview</string>
                       </property>
                       <item>
                        <property name="text">
-                        <string>None</string>
+                        <string>Auto</string>
                        </property>
                       </item>
                       <item>
@@ -336,9 +332,9 @@ Preview</string>
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="import_csv_header_horizontalLayout">
+                   <layout class="QHBoxLayout" name="import_csv_skip_rows_horizontalLayout">
                     <item>
-                     <widget class="QLabel" name="import_csv_header_label">
+                     <widget class="QLabel" name="import_csv_skip_rows_label">
                       <property name="minimumSize">
                        <size>
                         <width>70</width>
@@ -346,12 +342,12 @@ Preview</string>
                        </size>
                       </property>
                       <property name="text">
-                       <string>header</string>
+                       <string>skiprows</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="import_csv_header_lineEdit">
+                     <widget class="QLineEdit" name="import_csv_skip_rows_lineEdit">
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
@@ -359,7 +355,7 @@ Preview</string>
                        </size>
                       </property>
                       <property name="text">
-                       <string>infer</string>
+                       <string>0</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -413,26 +409,165 @@ Preview</string>
                     </property>
                    </widget>
                   </item>
+                  <item>
+                   <widget class="QPushButton" name="import_csv_pushButton">
+                    <property name="text">
+                     <string>Import</string>
+                    </property>
+                    <property name="autoDefault">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </widget>
                 <widget class="QWidget" name="import_excel_tab">
                  <attribute name="title">
                   <string>Excel</string>
                  </attribute>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item>
+                   <layout class="QHBoxLayout" name="import_excel_skip_rows_horizontalLayout">
+                    <item>
+                     <widget class="QLabel" name="import_excel_skip_rows_label">
+                      <property name="minimumSize">
+                       <size>
+                        <width>70</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>skiprows</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="import_excel_skip_rows_lineEdit">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="import_excel_sheet_horizontalLayout">
+                    <item>
+                     <widget class="QLabel" name="import_excel_sheet_label">
+                      <property name="minimumSize">
+                       <size>
+                        <width>70</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>sheet</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="import_excel_sheet_lineEdit">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>0</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="import_excel_header_horizontalLayout">
+                    <item>
+                     <widget class="QLabel" name="import_excel_header_label">
+                      <property name="minimumSize">
+                       <size>
+                        <width>70</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>header</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="import_excel_header_lineEdit">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>None</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="import_excel_pushButton">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Import</string>
+                    </property>
+                    <property name="autoDefault">
+                     <bool>true</bool>
+                    </property>
+                    <property name="default">
+                     <bool>false</bool>
+                    </property>
+                    <property name="flat">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </widget>
               </item>
-              <item>
-               <widget class="QPushButton" name="file_import_pushButton">
-                <property name="text">
-                 <string>Import</string>
-                </property>
-                <property name="autoDefault">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
              </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_6"/>
             </item>
            </layout>
           </item>
@@ -814,6 +949,13 @@ v
       </widget>
      </widget>
     </item>
+    <item>
+     <widget class="QLabel" name="status_label">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -843,14 +985,14 @@ v
  <resources/>
  <connections>
   <connection>
-   <sender>file_import_browse_pushButton</sender>
+   <sender>import_excel_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>ColliderScopeUI</receiver>
-   <slot>import_filebrowse()</slot>
+   <slot>import_excel_file()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1011</x>
-     <y>81</y>
+     <x>914</x>
+     <y>615</y>
     </hint>
     <hint type="destinationlabel">
      <x>541</x>
@@ -875,10 +1017,10 @@ v
    </hints>
   </connection>
   <connection>
-   <sender>file_import_pushButton</sender>
+   <sender>import_csv_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>ColliderScopeUI</receiver>
-   <slot>import_file()</slot>
+   <slot>import_csv_file()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>926</x>
@@ -890,10 +1032,27 @@ v
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>file_import_browse_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>import_filebrowse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1019</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
   <slot>filepathname_changed()</slot>
-  <slot>import_file()</slot>
+  <slot>import_csv_file()</slot>
+  <slot>import_excel_file()</slot>
  </slots>
 </ui>
