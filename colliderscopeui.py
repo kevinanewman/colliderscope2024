@@ -3,7 +3,7 @@ import sys
 import time
 import pandas as pd
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidgetItem, QLabel, QMessageBox
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QTableWidget, QTableWidgetItem, QLabel, QMessageBox
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -55,19 +55,25 @@ class ColliderScopeUI(QMainWindow):
         # timer.start()
 
     def load_file_preview(self, file_pathname):
+        if 'xls' in file_pathname.split('.')[-1]:
+            self.ui.file_import_tabWidget.setCurrentIndex(1)
+            # need some way to preview Excel files...?
+            self.ui.file_preview_tableWidget.clearContents()
+            while self.ui.file_preview_tableWidget.rowCount() > 1:
+                self.ui.file_preview_tableWidget.removeRow(0)
+        else:
+            self.ui.file_import_tabWidget.setCurrentIndex(0)
 
-        # need some way to preview Excel files...?
+            # preview first N lines of input file
+            self.ui.file_preview_tableWidget.setRowCount(0)
+            self.ui.file_preview_tableWidget.setColumnCount(1)
 
-        # preview first N lines of input file
-        self.ui.file_preview_tableWidget.setRowCount(0)
-        self.ui.file_preview_tableWidget.setColumnCount(1)
-
-        with open(file_pathname, 'r') as f_read:
-            for i in range(0, 256):
-                line = f_read.readline()
-                if line:
-                    self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
-                    self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+            with open(file_pathname, 'r') as f_read:
+                for i in range(0, 256):
+                    line = f_read.readline()
+                    if line:
+                        self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
+                        self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
 
     def filepathname_changed(self):
         self.load_file_preview(self.ui.filepathname_lineEdit.text())
