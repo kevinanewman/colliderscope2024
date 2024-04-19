@@ -198,7 +198,7 @@ Preview</string>
               <item>
                <widget class="QTabWidget" name="file_import_tabWidget">
                 <property name="enabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
@@ -411,9 +411,6 @@ Preview</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="import_csv_pushButton">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -561,9 +558,6 @@ Preview</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="import_excel_pushButton">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>

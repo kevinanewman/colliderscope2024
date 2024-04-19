@@ -107,11 +107,9 @@ class ColliderScopeUI(QMainWindow):
 
     def handle_import_button_enables(self):
         if self.ui.filepathname_lineEdit.text():
-            self.ui.import_csv_pushButton.setEnabled(True)
-            self.ui.import_excel_pushButton.setEnabled(True)
+            self.ui.file_import_tabWidget.setEnabled(True)
         else:
-            self.ui.import_csv_pushButton.setEnabled(True)
-            self.ui.import_excel_pushButton.setEnabled(True)
+            self.ui.file_import_tabWidget.setEnabled(False)
 
     def filepathname_changed(self):
         self.load_file_preview(self.ui.filepathname_lineEdit.text())
