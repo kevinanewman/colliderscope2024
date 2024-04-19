@@ -242,6 +242,9 @@ class Ui_ColliderScopeUI(object):
 
         self.import_csv_pushButton = QPushButton(self.import_csv_tab)
         self.import_csv_pushButton.setObjectName(u"import_csv_pushButton")
+        self.import_csv_pushButton.setEnabled(False)
+        sizePolicy5.setHeightForWidth(self.import_csv_pushButton.sizePolicy().hasHeightForWidth())
+        self.import_csv_pushButton.setSizePolicy(sizePolicy5)
         self.import_csv_pushButton.setAutoDefault(True)
 
         self.verticalLayout.addWidget(self.import_csv_pushButton)
@@ -251,6 +254,7 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_tab.setObjectName(u"import_excel_tab")
         self.verticalLayout_8 = QVBoxLayout(self.import_excel_tab)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(5, 5, 5, 5)
         self.import_excel_skip_rows_horizontalLayout = QHBoxLayout()
         self.import_excel_skip_rows_horizontalLayout.setObjectName(u"import_excel_skip_rows_horizontalLayout")
         self.import_excel_skip_rows_label = QLabel(self.import_excel_tab)
@@ -311,8 +315,10 @@ class Ui_ColliderScopeUI(object):
 
         self.import_excel_pushButton = QPushButton(self.import_excel_tab)
         self.import_excel_pushButton.setObjectName(u"import_excel_pushButton")
+        self.import_excel_pushButton.setEnabled(False)
         sizePolicy5.setHeightForWidth(self.import_excel_pushButton.sizePolicy().hasHeightForWidth())
         self.import_excel_pushButton.setSizePolicy(sizePolicy5)
+        self.import_excel_pushButton.setMinimumSize(QSize(252, 0))
         self.import_excel_pushButton.setAutoDefault(True)
         self.import_excel_pushButton.setFlat(False)
 

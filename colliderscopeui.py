@@ -105,33 +105,50 @@ class ColliderScopeUI(QMainWindow):
         self.ui.file_preview_tableWidget.horizontalHeader().setVisible(True)
         self.ui.file_preview_tableWidget.resizeColumnsToContents()
 
+    def handle_import_button_enables(self):
+        if self.ui.filepathname_lineEdit.text():
+            self.ui.import_csv_pushButton.setEnabled(True)
+            self.ui.import_excel_pushButton.setEnabled(True)
+        else:
+            self.ui.import_csv_pushButton.setEnabled(True)
+            self.ui.import_excel_pushButton.setEnabled(True)
+
     def filepathname_changed(self):
         self.load_file_preview(self.ui.filepathname_lineEdit.text())
+        self.handle_import_button_enables()
 
     def import_filebrowse(self):
         # file_pathname = file_dialog('', ['*.txt', '*.csv', '*.xls*'], 'file_dialog_title')
         file_pathname = file_dialog('', '*.*', 'file_dialog_title')
         self.ui.filepathname_lineEdit.setText(file_pathname)
+        self.handle_import_button_enables()
 
         self.load_file_preview(file_pathname)
 
-    def import_csv_file(self, nrows=None):
+    def import_csv_file(self, nrows=False):
         global status_bar_message, data
 
         file_pathname = self.ui.filepathname_lineEdit.text()
 
-        if file_pathname:
-            delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
-            if delimiter == 'Auto':
-                delimiter = None
+        delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
+        if delimiter == 'Auto':
+            delimiter = None
 
-            skiprows = self.ui.import_csv_skip_rows_lineEdit.text()
-            if skiprows.startswith('[') and skiprows.endswith(']'):
-                skiprows = eval(skiprows)
+        skiprows = self.ui.import_csv_skip_rows_lineEdit.text()
+        if skiprows.startswith('[') and skiprows.endswith(']'):
+            skiprows = eval(skiprows)
+        else:
+            skiprows = int(skiprows)
+
+        try:
+            if nrows is False:  # nrows can be False coming from Qt for some reason
+                data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
+                                   delimiter=delimiter,
+                                   encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                   skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                   skiprows=skiprows,
+                                   )
             else:
-                skiprows = int(skiprows)
-
-            try:
                 data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
                                    delimiter=delimiter,
                                    encoding=self.ui.import_csv_encoding_comboBox.currentText(),
@@ -139,58 +156,58 @@ class ColliderScopeUI(QMainWindow):
                                    skiprows=skiprows,
                                    nrows=nrows,
                                    )
-            except Exception as e:
-                QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
-                            (file_pathname, str(e))).exec()
-                return None
 
-            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
-            return data
-        else:
-            self.ui.statusbar.showMessage('WARNING: select an input file first', 2000)
+        except Exception as e:
+            QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
+                        (file_pathname, str(e))).exec()
             return None
 
-    def import_excel_file(self, nrows=None):
+        self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                      (len(data), len(data.columns)), 10000)
+        return data
+
+    def import_excel_file(self, nrows=False):
         global status_bar_message, data
 
         file_pathname = self.ui.filepathname_lineEdit.text()
 
-        if file_pathname:
-            skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
-            if skiprows.startswith('[') and skiprows.endswith(']'):
-                skiprows = eval(skiprows)
-            else:
-                skiprows = int(skiprows)
-
-            sheet = self.ui.import_excel_sheet_lineEdit.text()
-            if sheet.startswith('[') and sheet.endswith(']') or str.isnumeric(sheet):
-                sheet = eval(sheet)
-
-            header = self.ui.import_excel_header_lineEdit.text()
-            if header == 'None':
-                header = None
-            elif header.startswith('[') and header.endswith(']'):
-                header = eval(sheet)
-            else:
-                header = int(header)
-
-            try:
-                data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
-                                     sheet_name=sheet,
-                                     skiprows=skiprows,
-                                     header=header,
-                                     nrows=nrows,
-                                     )
-                self.ui.statusbar.showMessage('imported %d rows of data, %d columns' % (len(data), len(data.columns)), 2000)
-                return data
-
-            except Exception as e:
-                QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
-                            (file_pathname, str(e))).exec()
-                return None
+        skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
+        if skiprows.startswith('[') and skiprows.endswith(']'):
+            skiprows = eval(skiprows)
         else:
-            self.ui.statusbar.showMessage('WARNING: select an input file first', 2000)
+            skiprows = int(skiprows)
+
+        sheet = self.ui.import_excel_sheet_lineEdit.text()
+        if sheet.startswith('[') and sheet.endswith(']') or str.isnumeric(sheet):
+            sheet = eval(sheet)
+
+        header = self.ui.import_excel_header_lineEdit.text()
+        if header == 'None':
+            header = None
+        elif header.startswith('[') and header.endswith(']'):
+            header = eval(sheet)
+        else:
+            header = int(header)
+
+        try:
+            if nrows is False:
+                nrows=None
+
+            data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
+                                 sheet_name=sheet,
+                                 skiprows=skiprows,
+                                 header=header,
+                                 nrows=nrows,
+                                 )
+            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                          (len(data), len(data.columns)), 10000)
+            return data
+
+        except Exception as e:
+            QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
+                        (file_pathname, str(e))).exec()
             return None
+
 
 def status_bar():
     # print(time.time())

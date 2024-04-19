@@ -411,6 +411,15 @@ Preview</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="import_csv_pushButton">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="text">
                      <string>Import</string>
                     </property>
@@ -426,6 +435,18 @@ Preview</string>
                   <string>Excel</string>
                  </attribute>
                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <property name="leftMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>5</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>5</number>
+                  </property>
                   <item>
                    <layout class="QHBoxLayout" name="import_excel_skip_rows_horizontalLayout">
                     <item>
@@ -540,11 +561,20 @@ Preview</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="import_excel_pushButton">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>252</width>
+                      <height>0</height>
+                     </size>
                     </property>
                     <property name="text">
                      <string>Import</string>
