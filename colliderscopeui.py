@@ -123,6 +123,16 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview(file_pathname)
 
+    def setup_initial_triage_lists(self):
+        global data
+        self.ui.tab_triage.setEnabled(True)
+        self.ui.tabWidget_main.setCurrentIndex(1)
+        data = data.convert_dtypes()
+        non_string_columns = data.select_dtypes(exclude='string').columns
+        string_columns = data.select_dtypes(include='string').columns
+        self.ui.triage_numeric_listWidget.addItems(non_string_columns)
+        self.ui.triage_string_listWidget.addItems(string_columns)
+
     def import_csv_file(self, nrows=False):
         global status_bar_message, data
 
@@ -155,14 +165,17 @@ class ColliderScopeUI(QMainWindow):
                                    nrows=nrows,
                                    )
 
+            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                          (len(data), len(data.columns)), 10000)
+
+            self.setup_initial_triage_lists()
+
+            return data
+
         except Exception as e:
             QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
                         (file_pathname, str(e))).exec()
             return None
-
-        self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                      (len(data), len(data.columns)), 10000)
-        return data
 
     def import_excel_file(self, nrows=False):
         global status_bar_message, data
@@ -199,6 +212,9 @@ class ColliderScopeUI(QMainWindow):
                                  )
             self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
                                           (len(data), len(data.columns)), 10000)
+
+            self.setup_initial_triage_lists()
+
             return data
 
         except Exception as e:
