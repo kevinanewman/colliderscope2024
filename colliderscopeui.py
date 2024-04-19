@@ -48,15 +48,15 @@ class ColliderScopeUI(QMainWindow):
 
     def load_file_preview(self, file_pathname):
         # preview first N lines of input file
-        self.ui.preview_tableWidget.setRowCount(0)
-        self.ui.preview_tableWidget.setColumnCount(1)
+        self.ui.file_preview_tableWidget.setRowCount(0)
+        self.ui.file_preview_tableWidget.setColumnCount(1)
 
         with open(file_pathname, 'r') as f_read:
             for i in range(0, 256):
                 line = f_read.readline()
                 if line:
-                    self.ui.preview_tableWidget.insertRow(self.ui.preview_tableWidget.rowCount())
-                    self.ui.preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+                    self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
+                    self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
 
     def filepathname_changed(self):
         self.load_file_preview(self.ui.filepathname_lineEdit.text())
@@ -68,6 +68,9 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview(file_pathname)
 
+    def import_file(self):
+        print('import the file here!!')
+        
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

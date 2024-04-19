@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1083</width>
-    <height>685</height>
+    <height>710</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -67,7 +67,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <layout class="QHBoxLayout" name="file_import_browse_horizontalLayout">
             <item>
              <widget class="QLabel" name="filepathname_label">
               <property name="sizePolicy">
@@ -95,7 +95,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="filepathname_browse_pushButton">
+             <widget class="QPushButton" name="file_import_browse_pushButton">
               <property name="text">
                <string>Browse ...</string>
               </property>
@@ -106,9 +106,9 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <layout class="QHBoxLayout" name="file_preview_horizontalLayout">
               <item>
-               <widget class="QLabel" name="label_3">
+               <widget class="QLabel" name="file_preview_label">
                 <property name="text">
                  <string>File
 Preview</string>
@@ -119,7 +119,7 @@ Preview</string>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="preview_tableWidget">
+               <widget class="QTableWidget" name="file_preview_tableWidget">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Ignored">
                   <horstretch>0</horstretch>
@@ -200,7 +200,7 @@ Preview</string>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
-               <widget class="QTabWidget" name="tabWidget_import">
+               <widget class="QTabWidget" name="file_import_tabWidget">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -222,7 +222,7 @@ Preview</string>
                 <property name="documentMode">
                  <bool>true</bool>
                 </property>
-                <widget class="QWidget" name="tab_csv">
+                <widget class="QWidget" name="import_csv_tab">
                  <attribute name="title">
                   <string>CSV</string>
                  </attribute>
@@ -240,9 +240,9 @@ Preview</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                   <layout class="QHBoxLayout" name="import_csv_delimiter_horizontalLayout">
                     <item>
-                     <widget class="QLabel" name="label_4">
+                     <widget class="QLabel" name="import_csv_delimiter_label">
                       <property name="minimumSize">
                        <size>
                         <width>70</width>
@@ -255,7 +255,7 @@ Preview</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBox_2">
+                     <widget class="QComboBox" name="import_csv_delimiter_comboBox">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -293,9 +293,9 @@ Preview</string>
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <layout class="QHBoxLayout" name="import_csv_encoding_horizontalLayout">
                     <item>
-                     <widget class="QLabel" name="label_6">
+                     <widget class="QLabel" name="import_csv_encoding_label">
                       <property name="minimumSize">
                        <size>
                         <width>70</width>
@@ -308,7 +308,7 @@ Preview</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBox">
+                     <widget class="QComboBox" name="import_csv_encoding_comboBox">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -336,9 +336,9 @@ Preview</string>
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <layout class="QHBoxLayout" name="import_csv_header_horizontalLayout">
                     <item>
-                     <widget class="QLabel" name="label_7">
+                     <widget class="QLabel" name="import_csv_header_label">
                       <property name="minimumSize">
                        <size>
                         <width>70</width>
@@ -351,7 +351,7 @@ Preview</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="lineEdit_5">
+                     <widget class="QLineEdit" name="import_csv_header_lineEdit">
                       <property name="maximumSize">
                        <size>
                         <width>16777215</width>
@@ -369,16 +369,16 @@ Preview</string>
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <layout class="QHBoxLayout" name="import_csv_skip_blank_lines_horizontalLayout">
                     <item>
-                     <widget class="QLabel" name="label_5">
+                     <widget class="QLabel" name="import_csv_skip_blank_lines_label">
                       <property name="text">
                        <string>skip_blank_lines</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBox_3">
+                     <widget class="QComboBox" name="import_csv_skip_blank_lines_comboBox">
                       <item>
                        <property name="text">
                         <string>True</string>
@@ -394,14 +394,14 @@ Preview</string>
                    </layout>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_8">
+                   <widget class="QLabel" name="import_csv_freeform_label">
                     <property name="text">
                      <string>read_csv freeform options:</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPlainTextEdit" name="plainTextEdit">
+                   <widget class="QPlainTextEdit" name="import_csv_freeform_options_plainTextEdit">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
                       <horstretch>0</horstretch>
@@ -415,7 +415,7 @@ Preview</string>
                   </item>
                  </layout>
                 </widget>
-                <widget class="QWidget" name="tab_excel">
+                <widget class="QWidget" name="import_excel_tab">
                  <attribute name="title">
                   <string>Excel</string>
                  </attribute>
@@ -423,7 +423,7 @@ Preview</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_import">
+               <widget class="QPushButton" name="file_import_pushButton">
                 <property name="text">
                  <string>Import</string>
                 </property>
@@ -843,7 +843,7 @@ v
  <resources/>
  <connections>
   <connection>
-   <sender>filepathname_browse_pushButton</sender>
+   <sender>file_import_browse_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>ColliderScopeUI</receiver>
    <slot>import_filebrowse()</slot>
@@ -874,9 +874,26 @@ v
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>file_import_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>import_file()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>926</x>
+     <y>647</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>354</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
   <slot>filepathname_changed()</slot>
+  <slot>import_file()</slot>
  </slots>
 </ui>
