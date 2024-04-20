@@ -55,6 +55,18 @@ def file_dialog(file_pathname, file_type_filter, file_dialog_title):
         return file_pathname
 
 
+def mouseMoved(*args, **kwargs):
+    print('mouseMoved', args)
+
+
+def mouseHover(*args, **kwargs):
+    print('mouseHover', args)
+
+
+def mouseClicked(*args, **kwargs):
+    print('mouseClicked', args)
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -64,6 +76,10 @@ class ColliderScopeUI(QMainWindow):
         self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
         self.ui.graphic_preview_plot_widget.plotItem.setTitle('Graphic Preview')
         self.ui.graphic_preview_plot_widget.plotItem.showButtons()
+
+        # self.ui.graphic_preview_plot_widget.scene().sigMouseMoved.connect(mouseMoved)
+        # self.ui.graphic_preview_plot_widget.scene().sigMouseHover.connect(mouseHover)
+        self.ui.graphic_preview_plot_widget.scene().sigMouseClicked.connect(mouseClicked)
 
         self.ui.plot_graphicsView.showGrid(x=True, y=True)
 
