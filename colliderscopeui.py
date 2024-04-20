@@ -17,7 +17,7 @@ from ui_form import Ui_ColliderScopeUI
 
 
 app = None
-widget = None
+mainwindow = None
 data = None
 status_bar_message = ''
 
@@ -265,6 +265,6 @@ if __name__ == "__main__":
     timer = multitimer.MultiTimer(interval=1, function=status_bar)
 
     app = QApplication(sys.argv)
-    widget = ColliderScopeUI()
-    widget.show()
+    mainwindow = ColliderScopeUI()
+    mainwindow.show()
     sys.exit(app.exec())
