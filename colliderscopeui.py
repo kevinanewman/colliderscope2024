@@ -21,7 +21,7 @@ mainwindow = None
 data = None
 status_bar_message = ''
 
-pg.setConfigOptions(antialias=True)
+pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
 # pg.setConfigOption('foreground', 'b')
 
@@ -63,6 +63,7 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
         self.ui.graphic_preview_plot_widget.plotItem.setTitle('Graphic Preview')
+        self.ui.graphic_preview_plot_widget.plotItem.showButtons()
 
         self.ui.plot_graphicsView.showGrid(x=True, y=True)
 
@@ -146,13 +147,16 @@ class ColliderScopeUI(QMainWindow):
         latest_item = self.ui.triage_numeric_listWidget.selectedItems()[-1].text()
         self.ui.text_preview_listWidget.clear()
         self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
-        self.ui.graphic_preview_plot_widget.clear()
-        self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item], pen=None,
+        if not self.ui.graphic_preview_plot_widget.plotItem.curves:
+            self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item], pen=None,
                                                  symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
-                                                 symbolSize=1.5)
+                                                 symbolSize=1.5, clear=True)
+        else:
+            self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data.index, data[latest_item])
         self.ui.graphic_preview_plot_widget.plotItem.autoRange()
         self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
-        self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
+        # maybe do this if len(data) > X?
+        # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
 
     def setup_initial_triage_lists(self):
         global data
