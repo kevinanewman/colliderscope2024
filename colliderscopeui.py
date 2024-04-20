@@ -62,6 +62,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.graphic_preview_graphicsView.setScene(QGraphicsScene())
 
         self.ui.graphic_preview_plot_widget = PlotWidget()
+        self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
 
         layout = QHBoxLayout(self.ui.graphic_preview_graphicsView)
         layout.setContentsMargins(5, 5, 5, 5)
