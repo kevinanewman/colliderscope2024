@@ -148,11 +148,11 @@ class ColliderScopeUI(QMainWindow):
         self.ui.text_preview_listWidget.clear()
         self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
         if not self.ui.graphic_preview_plot_widget.plotItem.curves:
-            self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item], pen=None,
+            self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
                                                  symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
                                                  symbolSize=1.5, clear=True)
         else:
-            self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data.index, data[latest_item])
+            self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
         self.ui.graphic_preview_plot_widget.plotItem.autoRange()
         self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
         # maybe do this if len(data) > X?
