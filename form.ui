@@ -213,7 +213,7 @@ Preview</string>
                  </size>
                 </property>
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>1</number>
                 </property>
                 <property name="documentMode">
                  <bool>true</bool>
@@ -534,7 +534,7 @@ Preview</string>
                        </size>
                       </property>
                       <property name="text">
-                       <string>None</string>
+                       <string>0</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

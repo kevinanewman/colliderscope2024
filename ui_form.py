@@ -630,7 +630,7 @@ class Ui_ColliderScopeUI(object):
         self.triage_numeric_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_numeric_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
-        self.file_import_tabWidget.setCurrentIndex(0)
+        self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
         self.preview_tabWidget.setCurrentIndex(1)
 
@@ -669,7 +669,7 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_sheet_label.setText(QCoreApplication.translate("ColliderScopeUI", u"sheet", None))
         self.import_excel_sheet_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
         self.import_excel_header_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header", None))
-        self.import_excel_header_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"None", None))
+        self.import_excel_header_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
         self.import_excel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_excel_tab), QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.import_tab), QCoreApplication.translate("ColliderScopeUI", u"Import", None))
