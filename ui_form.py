@@ -17,12 +17,14 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QComboBox,
-    QFrame, QGraphicsView, QHBoxLayout, QHeaderView,
-    QLabel, QLayout, QLineEdit, QListWidget,
-    QListWidgetItem, QMainWindow, QMenu, QMenuBar,
-    QPlainTextEdit, QPushButton, QSizePolicy, QSpacerItem,
-    QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
-    QTextEdit, QVBoxLayout, QWidget)
+    QFrame, QHBoxLayout, QHeaderView, QLabel,
+    QLayout, QLineEdit, QListWidget, QListWidgetItem,
+    QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
+    QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
+    QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit,
+    QVBoxLayout, QWidget)
+
+from pyqtgraph import PlotWidget
 
 class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
@@ -566,11 +568,14 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_3 = QHBoxLayout(self.graphic_preview_tab)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(5, 5, 5, 5)
-        self.graphic_preview_graphicsView = QGraphicsView(self.graphic_preview_tab)
-        self.graphic_preview_graphicsView.setObjectName(u"graphic_preview_graphicsView")
-        self.graphic_preview_graphicsView.setAlignment(Qt.AlignCenter)
+        self.graphic_preview_plot_widget = PlotWidget(self.graphic_preview_tab)
+        self.graphic_preview_plot_widget.setObjectName(u"graphic_preview_plot_widget")
+        brush3 = QBrush(QColor(7, 27, 46, 255))
+        brush3.setStyle(Qt.SolidPattern)
+        self.graphic_preview_plot_widget.setBackgroundBrush(brush3)
+        self.graphic_preview_plot_widget.setAlignment(Qt.AlignCenter)
 
-        self.horizontalLayout_3.addWidget(self.graphic_preview_graphicsView)
+        self.horizontalLayout_3.addWidget(self.graphic_preview_plot_widget)
 
         self.preview_tabWidget.addTab(self.graphic_preview_tab, "")
         self.script_preview_tab = QWidget()
@@ -591,6 +596,14 @@ class Ui_ColliderScopeUI(object):
         self.plot_tab = QWidget()
         self.plot_tab.setObjectName(u"plot_tab")
         self.plot_tab.setEnabled(False)
+        self.horizontalLayout_5 = QHBoxLayout(self.plot_tab)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.plot_graphicsView = PlotWidget(self.plot_tab)
+        self.plot_graphicsView.setObjectName(u"plot_graphicsView")
+        self.plot_graphicsView.setBackgroundBrush(brush3)
+
+        self.horizontalLayout_5.addWidget(self.plot_graphicsView)
+
         self.tabWidget_main.addTab(self.plot_tab, "")
         self.export_tab = QWidget()
         self.export_tab.setObjectName(u"export_tab")
@@ -629,7 +642,7 @@ class Ui_ColliderScopeUI(object):
         self.triage_string_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_string_preview)
         self.triage_numeric_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_numeric_preview)
 
-        self.tabWidget_main.setCurrentIndex(0)
+        self.tabWidget_main.setCurrentIndex(1)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
         self.preview_tabWidget.setCurrentIndex(1)

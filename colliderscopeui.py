@@ -59,14 +59,9 @@ class ColliderScopeUI(QMainWindow):
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
 
-        self.ui.graphic_preview_graphicsView.setScene(QGraphicsScene())
-
-        self.ui.graphic_preview_plot_widget = PlotWidget()
         self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
 
-        layout = QHBoxLayout(self.ui.graphic_preview_graphicsView)
-        layout.setContentsMargins(5, 5, 5, 5)
-        layout.addWidget(self.ui.graphic_preview_plot_widget)
+        self.ui.plot_graphicsView.showGrid(x=True, y=True)
 
         # timer.start()
 
@@ -150,7 +145,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
         self.ui.graphic_preview_plot_widget.clear()
         self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item], pen=None,
-                                                 symbolBrush='w', symbolPen='w', symbol='o',
+                                                 symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
                                                  symbolSize=1.5)
         self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
 

@@ -54,7 +54,7 @@
        <enum>QTabWidget::Triangular</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -1143,7 +1143,16 @@ color: black;
              <number>5</number>
             </property>
             <item>
-             <widget class="QGraphicsView" name="graphic_preview_graphicsView">
+             <widget class="PlotWidget" name="graphic_preview_plot_widget">
+              <property name="backgroundBrush">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>7</red>
+                 <green>27</green>
+                 <blue>46</blue>
+                </color>
+               </brush>
+              </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
@@ -1184,6 +1193,21 @@ color: black;
        <attribute name="title">
         <string>Plotting</string>
        </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="PlotWidget" name="plot_graphicsView">
+          <property name="backgroundBrush">
+           <brush brushstyle="SolidPattern">
+            <color alpha="255">
+             <red>7</red>
+             <green>27</green>
+             <blue>46</blue>
+            </color>
+           </brush>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="export_tab">
        <property name="enabled">
@@ -1221,6 +1245,13 @@ color: black;
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
