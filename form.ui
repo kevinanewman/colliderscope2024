@@ -1095,7 +1095,7 @@ color: black;
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <property name="documentMode">
            <bool>true</bool>
@@ -1178,7 +1178,21 @@ color: black;
              <number>5</number>
             </property>
             <item>
-             <widget class="QTextEdit" name="script_preview_textEdit"/>
+             <widget class="QPlainTextEdit" name="script_preview_plainTextEdit">
+              <property name="plainText">
+               <string>print('hello colliderscope!')</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="ConsoleWidget" name="script_preview_consoleWidget" native="true">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1250,6 +1264,12 @@ color: black;
    <class>PlotWidget</class>
    <extends>QGraphicsView</extends>
    <header>pyqtgraph</header>
+  </customwidget>
+  <customwidget>
+   <class>ConsoleWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph.console</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

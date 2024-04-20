@@ -2,8 +2,10 @@
 import sys
 import time
 import pandas as pd
+import numpy as np
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
+from pyqtgraph.console import ConsoleWidget
 
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QFileDialog, QTableWidget, QTableWidgetItem, QLabel,
                                QMessageBox, QGraphicsScene, QGraphicsWidget, QGraphicsProxyWidget, QSizePolicy,
@@ -67,6 +69,10 @@ def mouseClicked(*args, **kwargs):
     print('mouseClicked', args)
 
 
+def run():
+    exec(mainwindow.ui.script_preview_plainTextEdit.toPlainText())
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -76,6 +82,8 @@ class ColliderScopeUI(QMainWindow):
         self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
         self.ui.graphic_preview_plot_widget.plotItem.setTitle('Graphic Preview')
         self.ui.graphic_preview_plot_widget.plotItem.showButtons()
+
+        # self.ui.graphic_preview_plot_widget.plotItem.ctrlMenu # for future work...
 
         # self.ui.graphic_preview_plot_widget.scene().sigMouseMoved.connect(mouseMoved)
         # self.ui.graphic_preview_plot_widget.scene().sigMouseHover.connect(mouseHover)
@@ -223,6 +231,9 @@ class ColliderScopeUI(QMainWindow):
             self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
                                           (len(data), len(data.columns)), 10000)
 
+            self.ui.script_preview_consoleWidget.locals().update(globals())
+            self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
+
             return data
 
         except Exception as e:
@@ -269,6 +280,9 @@ class ColliderScopeUI(QMainWindow):
 
             self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
                                           (len(data), len(data.columns)), 10000)
+
+            self.ui.script_preview_consoleWidget.locals().update(globals())
+            self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
             return data
 

@@ -21,10 +21,11 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QLayout, QLineEdit, QListWidget, QListWidgetItem,
     QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
     QPushButton, QSizePolicy, QSpacerItem, QStatusBar,
-    QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit,
-    QVBoxLayout, QWidget)
+    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 
 from pyqtgraph import PlotWidget
+from pyqtgraph.console import ConsoleWidget
 
 class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
@@ -583,10 +584,20 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_6 = QHBoxLayout(self.script_preview_tab)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.horizontalLayout_6.setContentsMargins(5, 5, 5, 5)
-        self.script_preview_textEdit = QTextEdit(self.script_preview_tab)
-        self.script_preview_textEdit.setObjectName(u"script_preview_textEdit")
+        self.script_preview_plainTextEdit = QPlainTextEdit(self.script_preview_tab)
+        self.script_preview_plainTextEdit.setObjectName(u"script_preview_plainTextEdit")
 
-        self.horizontalLayout_6.addWidget(self.script_preview_textEdit)
+        self.horizontalLayout_6.addWidget(self.script_preview_plainTextEdit)
+
+        self.script_preview_consoleWidget = ConsoleWidget(self.script_preview_tab)
+        self.script_preview_consoleWidget.setObjectName(u"script_preview_consoleWidget")
+        sizePolicy10 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Preferred)
+        sizePolicy10.setHorizontalStretch(0)
+        sizePolicy10.setVerticalStretch(0)
+        sizePolicy10.setHeightForWidth(self.script_preview_consoleWidget.sizePolicy().hasHeightForWidth())
+        self.script_preview_consoleWidget.setSizePolicy(sizePolicy10)
+
+        self.horizontalLayout_6.addWidget(self.script_preview_consoleWidget)
 
         self.preview_tabWidget.addTab(self.script_preview_tab, "")
 
@@ -645,7 +656,7 @@ class Ui_ColliderScopeUI(object):
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
-        self.preview_tabWidget.setCurrentIndex(1)
+        self.preview_tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(ColliderScopeUI)
@@ -713,6 +724,7 @@ class Ui_ColliderScopeUI(object):
         self.label_ignore.setText(QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.text_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Text Preview", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.graphic_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Graphic Preview", None))
+        self.script_preview_plainTextEdit.setPlainText(QCoreApplication.translate("ColliderScopeUI", u"print('hello colliderscope!')", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.script_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Preprocess Script", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.triage_tab), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.plot_tab), QCoreApplication.translate("ColliderScopeUI", u"Plotting", None))
