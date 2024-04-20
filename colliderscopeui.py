@@ -77,6 +77,11 @@ class ColliderScopeUI(QMainWindow):
         self.ui.graphic_preview_plot_widget.plotItem.setTitle('Graphic Preview')
         self.ui.graphic_preview_plot_widget.plotItem.showButtons()
 
+        # set up selection rectangle
+        self.ui.graphic_preview_plot_widget.getViewBox().setMouseMode(pg.ViewBox.RectMode)
+        self.ui.graphic_preview_plot_widget.getViewBox().rbScaleBox.setPen(pg.mkPen((64, 128, 200), width=2))
+        self.ui.graphic_preview_plot_widget.getViewBox().rbScaleBox.setBrush(pg.mkBrush(81,	197, 255, 100))
+
         # self.ui.graphic_preview_plot_widget.scene().sigMouseMoved.connect(mouseMoved)
         # self.ui.graphic_preview_plot_widget.scene().sigMouseHover.connect(mouseHover)
         self.ui.graphic_preview_plot_widget.scene().sigMouseClicked.connect(mouseClicked)
