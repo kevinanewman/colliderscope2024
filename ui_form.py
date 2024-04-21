@@ -618,7 +618,7 @@ class Ui_ColliderScopeUI(object):
         self.script_run_toolButton = QToolButton(self.widget1)
         self.script_run_toolButton.setObjectName(u"script_run_toolButton")
         icon2 = QIcon()
-        icon2.addFile(u"assets/run_transparent.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u"assets/run.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.script_run_toolButton.setIcon(icon2)
 
         self.horizontalLayout_6.addWidget(self.script_run_toolButton)
@@ -703,7 +703,7 @@ class Ui_ColliderScopeUI(object):
         self.triage_numeric_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_numeric_preview)
         self.script_run_toolButton.clicked.connect(ColliderScopeUI.script_run)
 
-        self.tabWidget_main.setCurrentIndex(1)
+        self.tabWidget_main.setCurrentIndex(0)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
         self.preview_tabWidget.setCurrentIndex(2)
