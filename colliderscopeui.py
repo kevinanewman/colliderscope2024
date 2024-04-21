@@ -96,9 +96,13 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.plot_graphicsView.showGrid(x=True, y=True)
 
+        self.ui.file_import_browse_pushButton.setFocus()
+
         # timer.start()
 
     def load_file_preview(self, file_pathname=None):
+        self.ui.file_import_browse_pushButton.clearFocus()
+
         num_preview_rows = 256
 
         if file_pathname is None:
@@ -106,6 +110,8 @@ class ColliderScopeUI(QMainWindow):
 
         if 'xls' in file_pathname.split('.')[-1]:
             self.ui.file_import_tabWidget.setCurrentIndex(1)
+            self.ui.import_excel_pushButton.setFocus()
+            self.ui.import_csv_pushButton.clearFocus()
 
             df = self.import_excel_file(nrows=num_preview_rows)
             if df is not None:
@@ -113,6 +119,8 @@ class ColliderScopeUI(QMainWindow):
 
         else:
             self.ui.file_import_tabWidget.setCurrentIndex(0)
+            self.ui.import_csv_pushButton.setFocus()
+            self.ui.import_excel_pushButton.clearFocus()
 
             # preview first N lines of input file
             self.ui.file_preview_tableWidget.setRowCount(0)
