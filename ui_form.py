@@ -714,6 +714,7 @@ class Ui_ColliderScopeUI(object):
         self.script_load_toolButton.clicked.connect(ColliderScopeUI.script_open)
         self.script_save_toolButton.clicked.connect(ColliderScopeUI.script_save)
         self.add_to_script_toolButton.clicked.connect(ColliderScopeUI.add_to_script)
+        self.triage_string_listWidget.itemClicked.connect(ColliderScopeUI.update_string_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
