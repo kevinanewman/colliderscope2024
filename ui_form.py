@@ -684,7 +684,7 @@ class Ui_ColliderScopeUI(object):
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1083, 43))
+        self.menubar.setGeometry(QRect(0, 0, 1083, 24))
         self.menuColliderScope2024 = QMenu(self.menubar)
         self.menuColliderScope2024.setObjectName(u"menuColliderScope2024")
         ColliderScopeUI.setMenuBar(self.menubar)
@@ -719,7 +719,7 @@ class Ui_ColliderScopeUI(object):
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
-        self.preview_tabWidget.setCurrentIndex(2)
+        self.preview_tabWidget.setCurrentIndex(1)
         self.pushButton.setDefault(False)
 
 
