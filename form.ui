@@ -99,6 +99,12 @@
               <property name="text">
                <string>Browse ...</string>
               </property>
+              <property name="autoDefault">
+               <bool>true</bool>
+              </property>
+              <property name="default">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
            </layout>
@@ -627,7 +633,7 @@ Preview</string>
           <property name="childrenCollapsible">
            <bool>false</bool>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QLabel" name="label">
@@ -1189,7 +1195,7 @@ color: black;
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
-               <widget class="QWidget" name="">
+               <widget class="QWidget" name="layoutWidget">
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1199,11 +1205,14 @@ color: black;
                       <string>Load Script</string>
                      </property>
                      <property name="text">
-                      <string>...</string>
+                      <string>Open</string>
                      </property>
                      <property name="icon">
                       <iconset>
                        <normaloff>assets/open_line.svg</normaloff>assets/open_line.svg</iconset>
+                     </property>
+                     <property name="toolButtonStyle">
+                      <enum>Qt::ToolButtonTextBesideIcon</enum>
                      </property>
                     </widget>
                    </item>
@@ -1213,25 +1222,17 @@ color: black;
                       <string>Save Script</string>
                      </property>
                      <property name="text">
-                      <string>...</string>
+                      <string>Save</string>
                      </property>
                      <property name="icon">
                       <iconset>
                        <normaloff>assets/save.png</normaloff>assets/save.png</iconset>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QToolButton" name="script_run_toolButton">
-                     <property name="toolTip">
-                      <string>Run Script</string>
+                     <property name="toolButtonStyle">
+                      <enum>Qt::ToolButtonTextBesideIcon</enum>
                      </property>
-                     <property name="text">
-                      <string>...</string>
-                     </property>
-                     <property name="icon">
-                      <iconset>
-                       <normaloff>assets/run.svg</normaloff>assets/run.svg</iconset>
+                     <property name="arrowType">
+                      <enum>Qt::NoArrow</enum>
                      </property>
                     </widget>
                    </item>
@@ -1247,6 +1248,23 @@ color: black;
                       </size>
                      </property>
                     </spacer>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="script_run_toolButton">
+                     <property name="toolTip">
+                      <string>Run Script</string>
+                     </property>
+                     <property name="text">
+                      <string>Run</string>
+                     </property>
+                     <property name="icon">
+                      <iconset>
+                       <normaloff>assets/run.svg</normaloff>assets/run.svg</iconset>
+                     </property>
+                     <property name="toolButtonStyle">
+                      <enum>Qt::ToolButtonTextBesideIcon</enum>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </item>
@@ -1583,6 +1601,38 @@ color: black;
     <hint type="sourcelabel">
      <x>97</x>
      <y>475</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>script_load_toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>script_open()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>29</x>
+     <y>451</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>script_save_toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>script_save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>63</x>
+     <y>451</y>
     </hint>
     <hint type="destinationlabel">
      <x>541</x>

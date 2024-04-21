@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+import os
 import sys
 import time
 import pandas as pd
@@ -28,7 +29,7 @@ pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('foreground', 'b')
 
 
-def file_dialog(file_pathname, file_type_filter, file_dialog_title):
+def file_dialog(file_pathname, file_type_filter, file_dialog_title, mode='open'):
     """
     Opens a file dialog to select a file with extension options.
 
@@ -41,7 +42,10 @@ def file_dialog(file_pathname, file_type_filter, file_dialog_title):
     dialog = QFileDialog()
     dialog.selectFile(file_pathname)
     dialog.setWindowTitle(file_dialog_title)
-    dialog.setFileMode(QFileDialog.ExistingFile)
+    if mode == 'open':
+        dialog.setFileMode(QFileDialog.ExistingFile)
+    else:
+        dialog.setAcceptMode(QFileDialog.AcceptSave)
     # dialog.setFileMode(QFileDialog.AnyFile)
     if type(file_type_filter) is not list:
         dialog.setNameFilters([file_type_filter])
@@ -308,6 +312,19 @@ class ColliderScopeUI(QMainWindow):
         self.ui.script_preview_consoleWidget.repl.runCmd('run()')
         # update consoleWidget namespace in case new vars created:
         self.ui.script_preview_consoleWidget.locals().update(globals())
+
+    def script_open(self):
+        file_pathname = file_dialog('', '*.py', 'Load triage script')
+        if file_pathname:
+            with open(file_pathname, 'r') as f_read:
+                self.ui.script_preview_plainTextEdit.setPlainText(f_read.read())
+
+    def script_save(self):
+        file_pathname = QFileDialog().getSaveFileName(self, 'Save triage script', os.getcwd(), '*.py', '*.py')[0]
+
+        if file_pathname:
+            with open(file_pathname, 'w') as f_write:
+                f_write.write(self.ui.script_preview_plainTextEdit.toPlainText())
 
 
 def status_bar():
