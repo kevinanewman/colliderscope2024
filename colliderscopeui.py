@@ -23,6 +23,7 @@ app = None
 mainwindow = None
 data = None
 status_bar_message = ''
+latest_item = None
 
 pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
@@ -180,11 +181,13 @@ class ColliderScopeUI(QMainWindow):
         self.load_file_preview(file_pathname)
 
     def update_string_preview(self):
+        global latest_item
         latest_item = self.ui.triage_string_listWidget.selectedItems()[-1].text()
         self.ui.text_preview_listWidget.clear()
         self.ui.text_preview_listWidget.addItems(data[latest_item].unique())
 
     def update_numeric_preview(self):
+        global latest_item
         latest_item = self.ui.triage_numeric_listWidget.selectedItems()[-1].text()
         self.ui.text_preview_listWidget.clear()
         self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
@@ -192,6 +195,9 @@ class ColliderScopeUI(QMainWindow):
             # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
             #                                      symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
             #                                      symbolSize=1.5, clear=True)
+            # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
+            #                                      symbolBrush=None, symbolPen=(231, 232, 255), symbol='+',
+            #                                      symbolSize=2, clear=True)
             self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
         else:
             self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
@@ -325,6 +331,10 @@ class ColliderScopeUI(QMainWindow):
         if file_pathname:
             with open(file_pathname, 'w') as f_write:
                 f_write.write(self.ui.script_preview_plainTextEdit.toPlainText())
+
+    def add_to_script(self):
+        if latest_item:
+            self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']" % latest_item)
 
 
 def status_bar():
