@@ -402,7 +402,9 @@ class Ui_ColliderScopeUI(object):
         self.triage_numeric_listWidget.setStyleSheet(u"background-color: rgb(196, 242, 196);\n"
 "color: black\n"
 "")
+        self.triage_numeric_listWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.triage_numeric_listWidget.setProperty("showDropIndicator", True)
+        self.triage_numeric_listWidget.setAlternatingRowColors(True)
         self.triage_numeric_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_numeric_listWidget.setSortingEnabled(True)
 
@@ -495,6 +497,8 @@ class Ui_ColliderScopeUI(object):
 "color: black;\n"
 "")
         self.triage_string_listWidget.setFrameShape(QFrame.StyledPanel)
+        self.triage_string_listWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
+        self.triage_string_listWidget.setAlternatingRowColors(True)
         self.triage_string_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_string_listWidget.setSortingEnabled(True)
 
@@ -714,7 +718,6 @@ class Ui_ColliderScopeUI(object):
         self.script_load_toolButton.clicked.connect(ColliderScopeUI.script_open)
         self.script_save_toolButton.clicked.connect(ColliderScopeUI.script_save)
         self.add_to_script_toolButton.clicked.connect(ColliderScopeUI.add_to_script)
-        self.triage_string_listWidget.itemClicked.connect(ColliderScopeUI.update_string_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)

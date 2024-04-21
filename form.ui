@@ -703,7 +703,13 @@ Preview</string>
 color: black
 </string>
                 </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::AllEditTriggers</set>
+                </property>
                 <property name="showDropIndicator" stdset="0">
+                 <bool>true</bool>
+                </property>
+                <property name="alternatingRowColors">
                  <bool>true</bool>
                 </property>
                 <property name="selectionMode">
@@ -1012,6 +1018,12 @@ color: black;
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::AllEditTriggers</set>
+                </property>
+                <property name="alternatingRowColors">
+                 <bool>true</bool>
                 </property>
                 <property name="selectionMode">
                  <enum>QAbstractItemView::ExtendedSelection</enum>
