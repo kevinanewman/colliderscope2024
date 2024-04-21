@@ -24,6 +24,7 @@ mainwindow = None
 data = None
 status_bar_message = ''
 latest_item = None
+latest_items = None
 
 pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
@@ -181,21 +182,28 @@ class ColliderScopeUI(QMainWindow):
         self.load_file_preview(file_pathname)
 
     def update_string_preview(self):
-        global latest_item
+        global latest_item, latest_items
+
+        if self.ui.preview_tabWidget.currentIndex() != 2:
+            self.ui.preview_tabWidget.setCurrentIndex(0)
+
         self.ui.triage_numeric_listWidget.clearSelection()
         self.ui.triage_ignore_listWidget.clearSelection()
 
         if self.ui.triage_string_listWidget.selectedItems():
+            latest_items = [i.text() for i in self.ui.triage_string_listWidget.selectedItems()]
             latest_item = self.ui.triage_string_listWidget.selectedItems()[-1].text()
             self.ui.text_preview_listWidget.clear()
             self.ui.text_preview_listWidget.addItems(data[latest_item].unique())
 
     def update_numeric_preview(self):
-        global latest_item
+        global latest_item, latest_items
+
         self.ui.triage_string_listWidget.clearSelection()
         self.ui.triage_ignore_listWidget.clearSelection()
 
         if self.ui.triage_numeric_listWidget.selectedItems():
+            latest_items = [i.text() for i in self.ui.triage_numeric_listWidget.selectedItems()]
             latest_item = self.ui.triage_numeric_listWidget.selectedItems()[-1].text()
             self.ui.text_preview_listWidget.clear()
             self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
@@ -342,8 +350,13 @@ class ColliderScopeUI(QMainWindow):
                 f_write.write(self.ui.script_preview_plainTextEdit.toPlainText())
 
     def add_to_script(self):
-        if latest_item:
+        if latest_items:
+            for i in latest_items:
+                self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']\n" % i)
+        elif latest_item:
             self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']" % latest_item)
+
+        self.ui.preview_tabWidget.setCurrentIndex(2)
 
 
 def status_bar():
