@@ -70,7 +70,7 @@ def mouseClicked(*args, **kwargs):
 
 
 def run():
-    exec(mainwindow.ui.script_preview_plainTextEdit.toPlainText())
+    exec(mainwindow.ui.script_preview_plainTextEdit.toPlainText(), globals())
 
 
 class ColliderScopeUI(QMainWindow):
@@ -303,6 +303,11 @@ class ColliderScopeUI(QMainWindow):
             QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
                         (file_pathname, str(e))).exec()
             return None
+
+    def script_run(self):
+        self.ui.script_preview_consoleWidget.repl.runCmd('run()')
+        # update consoleWidget namespace in case new vars created:
+        self.ui.script_preview_consoleWidget.locals().update(globals())
 
 
 def status_bar():

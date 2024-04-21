@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
     QPushButton, QSizePolicy, QSpacerItem, QSplitter,
     QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+    QToolButton, QVBoxLayout, QWidget)
 
 from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
@@ -586,16 +586,56 @@ class Ui_ColliderScopeUI(object):
         self.preview_tabWidget.addTab(self.graphic_preview_tab, "")
         self.script_preview_tab = QWidget()
         self.script_preview_tab.setObjectName(u"script_preview_tab")
-        self.horizontalLayout_6 = QHBoxLayout(self.script_preview_tab)
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.horizontalLayout_6.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_7 = QVBoxLayout(self.script_preview_tab)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(5, 5, 5, 5)
         self.splitter = QSplitter(self.script_preview_tab)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Horizontal)
-        self.splitter.setChildrenCollapsible(False)
-        self.script_preview_plainTextEdit = QPlainTextEdit(self.splitter)
+        self.widget1 = QWidget(self.splitter)
+        self.widget1.setObjectName(u"widget1")
+        self.verticalLayout_5 = QVBoxLayout(self.widget1)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.script_load_toolButton = QToolButton(self.widget1)
+        self.script_load_toolButton.setObjectName(u"script_load_toolButton")
+        icon = QIcon()
+        icon.addFile(u"assets/open_line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_load_toolButton.setIcon(icon)
+
+        self.horizontalLayout_6.addWidget(self.script_load_toolButton)
+
+        self.script_save_toolButton = QToolButton(self.widget1)
+        self.script_save_toolButton.setObjectName(u"script_save_toolButton")
+        icon1 = QIcon()
+        icon1.addFile(u"assets/save.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_save_toolButton.setIcon(icon1)
+
+        self.horizontalLayout_6.addWidget(self.script_save_toolButton)
+
+        self.script_run_toolButton = QToolButton(self.widget1)
+        self.script_run_toolButton.setObjectName(u"script_run_toolButton")
+        icon2 = QIcon()
+        icon2.addFile(u"assets/run_transparent.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_run_toolButton.setIcon(icon2)
+
+        self.horizontalLayout_6.addWidget(self.script_run_toolButton)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_6)
+
+        self.script_preview_plainTextEdit = QPlainTextEdit(self.widget1)
         self.script_preview_plainTextEdit.setObjectName(u"script_preview_plainTextEdit")
-        self.splitter.addWidget(self.script_preview_plainTextEdit)
+
+        self.verticalLayout_5.addWidget(self.script_preview_plainTextEdit)
+
+        self.splitter.addWidget(self.widget1)
         self.script_preview_consoleWidget = ConsoleWidget(self.splitter)
         self.script_preview_consoleWidget.setObjectName(u"script_preview_consoleWidget")
         sizePolicy10 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Preferred)
@@ -605,7 +645,7 @@ class Ui_ColliderScopeUI(object):
         self.script_preview_consoleWidget.setSizePolicy(sizePolicy10)
         self.splitter.addWidget(self.script_preview_consoleWidget)
 
-        self.horizontalLayout_6.addWidget(self.splitter)
+        self.verticalLayout_7.addWidget(self.splitter)
 
         self.preview_tabWidget.addTab(self.script_preview_tab, "")
         self.splitter_2.addWidget(self.preview_tabWidget)
@@ -661,11 +701,12 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_freeform_options_plainTextEdit.textChanged.connect(ColliderScopeUI.load_file_preview)
         self.triage_string_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_string_preview)
         self.triage_numeric_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_numeric_preview)
+        self.script_run_toolButton.clicked.connect(ColliderScopeUI.script_run)
 
-        self.tabWidget_main.setCurrentIndex(0)
+        self.tabWidget_main.setCurrentIndex(1)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
-        self.preview_tabWidget.setCurrentIndex(0)
+        self.preview_tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(ColliderScopeUI)
@@ -733,6 +774,18 @@ class Ui_ColliderScopeUI(object):
         self.label_ignore.setText(QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.text_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Text Preview", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.graphic_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Graphic Preview", None))
+#if QT_CONFIG(tooltip)
+        self.script_load_toolButton.setToolTip(QCoreApplication.translate("ColliderScopeUI", u"Load Script", None))
+#endif // QT_CONFIG(tooltip)
+        self.script_load_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
+#if QT_CONFIG(tooltip)
+        self.script_save_toolButton.setToolTip(QCoreApplication.translate("ColliderScopeUI", u"Save Script", None))
+#endif // QT_CONFIG(tooltip)
+        self.script_save_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
+#if QT_CONFIG(tooltip)
+        self.script_run_toolButton.setToolTip(QCoreApplication.translate("ColliderScopeUI", u"Run Script", None))
+#endif // QT_CONFIG(tooltip)
+        self.script_run_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
         self.script_preview_plainTextEdit.setPlainText(QCoreApplication.translate("ColliderScopeUI", u"print('hello colliderscope!')", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.script_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Preprocess Script", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.triage_tab), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
