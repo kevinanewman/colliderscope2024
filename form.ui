@@ -1287,7 +1287,10 @@ color: black;
                    </font>
                   </property>
                   <property name="plainText">
-                   <string/>
+                   <string notr="true"/>
+                  </property>
+                  <property name="tabStopDistance">
+                   <double>32.000000000000000</double>
                   </property>
                   <property name="placeholderText">
                    <string>print('hello world!')</string>
