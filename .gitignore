@@ -8090,3 +8090,7 @@
 /.qtcreator/Python_3_11venv/lib/python3.11/site-packages/multitimer.py
 /.qtcreator/Python_3_11venv/lib/python3.11/site-packages/six.py
 /.qtcreator/Python_3_11venv/pyvenv.cfg
+/test_inputs/*
+/colliderscope2024.pyproject.*
+/colliderscope2024.pyproject
+/.idea/*
