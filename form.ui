@@ -6,15 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1083</width>
-    <height>740</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>ColliderScopeUI</string>
   </property>
+  <property name="documentMode">
+   <bool>true</bool>
+  </property>
   <property name="tabShape">
-   <enum>QTabWidget::Rounded</enum>
+   <enum>QTabWidget::Triangular</enum>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -710,10 +716,10 @@ color: black
                  <bool>true</bool>
                 </property>
                 <property name="dragEnabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="dragDropMode">
-                 <enum>QAbstractItemView::DragDrop</enum>
+                 <enum>QAbstractItemView::NoDragDrop</enum>
                 </property>
                 <property name="alternatingRowColors">
                  <bool>true</bool>
@@ -723,25 +729,6 @@ color: black
                 </property>
                 <property name="sortingEnabled">
                  <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="copytostring_pushButton">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="text">
-                 <string>Copy to String (update Script)</string>
-                </property>
-                <property name="autoDefault">
-                 <bool>false</bool>
-                </property>
-                <property name="flat">
-                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -803,7 +790,7 @@ Script</string>
               <item>
                <widget class="QLabel" name="label_string">
                 <property name="text">
-                 <string>String (Filter Sources)</string>
+                 <string>Strings</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1029,10 +1016,10 @@ color: black;
                  <set>QAbstractItemView::AllEditTriggers</set>
                 </property>
                 <property name="dragEnabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="dragDropMode">
-                 <enum>QAbstractItemView::DragDrop</enum>
+                 <enum>QAbstractItemView::NoDragDrop</enum>
                 </property>
                 <property name="alternatingRowColors">
                  <bool>true</bool>
@@ -1042,13 +1029,6 @@ color: black;
                 </property>
                 <property name="sortingEnabled">
                  <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="convertonumeric_pushButton">
-                <property name="text">
-                 <string>Convert to Numeric (update Script)</string>
                 </property>
                </widget>
               </item>
@@ -1116,10 +1096,10 @@ color: black;
 color: black;</string>
                 </property>
                 <property name="dragEnabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="dragDropMode">
-                 <enum>QAbstractItemView::DragDrop</enum>
+                 <enum>QAbstractItemView::NoDragDrop</enum>
                 </property>
                </widget>
               </item>
@@ -1138,7 +1118,7 @@ color: black;</string>
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <property name="documentMode">
            <bool>true</bool>
@@ -1393,7 +1373,7 @@ color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1083</width>
+     <width>1024</width>
      <height>24</height>
     </rect>
    </property>
@@ -1715,6 +1695,38 @@ color: black;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>triage_string_listWidget</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>force_string_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>533</x>
+     <y>242</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>triage_numeric_listWidget</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>force_numeric_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>244</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
@@ -1728,5 +1740,7 @@ color: black;</string>
   <slot>script_open()</slot>
   <slot>script_run()</slot>
   <slot>add_to_script()</slot>
+  <slot>force_string_preview()</slot>
+  <slot>force_numeric_preview()</slot>
  </slots>
 </ui>

@@ -31,8 +31,10 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1083, 740)
-        ColliderScopeUI.setTabShape(QTabWidget.Rounded)
+        ColliderScopeUI.resize(1024, 768)
+        ColliderScopeUI.setDocumentMode(True)
+        ColliderScopeUI.setTabShape(QTabWidget.Triangular)
+        ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
         self.actionsubmenu = QAction(ColliderScopeUI)
         self.actionsubmenu.setObjectName(u"actionsubmenu")
         self.centralwidget = QWidget(ColliderScopeUI)
@@ -404,25 +406,13 @@ class Ui_ColliderScopeUI(object):
 "")
         self.triage_numeric_listWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.triage_numeric_listWidget.setProperty("showDropIndicator", True)
-        self.triage_numeric_listWidget.setDragEnabled(True)
-        self.triage_numeric_listWidget.setDragDropMode(QAbstractItemView.DragDrop)
+        self.triage_numeric_listWidget.setDragEnabled(False)
+        self.triage_numeric_listWidget.setDragDropMode(QAbstractItemView.NoDragDrop)
         self.triage_numeric_listWidget.setAlternatingRowColors(True)
         self.triage_numeric_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_numeric_listWidget.setSortingEnabled(True)
 
         self.verticalLayout_numeric.addWidget(self.triage_numeric_listWidget)
-
-        self.copytostring_pushButton = QPushButton(self.triage_tab)
-        self.copytostring_pushButton.setObjectName(u"copytostring_pushButton")
-        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
-        sizePolicy8.setHorizontalStretch(0)
-        sizePolicy8.setVerticalStretch(0)
-        sizePolicy8.setHeightForWidth(self.copytostring_pushButton.sizePolicy().hasHeightForWidth())
-        self.copytostring_pushButton.setSizePolicy(sizePolicy8)
-        self.copytostring_pushButton.setAutoDefault(False)
-        self.copytostring_pushButton.setFlat(False)
-
-        self.verticalLayout_numeric.addWidget(self.copytostring_pushButton)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_numeric)
@@ -435,6 +425,9 @@ class Ui_ColliderScopeUI(object):
 
         self.add_to_script_toolButton = QToolButton(self.triage_tab)
         self.add_to_script_toolButton.setObjectName(u"add_to_script_toolButton")
+        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy8.setHorizontalStretch(0)
+        sizePolicy8.setVerticalStretch(0)
         sizePolicy8.setHeightForWidth(self.add_to_script_toolButton.sizePolicy().hasHeightForWidth())
         self.add_to_script_toolButton.setSizePolicy(sizePolicy8)
         self.add_to_script_toolButton.setMinimumSize(QSize(40, 0))
@@ -500,18 +493,13 @@ class Ui_ColliderScopeUI(object):
 "")
         self.triage_string_listWidget.setFrameShape(QFrame.StyledPanel)
         self.triage_string_listWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
-        self.triage_string_listWidget.setDragEnabled(True)
-        self.triage_string_listWidget.setDragDropMode(QAbstractItemView.DragDrop)
+        self.triage_string_listWidget.setDragEnabled(False)
+        self.triage_string_listWidget.setDragDropMode(QAbstractItemView.NoDragDrop)
         self.triage_string_listWidget.setAlternatingRowColors(True)
         self.triage_string_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_string_listWidget.setSortingEnabled(True)
 
         self.verticalLayout_string.addWidget(self.triage_string_listWidget)
-
-        self.convertonumeric_pushButton = QPushButton(self.triage_tab)
-        self.convertonumeric_pushButton.setObjectName(u"convertonumeric_pushButton")
-
-        self.verticalLayout_string.addWidget(self.convertonumeric_pushButton)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_string)
@@ -551,8 +539,8 @@ class Ui_ColliderScopeUI(object):
         self.triage_ignore_listWidget.setObjectName(u"triage_ignore_listWidget")
         self.triage_ignore_listWidget.setStyleSheet(u"background-color: rgb(253, 223, 223);\n"
 "color: black;")
-        self.triage_ignore_listWidget.setDragEnabled(True)
-        self.triage_ignore_listWidget.setDragDropMode(QAbstractItemView.DragDrop)
+        self.triage_ignore_listWidget.setDragEnabled(False)
+        self.triage_ignore_listWidget.setDragDropMode(QAbstractItemView.NoDragDrop)
 
         self.verticalLayout_ignore.addWidget(self.triage_ignore_listWidget)
 
@@ -700,7 +688,7 @@ class Ui_ColliderScopeUI(object):
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1083, 24))
+        self.menubar.setGeometry(QRect(0, 0, 1024, 24))
         self.menuColliderScope2024 = QMenu(self.menubar)
         self.menuColliderScope2024.setObjectName(u"menuColliderScope2024")
         ColliderScopeUI.setMenuBar(self.menubar)
@@ -730,6 +718,8 @@ class Ui_ColliderScopeUI(object):
         self.script_load_toolButton.clicked.connect(ColliderScopeUI.script_open)
         self.script_save_toolButton.clicked.connect(ColliderScopeUI.script_save)
         self.add_to_script_toolButton.clicked.connect(ColliderScopeUI.add_to_script)
+        self.triage_string_listWidget.itemDoubleClicked.connect(ColliderScopeUI.force_string_preview)
+        self.triage_numeric_listWidget.itemDoubleClicked.connect(ColliderScopeUI.force_numeric_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -780,12 +770,10 @@ class Ui_ColliderScopeUI(object):
         self.label.setText(QCoreApplication.translate("ColliderScopeUI", u"Data Preview and Triage", None))
         self.label_filter.setText(QCoreApplication.translate("ColliderScopeUI", u"Filter", None))
         self.label_numeric.setText(QCoreApplication.translate("ColliderScopeUI", u"Numeric (Plot Sources)", None))
-        self.copytostring_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Copy to String (update Script)", None))
         self.add_to_script_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Add\n"
 "To\n"
 "Script", None))
-        self.label_string.setText(QCoreApplication.translate("ColliderScopeUI", u"String (Filter Sources)", None))
-        self.convertonumeric_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Convert to Numeric (update Script)", None))
+        self.label_string.setText(QCoreApplication.translate("ColliderScopeUI", u"Strings", None))
         self.ignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u">>>", None))
         self.unignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"<<<", None))
         self.label_ignore.setText(QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))

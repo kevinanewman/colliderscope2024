@@ -87,9 +87,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
 
-        self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
-        self.ui.graphic_preview_plot_widget.plotItem.setTitle('Graphic Preview')
-        self.ui.graphic_preview_plot_widget.plotItem.showButtons()
+        self.init_graphic_preview_plot_widget()
 
         # set up selection rectangle
         self.ui.graphic_preview_plot_widget.getViewBox().setMouseMode(pg.ViewBox.RectMode)
@@ -107,9 +105,15 @@ class ColliderScopeUI(QMainWindow):
         self.ui.file_import_browse_pushButton.setFocus()
 
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
-        # self.hl.setDocument(self.ui.codeView.document())
 
         # timer.start()
+
+    def init_graphic_preview_plot_widget(self):
+        self.ui.graphic_preview_plot_widget.plotItem.clear()
+        self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
+        self.ui.graphic_preview_plot_widget.plotItem.setTitle('Graphic Preview')
+        self.ui.graphic_preview_plot_widget.plotItem.showButtons()
+        self.ui.graphic_preview_plot_widget.new = True
 
     def load_file_preview(self, file_pathname=None):
         self.ui.file_import_browse_pushButton.clearFocus()
@@ -186,10 +190,10 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview(file_pathname)
 
-    def update_string_preview(self):
+    def update_string_preview(self, force=False):
         global latest_item, latest_items
 
-        if self.ui.preview_tabWidget.currentIndex() != 2:
+        if self.ui.preview_tabWidget.currentIndex() != 2 or force:
             self.ui.preview_tabWidget.setCurrentIndex(0)
 
         self.ui.triage_numeric_listWidget.clearSelection()
@@ -201,11 +205,18 @@ class ColliderScopeUI(QMainWindow):
             self.ui.text_preview_listWidget.clear()
             self.ui.text_preview_listWidget.addItems(data[latest_item].unique())
 
-    def update_numeric_preview(self):
+    def force_string_preview(self):
+        print('force_string_preview')
+        self.update_string_preview(force=True)
+
+    def update_numeric_preview(self, force=False):
         global latest_item, latest_items
 
         self.ui.triage_string_listWidget.clearSelection()
         self.ui.triage_ignore_listWidget.clearSelection()
+
+        if force:
+            self.ui.preview_tabWidget.setCurrentIndex(1)
 
         if self.ui.triage_numeric_listWidget.selectedItems():
             latest_items = [i.text() for i in self.ui.triage_numeric_listWidget.selectedItems()]
@@ -213,25 +224,34 @@ class ColliderScopeUI(QMainWindow):
             self.ui.text_preview_listWidget.clear()
             self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
 
-            if not self.ui.graphic_preview_plot_widget.plotItem.curves:
+            if self.ui.graphic_preview_plot_widget.new:
                 # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
                 #                                      symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
                 #                                      symbolSize=1.5, clear=True)
                 # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
-                #                                      symbolBrush=None, symbolPen=(231, 232, 255), symbol='+',
-                #                                      symbolSize=2, clear=True)
-                self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
+                #                                      symbolBrush=None, symbolPen=(231, 232, 255), symbol='t1',
+                #                                      symbolSize=4, clear=True)
+
+                # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
+
+                self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None, symbolBrush=None,
+                                                         symbolPen=(231, 232, 255), symbol='t1', symbolSize=4) # , clear=True)
+
+                self.ui.graphic_preview_plot_widget.new = False
             else:
                 self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
+
             self.ui.graphic_preview_plot_widget.plotItem.autoRange()
             self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
             # maybe do this if len(data) > X?
             # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
 
-    def setup_initial_triage_lists(self):
+    def force_numeric_preview(self):
+        print('force_numeric_preview')
+        self.update_numeric_preview(force=True)
+
+    def update_triage_lists(self):
         global data
-        self.ui.triage_tab.setEnabled(True)
-        self.ui.tabWidget_main.setCurrentIndex(1)
         data = data.convert_dtypes()
         non_string_columns = data.select_dtypes(exclude='string').columns
         string_columns = data.select_dtypes(include='string').columns
@@ -240,8 +260,16 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_string_listWidget.clear()
         self.ui.triage_string_listWidget.addItems(string_columns)
 
+    def setup_initial_triage_lists(self):
+        global data
+        self.ui.triage_tab.setEnabled(True)
+        self.ui.tabWidget_main.setCurrentIndex(1)
+        self.update_triage_lists()
+
     def import_csv_file(self, nrows=False):
         global status_bar_message, data
+
+        self.init_graphic_preview_plot_widget()
 
         file_pathname = self.ui.filepathname_lineEdit.text()
 
@@ -288,6 +316,8 @@ class ColliderScopeUI(QMainWindow):
 
     def import_excel_file(self, nrows=False):
         global status_bar_message, data
+
+        self.init_graphic_preview_plot_widget()
 
         file_pathname = self.ui.filepathname_lineEdit.text()
 
@@ -340,6 +370,8 @@ class ColliderScopeUI(QMainWindow):
         self.ui.script_preview_consoleWidget.repl.runCmd('run()')
         # update consoleWidget namespace in case new vars created:
         self.ui.script_preview_consoleWidget.locals().update(globals())
+        # update triage lists in case new fields created:
+        self.update_triage_lists()
 
     def script_open(self):
         file_pathname = file_dialog('', '*.py', 'Load triage script')
