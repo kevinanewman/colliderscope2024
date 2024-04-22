@@ -642,6 +642,9 @@ class Ui_ColliderScopeUI(object):
 
         self.script_preview_plainTextEdit = QPlainTextEdit(self.layoutWidget)
         self.script_preview_plainTextEdit.setObjectName(u"script_preview_plainTextEdit")
+        font = QFont()
+        font.setFamilies([u"Courier New"])
+        self.script_preview_plainTextEdit.setFont(font)
 
         self.verticalLayout_5.addWidget(self.script_preview_plainTextEdit)
 
@@ -723,7 +726,7 @@ class Ui_ColliderScopeUI(object):
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
-        self.preview_tabWidget.setCurrentIndex(1)
+        self.preview_tabWidget.setCurrentIndex(2)
         self.pushButton.setDefault(False)
 
 

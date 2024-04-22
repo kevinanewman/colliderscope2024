@@ -1281,6 +1281,11 @@ color: black;
                 </item>
                 <item>
                  <widget class="QPlainTextEdit" name="script_preview_plainTextEdit">
+                  <property name="font">
+                   <font>
+                    <family>Courier New</family>
+                   </font>
+                  </property>
                   <property name="plainText">
                    <string/>
                   </property>
