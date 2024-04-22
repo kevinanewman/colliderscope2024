@@ -645,6 +645,8 @@ class Ui_ColliderScopeUI(object):
         font = QFont()
         font.setFamilies([u"Courier New"])
         self.script_preview_plainTextEdit.setFont(font)
+        self.script_preview_plainTextEdit.setPlainText(u"")
+        self.script_preview_plainTextEdit.setTabStopDistance(32.000000000000000)
 
         self.verticalLayout_5.addWidget(self.script_preview_plainTextEdit)
 
@@ -726,7 +728,7 @@ class Ui_ColliderScopeUI(object):
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
-        self.preview_tabWidget.setCurrentIndex(2)
+        self.preview_tabWidget.setCurrentIndex(1)
         self.pushButton.setDefault(False)
 
 
@@ -794,7 +796,6 @@ class Ui_ColliderScopeUI(object):
         self.script_run_toolButton.setToolTip(QCoreApplication.translate("ColliderScopeUI", u"Run Script", None))
 #endif // QT_CONFIG(tooltip)
         self.script_run_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Run", None))
-        self.script_preview_plainTextEdit.setPlainText("")
         self.script_preview_plainTextEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"print('hello world!')", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.script_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Preprocess Script", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.triage_tab), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
