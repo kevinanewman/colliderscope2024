@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'form.ui'
+## Form generated from reading UI file 'colliderscope.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.0
 ##
@@ -24,6 +24,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
     QToolButton, QVBoxLayout, QWidget)
 
+from mywidget import MyWidget
 from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
 
@@ -681,6 +682,9 @@ class Ui_ColliderScopeUI(object):
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setEnabled(True)
         self.pushButton.setGeometry(QRect(190, 200, 100, 32))
+        self.widget = MyWidget(self.export_tab)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(390, 200, 261, 281))
         self.tabWidget_main.addTab(self.export_tab, "")
 
         self.horizontalLayout_3.addWidget(self.tabWidget_main)
@@ -688,7 +692,7 @@ class Ui_ColliderScopeUI(object):
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1024, 24))
+        self.menubar.setGeometry(QRect(0, 0, 1024, 43))
         self.menuColliderScope2024 = QMenu(self.menubar)
         self.menuColliderScope2024.setObjectName(u"menuColliderScope2024")
         ColliderScopeUI.setMenuBar(self.menubar)

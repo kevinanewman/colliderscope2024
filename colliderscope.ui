@@ -1363,6 +1363,16 @@ color: black;</string>
          <bool>false</bool>
         </property>
        </widget>
+       <widget class="MyWidget" name="widget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>200</y>
+          <width>261</width>
+          <height>281</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -1374,7 +1384,7 @@ color: black;</string>
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>24</height>
+     <height>43</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuColliderScope2024">
@@ -1402,6 +1412,12 @@ color: black;</string>
    <class>ConsoleWidget</class>
    <extends>QWidget</extends>
    <header>pyqtgraph.console</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MyWidget</class>
+   <extends>QWidget</extends>
+   <header>mywidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
