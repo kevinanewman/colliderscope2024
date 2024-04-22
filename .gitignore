@@ -8094,3 +8094,5 @@
 /colliderscope2024.pyproject.*
 /colliderscope2024.pyproject
 /.idea/*
+/dist/*
+*.spec

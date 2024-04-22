@@ -1,6 +1,18 @@
 # This Python file uses the following encoding: utf-8
+from __init__ import *
+
 import os
 import sys
+
+path = os.path.dirname(os.path.abspath(__file__))
+# sys.path.insert(0, os.path.join(path, '..'))  # picks up omega_model sub-packages
+# sys.path.insert(0, os.path.join(path))  # picks up omega_model sub-packages
+
+os.chdir(path)
+# print('colliderscopeui.py path = %s\n' % path)
+# print('SYS Path = %s\n' % sys.path)
+# print('CWD = %s\n' % os.getcwd())
+
 import time
 import pandas as pd
 import numpy as np
@@ -403,12 +415,15 @@ def status_bar():
     pass
 
 
-if __name__ == "__main__":
+def run_colliderscope():
+    global app, mainwindow
     import multitimer
-
     timer = multitimer.MultiTimer(interval=1, function=status_bar)
-
     app = QApplication(sys.argv)
     mainwindow = ColliderScopeUI()
     mainwindow.show()
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    run_colliderscope()
