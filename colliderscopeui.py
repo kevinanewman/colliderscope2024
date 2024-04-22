@@ -26,6 +26,7 @@ import re
 from PySide6 import QtWidgets
 from PySide6.QtGui import QSyntaxHighlighter, QTextCharFormat, QFont
 from PySide6.QtCore import QRegularExpression
+import darkdetect
 
 
 def charFormat(color, style='', background=None):
@@ -54,7 +55,7 @@ class LightThemeColors:
     Indigo = "#1A237E"
     Blue = "#0D47A1"
     LightBlue = "#01579B"
-    Cyan = "#006064"
+    Cyan = "#2CA9D2"  # "#80DEEA"
     Teal = "#004D40"
     Green = "#1B5E20"
     LightGreen = "#33691E"
@@ -76,7 +77,7 @@ class DarkThemeColors:
     Indigo = "#9FA8DA"
     Blue = "#90CAF9"
     LightBlue = "#81D4FA"
-    Cyan = "#80DEEA"
+    Cyan = "#2CA9D2"  # "#80DEEA"
     Teal = "#80CBC4"
     Green = "#A5D6A7"
     LightGreen = "#C5E1A5"
@@ -95,11 +96,11 @@ LIGHT_STYLES = {
     'operator': charFormat(LightThemeColors.Red, 'bold'),
     'brace': charFormat(LightThemeColors.Purple),
     'defclass': charFormat(LightThemeColors.Indigo, 'bold'),
-    'string': charFormat(LightThemeColors.Amber),
+    'string': charFormat(LightThemeColors.Cyan),
     'string2': charFormat(LightThemeColors.DeepPurple),
-    'comment': charFormat(LightThemeColors.Green, 'italic'),
+    'comment': charFormat(LightThemeColors.Red, 'italic'),
     'self': charFormat(LightThemeColors.Blue, 'bold'),
-    'numbers': charFormat(LightThemeColors.Teal),
+    'numbers': charFormat(LightThemeColors.Blue),
 }
 
 DARK_STYLES = {
@@ -107,11 +108,11 @@ DARK_STYLES = {
     'operator': charFormat(DarkThemeColors.Red, 'bold'),
     'brace': charFormat(DarkThemeColors.Purple),
     'defclass': charFormat(DarkThemeColors.Indigo, 'bold'),
-    'string': charFormat(DarkThemeColors.Amber),
+    'string': charFormat(DarkThemeColors.Cyan),
     'string2': charFormat(DarkThemeColors.DeepPurple),
-    'comment': charFormat(DarkThemeColors.Green, 'italic'),
-    'self': charFormat(DarkThemeColors.Blue, 'bold'),
-    'numbers': charFormat(DarkThemeColors.Teal),
+    'comment': charFormat(DarkThemeColors.DeepOrange, 'italic'),
+    'self': charFormat(DarkThemeColors.LightBlue, 'bold'),
+    'numbers': charFormat(DarkThemeColors.LightBlue),
 }
 
 
@@ -151,10 +152,10 @@ class PythonHighlighter(QSyntaxHighlighter):
         # Keyword, operator, and brace rules
         rules += [(r'\b%s\b' % w, 0, 'keyword')
                   for w in PythonHighlighter.keywords]
-        rules += [(o, 0, 'operator')
-                  for o in PythonHighlighter.operators]
-        rules += [(b, 0, 'brace')
-                  for b in PythonHighlighter.braces]
+        # rules += [(o, 0, 'operator')
+        #           for o in PythonHighlighter.operators]
+        # rules += [(b, 0, 'brace')
+        #           for b in PythonHighlighter.braces]
 
         # All other rules
         rules += [
@@ -184,8 +185,12 @@ class PythonHighlighter(QSyntaxHighlighter):
 
     @property
     def styles(self):
-        app = QtWidgets.QApplication.instance()
-        return DARK_STYLES if app.property('darkMode') else LIGHT_STYLES
+        # app = QtWidgets.QApplication.instance()
+        # return DARK_STYLES if app.property('darkMode') else LIGHT_STYLES
+        if darkdetect.isDark():
+            return DARK_STYLES
+        else:
+            return LIGHT_STYLES
 
     def highlightBlock(self, text):
         """Apply syntax highlighting to the given block of text.
