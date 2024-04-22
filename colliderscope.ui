@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
+    <width>1025</width>
     <height>768</height>
    </rect>
   </property>
@@ -636,7 +636,7 @@ Preview</string>
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_10">
             <item>
              <widget class="QLabel" name="label">
@@ -650,14 +650,14 @@ Preview</string>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_filter">
                 <item>
-                 <widget class="QLabel" name="label_filter">
-                  <property name="text">
-                   <string>Filter</string>
+                 <widget class="FilterWidget" name="widget" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>500</width>
+                    <height>0</height>
+                   </size>
                   </property>
                  </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEdit_filter"/>
                 </item>
                 <item>
                  <spacer name="horizontalSpacer">
@@ -1363,7 +1363,7 @@ color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1024</width>
+     <width>1025</width>
      <height>24</height>
     </rect>
    </property>
@@ -1392,6 +1392,12 @@ color: black;</string>
    <class>ConsoleWidget</class>
    <extends>QWidget</extends>
    <header>pyqtgraph.console</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FilterWidget</class>
+   <extends>QWidget</extends>
+   <header>filterwidget.filterwidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

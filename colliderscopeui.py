@@ -5,7 +5,7 @@ import os
 import sys
 
 path = os.path.dirname(os.path.abspath(__file__))
-# sys.path.insert(0, os.path.join(path, '..'))  # picks up omega_model sub-packages
+sys.path.insert(0, os.path.join(path))  # picks up sub-packages
 # sys.path.insert(0, os.path.join(path))  # picks up omega_model sub-packages
 
 os.chdir(path)
@@ -31,7 +31,6 @@ from pythonhighlighter import PythonHighlighter
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_colliderscope import Ui_ColliderScopeUI
-
 
 app = None
 mainwindow = None
