@@ -44,9 +44,9 @@ class Ui_ColliderScopeUI(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
         self.centralwidget.setSizePolicy(sizePolicy)
-        self.horizontalLayout_3 = QHBoxLayout(self.centralwidget)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_11 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.verticalLayout_11.setContentsMargins(5, 5, 5, 5)
         self.tabWidget_main = QTabWidget(self.centralwidget)
         self.tabWidget_main.setObjectName(u"tabWidget_main")
         self.tabWidget_main.setEnabled(True)
@@ -350,10 +350,18 @@ class Ui_ColliderScopeUI(object):
         self.triage_tab = QWidget()
         self.triage_tab.setObjectName(u"triage_tab")
         self.triage_tab.setEnabled(False)
-        self.verticalLayout_10 = QVBoxLayout(self.triage_tab)
+        self.verticalLayout_12 = QVBoxLayout(self.triage_tab)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.verticalLayout_12.setContentsMargins(5, 5, 5, 5)
+        self.splitter_2 = QSplitter(self.triage_tab)
+        self.splitter_2.setObjectName(u"splitter_2")
+        self.splitter_2.setOrientation(Qt.Vertical)
+        self.widget = QWidget(self.splitter_2)
+        self.widget.setObjectName(u"widget")
+        self.verticalLayout_10 = QVBoxLayout(self.widget)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.verticalLayout_10.setContentsMargins(5, 5, 5, 5)
-        self.label = QLabel(self.triage_tab)
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.label = QLabel(self.widget)
         self.label.setObjectName(u"label")
 
         self.verticalLayout_10.addWidget(self.label)
@@ -362,12 +370,12 @@ class Ui_ColliderScopeUI(object):
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.horizontalLayout_filter = QHBoxLayout()
         self.horizontalLayout_filter.setObjectName(u"horizontalLayout_filter")
-        self.label_filter = QLabel(self.triage_tab)
+        self.label_filter = QLabel(self.widget)
         self.label_filter.setObjectName(u"label_filter")
 
         self.horizontalLayout_filter.addWidget(self.label_filter)
 
-        self.lineEdit_filter = QLineEdit(self.triage_tab)
+        self.lineEdit_filter = QLineEdit(self.widget)
         self.lineEdit_filter.setObjectName(u"lineEdit_filter")
 
         self.horizontalLayout_filter.addWidget(self.lineEdit_filter)
@@ -387,13 +395,13 @@ class Ui_ColliderScopeUI(object):
 #endif
         self.verticalLayout_numeric.setObjectName(u"verticalLayout_numeric")
         self.verticalLayout_numeric.setContentsMargins(0, -1, -1, 0)
-        self.label_numeric = QLabel(self.triage_tab)
+        self.label_numeric = QLabel(self.widget)
         self.label_numeric.setObjectName(u"label_numeric")
         self.label_numeric.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_numeric.addWidget(self.label_numeric)
 
-        self.triage_numeric_listWidget = QListWidget(self.triage_tab)
+        self.triage_numeric_listWidget = QListWidget(self.widget)
         self.triage_numeric_listWidget.setObjectName(u"triage_numeric_listWidget")
         sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy7.setHorizontalStretch(0)
@@ -423,7 +431,7 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_3.addItem(self.verticalSpacer_3)
 
-        self.add_to_script_toolButton = QToolButton(self.triage_tab)
+        self.add_to_script_toolButton = QToolButton(self.widget)
         self.add_to_script_toolButton.setObjectName(u"add_to_script_toolButton")
         sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         sizePolicy8.setHorizontalStretch(0)
@@ -444,13 +452,13 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_string = QVBoxLayout()
         self.verticalLayout_string.setObjectName(u"verticalLayout_string")
-        self.label_string = QLabel(self.triage_tab)
+        self.label_string = QLabel(self.widget)
         self.label_string.setObjectName(u"label_string")
         self.label_string.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_string.addWidget(self.label_string)
 
-        self.triage_string_listWidget = QListWidget(self.triage_tab)
+        self.triage_string_listWidget = QListWidget(self.widget)
         self.triage_string_listWidget.setObjectName(u"triage_string_listWidget")
         self.triage_string_listWidget.setMinimumSize(QSize(296, 202))
         palette = QPalette()
@@ -507,14 +515,14 @@ class Ui_ColliderScopeUI(object):
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
-        self.ignore_pushButton = QPushButton(self.triage_tab)
+        self.ignore_pushButton = QPushButton(self.widget)
         self.ignore_pushButton.setObjectName(u"ignore_pushButton")
         self.ignore_pushButton.setAutoFillBackground(False)
         self.ignore_pushButton.setFlat(False)
 
         self.verticalLayout_2.addWidget(self.ignore_pushButton)
 
-        self.unignore_pushButton = QPushButton(self.triage_tab)
+        self.unignore_pushButton = QPushButton(self.widget)
         self.unignore_pushButton.setObjectName(u"unignore_pushButton")
 
         self.verticalLayout_2.addWidget(self.unignore_pushButton)
@@ -528,14 +536,14 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_ignore = QVBoxLayout()
         self.verticalLayout_ignore.setObjectName(u"verticalLayout_ignore")
-        self.label_ignore = QLabel(self.triage_tab)
+        self.label_ignore = QLabel(self.widget)
         self.label_ignore.setObjectName(u"label_ignore")
         self.label_ignore.setEnabled(False)
         self.label_ignore.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_ignore.addWidget(self.label_ignore)
 
-        self.triage_ignore_listWidget = QListWidget(self.triage_tab)
+        self.triage_ignore_listWidget = QListWidget(self.widget)
         self.triage_ignore_listWidget.setObjectName(u"triage_ignore_listWidget")
         self.triage_ignore_listWidget.setStyleSheet(u"background-color: rgb(253, 223, 223);\n"
 "color: black;")
@@ -553,7 +561,8 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_10.addLayout(self.verticalLayout_9)
 
-        self.preview_tabWidget = QTabWidget(self.triage_tab)
+        self.splitter_2.addWidget(self.widget)
+        self.preview_tabWidget = QTabWidget(self.splitter_2)
         self.preview_tabWidget.setObjectName(u"preview_tabWidget")
         self.preview_tabWidget.setCursor(QCursor(Qt.ArrowCursor))
         self.preview_tabWidget.setLayoutDirection(Qt.LeftToRight)
@@ -658,8 +667,9 @@ class Ui_ColliderScopeUI(object):
         self.verticalLayout_7.addWidget(self.splitter)
 
         self.preview_tabWidget.addTab(self.script_preview_tab, "")
+        self.splitter_2.addWidget(self.preview_tabWidget)
 
-        self.verticalLayout_10.addWidget(self.preview_tabWidget)
+        self.verticalLayout_12.addWidget(self.splitter_2)
 
         self.tabWidget_main.addTab(self.triage_tab, "")
         self.plot_tab = QWidget()
@@ -679,12 +689,12 @@ class Ui_ColliderScopeUI(object):
         self.export_tab.setEnabled(True)
         self.tabWidget_main.addTab(self.export_tab, "")
 
-        self.horizontalLayout_3.addWidget(self.tabWidget_main)
+        self.verticalLayout_11.addWidget(self.tabWidget_main)
 
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1024, 43))
+        self.menubar.setGeometry(QRect(0, 0, 1024, 24))
         self.menuColliderScope2024 = QMenu(self.menubar)
         self.menuColliderScope2024.setObjectName(u"menuColliderScope2024")
         ColliderScopeUI.setMenuBar(self.menubar)
