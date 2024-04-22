@@ -12,8 +12,10 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QFileDialog, 
                                QMessageBox, QGraphicsScene, QGraphicsWidget, QGraphicsProxyWidget, QSizePolicy,
                                QVBoxLayout, QHBoxLayout)
 
+from pythonhighlighter import PythonHighlighter
+
 # Important:
-# You need to run the following command to generate the ui_form.py file
+# You need to run the following command to generate the ui_form.py file or Build/Run in Qt Creator first:
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_form import Ui_ColliderScopeUI
@@ -103,6 +105,9 @@ class ColliderScopeUI(QMainWindow):
         self.ui.plot_graphicsView.showGrid(x=True, y=True)
 
         self.ui.file_import_browse_pushButton.setFocus()
+
+        self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
+        # self.hl.setDocument(self.ui.codeView.document())
 
         # timer.start()
 

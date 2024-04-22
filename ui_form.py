@@ -404,6 +404,8 @@ class Ui_ColliderScopeUI(object):
 "")
         self.triage_numeric_listWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.triage_numeric_listWidget.setProperty("showDropIndicator", True)
+        self.triage_numeric_listWidget.setDragEnabled(True)
+        self.triage_numeric_listWidget.setDragDropMode(QAbstractItemView.DragDrop)
         self.triage_numeric_listWidget.setAlternatingRowColors(True)
         self.triage_numeric_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_numeric_listWidget.setSortingEnabled(True)
@@ -498,6 +500,8 @@ class Ui_ColliderScopeUI(object):
 "")
         self.triage_string_listWidget.setFrameShape(QFrame.StyledPanel)
         self.triage_string_listWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
+        self.triage_string_listWidget.setDragEnabled(True)
+        self.triage_string_listWidget.setDragDropMode(QAbstractItemView.DragDrop)
         self.triage_string_listWidget.setAlternatingRowColors(True)
         self.triage_string_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_string_listWidget.setSortingEnabled(True)
@@ -545,7 +549,10 @@ class Ui_ColliderScopeUI(object):
 
         self.triage_ignore_listWidget = QListWidget(self.triage_tab)
         self.triage_ignore_listWidget.setObjectName(u"triage_ignore_listWidget")
-        self.triage_ignore_listWidget.setStyleSheet(u"background-color: rgb(253, 223, 223);")
+        self.triage_ignore_listWidget.setStyleSheet(u"background-color: rgb(253, 223, 223);\n"
+"color: black;")
+        self.triage_ignore_listWidget.setDragEnabled(True)
+        self.triage_ignore_listWidget.setDragDropMode(QAbstractItemView.DragDrop)
 
         self.verticalLayout_ignore.addWidget(self.triage_ignore_listWidget)
 
