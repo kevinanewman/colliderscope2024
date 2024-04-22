@@ -24,7 +24,6 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
     QToolButton, QVBoxLayout, QWidget)
 
-from mywidget import MyWidget
 from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
 
@@ -678,13 +677,6 @@ class Ui_ColliderScopeUI(object):
         self.export_tab = QWidget()
         self.export_tab.setObjectName(u"export_tab")
         self.export_tab.setEnabled(True)
-        self.pushButton = QPushButton(self.export_tab)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setEnabled(True)
-        self.pushButton.setGeometry(QRect(190, 200, 100, 32))
-        self.widget = MyWidget(self.export_tab)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(390, 200, 261, 281))
         self.tabWidget_main.addTab(self.export_tab, "")
 
         self.horizontalLayout_3.addWidget(self.tabWidget_main)
@@ -730,7 +722,6 @@ class Ui_ColliderScopeUI(object):
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
         self.preview_tabWidget.setCurrentIndex(1)
-        self.pushButton.setDefault(False)
 
 
         QMetaObject.connectSlotsByName(ColliderScopeUI)
@@ -799,7 +790,6 @@ class Ui_ColliderScopeUI(object):
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.script_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Preprocess Script", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.triage_tab), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.plot_tab), QCoreApplication.translate("ColliderScopeUI", u"Plotting", None))
-        self.pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"PushButton", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.export_tab), QCoreApplication.translate("ColliderScopeUI", u"Export", None))
         self.menuColliderScope2024.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Menu", None))
     # retranslateUi
