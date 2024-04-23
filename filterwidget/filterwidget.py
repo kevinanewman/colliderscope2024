@@ -23,9 +23,16 @@ class FilterWidget(QWidget):
     def inputChanged(self):
         print('inputChanged')
 
+    def goto_settings(self):
+        self.ui.stackedWidget.setCurrentIndex(1)
+
+    def goto_filter(self):
+        self.ui.stackedWidget.setCurrentIndex(0)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
     widget = FilterWidget()
     widget.show()
     sys.exit(app.exec())
