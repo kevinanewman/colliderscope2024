@@ -730,7 +730,7 @@ class Ui_ColliderScopeUI(object):
         self.triage_string_listWidget.itemDoubleClicked.connect(ColliderScopeUI.force_string_preview)
         self.triage_numeric_listWidget.itemDoubleClicked.connect(ColliderScopeUI.force_numeric_preview)
 
-        self.tabWidget_main.setCurrentIndex(1)
+        self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
