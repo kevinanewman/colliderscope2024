@@ -6,7 +6,7 @@ REM build executable
 
 pyinstaller exe_entry.py ^
     --name colliderscope2024-0.0.1-win ^
-    --paths .;. ^
+    --paths .;filterwidget ^
     --add-data assets;assets ^
     --noconfirm ^
     --onefile

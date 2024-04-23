@@ -6,7 +6,7 @@ cd ..
 
 pyinstaller exe_entry.py \
     --name colliderscope2024-0.0.1-mac-arm64.command \
-    --paths .:. \
+    --paths .:filterwidget \
     --add-data assets:assets \
     --noconfirm \
     --onefile
