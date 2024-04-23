@@ -1,6 +1,9 @@
 # This Python file uses the following encoding: utf-8
 import os, sys
 
+path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(path))  # picks up this package
+
 from PySide6.QtWidgets import QApplication, QWidget
 
 # Important:

@@ -5,8 +5,7 @@ import os
 import sys
 
 path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(path))  # picks up sub-packages
-# sys.path.insert(0, os.path.join(path))  # picks up omega_model sub-packages
+sys.path.insert(0, os.path.join(path))  # picks up this package
 
 os.chdir(path)
 # print('colliderscopeui.py path = %s\n' % path)
