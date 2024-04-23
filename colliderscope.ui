@@ -723,6 +723,9 @@ Preview</string>
                       <height>202</height>
                      </size>
                     </property>
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::CustomContextMenu</enum>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(196, 242, 196);
 color: black
@@ -738,7 +741,7 @@ color: black
                      <bool>false</bool>
                     </property>
                     <property name="dragDropMode">
-                     <enum>QAbstractItemView::NoDragDrop</enum>
+                     <enum>QAbstractItemView::DragOnly</enum>
                     </property>
                     <property name="alternatingRowColors">
                      <bool>false</bool>
@@ -1038,7 +1041,7 @@ color: black;
                      <bool>false</bool>
                     </property>
                     <property name="dragDropMode">
-                     <enum>QAbstractItemView::NoDragDrop</enum>
+                     <enum>QAbstractItemView::DragOnly</enum>
                     </property>
                     <property name="alternatingRowColors">
                      <bool>false</bool>
@@ -1118,7 +1121,10 @@ color: black;</string>
                      <bool>false</bool>
                     </property>
                     <property name="dragDropMode">
-                     <enum>QAbstractItemView::NoDragDrop</enum>
+                     <enum>QAbstractItemView::DragDrop</enum>
+                    </property>
+                    <property name="sortingEnabled">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -1735,6 +1741,22 @@ color: black;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>triage_ignore_listWidget</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>generic_slot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>879</x>
+     <y>264</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>512</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
@@ -1750,5 +1772,6 @@ color: black;</string>
   <slot>add_to_script()</slot>
   <slot>force_string_preview()</slot>
   <slot>force_numeric_preview()</slot>
+  <slot>generic_slot()</slot>
  </slots>
 </ui>

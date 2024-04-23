@@ -19,9 +19,12 @@ import pyqtgraph as pg
 from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
 
+import PySide6
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QFileDialog, QTableWidget, QTableWidgetItem, QLabel,
                                QMessageBox, QGraphicsScene, QGraphicsWidget, QGraphicsProxyWidget, QSizePolicy,
                                QVBoxLayout, QHBoxLayout)
+
+from PySide6.QtGui import QStandardItemModel
 
 from pythonhighlighter import PythonHighlighter
 
@@ -95,6 +98,19 @@ def run():
     exec(mainwindow.ui.script_preview_plainTextEdit.toPlainText(), globals())
 
 
+def dropEvent(event):
+    item_list = [i.text() for i in event.source().selectedItems()]
+
+    for i in item_list:
+        event.source().source_data.remove(i)
+        ignore_fields.append(i)
+
+    mainwindow.ui.triage_ignore_listWidget.addItems(item_list)
+
+    event.setDropAction(PySide6.QtCore.Qt.DropAction.MoveAction)
+    event.accept()
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
         global numeric_fields, string_fields, ignore_fields
@@ -129,7 +145,30 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_filter_widget.widget_list = \
             [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget]
 
+        self.ui.triage_ignore_listWidget.dropEvent = dropEvent
+
         # timer.start()
+
+
+    def generic_slot(self):
+        print('generic slot...')
+
+    def dragEnterEvent(self, event):
+        print('dragEnterEvent')
+        if event.mimeData().hasFormat("text/plain"):
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        print('dropEvent')
+        # if event.mimeData().hasFormat("text/plain"):
+        #     data = event.mimeData().text()
+        #     self.ui.triage_ignore_listWidget.addItem(data)
+        #     event.accept()
+        # else:
+        #     event.ignore()
+
 
     def init_graphic_preview_plot_widget(self):
         self.ui.graphic_preview_plot_widget.plotItem.clear()

@@ -59,6 +59,7 @@ class Ui_FilterWidget(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.lineEdit.sizePolicy().hasHeightForWidth())
         self.lineEdit.setSizePolicy(sizePolicy1)
+        self.lineEdit.setClearButtonEnabled(True)
 
         self.horizontalLayout_2.addWidget(self.lineEdit)
 
