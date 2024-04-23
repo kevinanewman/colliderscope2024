@@ -420,6 +420,9 @@ def run_colliderscope():
     import multitimer
     timer = multitimer.MultiTimer(interval=1, function=status_bar)
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
+    app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }")
+
     mainwindow = ColliderScopeUI()
     mainwindow.show()
     sys.exit(app.exec())
