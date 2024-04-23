@@ -120,7 +120,7 @@ class Ui_ColliderScopeUI(object):
         self.file_preview_tableWidget.setTabKeyNavigation(False)
         self.file_preview_tableWidget.setProperty("showDropIndicator", False)
         self.file_preview_tableWidget.setDragDropOverwriteMode(False)
-        self.file_preview_tableWidget.setAlternatingRowColors(True)
+        self.file_preview_tableWidget.setAlternatingRowColors(False)
         self.file_preview_tableWidget.setTextElideMode(Qt.ElideNone)
         self.file_preview_tableWidget.setShowGrid(False)
         self.file_preview_tableWidget.setWordWrap(True)
@@ -416,7 +416,7 @@ class Ui_ColliderScopeUI(object):
         self.triage_numeric_listWidget.setProperty("showDropIndicator", True)
         self.triage_numeric_listWidget.setDragEnabled(False)
         self.triage_numeric_listWidget.setDragDropMode(QAbstractItemView.NoDragDrop)
-        self.triage_numeric_listWidget.setAlternatingRowColors(True)
+        self.triage_numeric_listWidget.setAlternatingRowColors(False)
         self.triage_numeric_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_numeric_listWidget.setSortingEnabled(True)
 
@@ -503,7 +503,7 @@ class Ui_ColliderScopeUI(object):
         self.triage_string_listWidget.setEditTriggers(QAbstractItemView.AllEditTriggers)
         self.triage_string_listWidget.setDragEnabled(False)
         self.triage_string_listWidget.setDragDropMode(QAbstractItemView.NoDragDrop)
-        self.triage_string_listWidget.setAlternatingRowColors(True)
+        self.triage_string_listWidget.setAlternatingRowColors(False)
         self.triage_string_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_string_listWidget.setSortingEnabled(True)
 
