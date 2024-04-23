@@ -419,6 +419,16 @@ def run_colliderscope():
     import multitimer
     timer = multitimer.MultiTimer(interval=1, function=status_bar)
     app = QApplication(sys.argv)
+
+    # set app style
+    app.setStyle("Fusion")
+
+    # customize tooltip style
+    app.setStyleSheet("QToolTip {color: #ffffff; background-color: #402a82da; border: 2px solid black; "
+                      "border-radius: 10px; padding: 2.5px; margin: 0px}")
+    # app.setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; opacity: 200; "
+    #                   "border: 2px solid black; border-radius: 10px; padding: 2.5px; margin: 0px}")
+
     mainwindow = ColliderScopeUI()
     mainwindow.show()
     sys.exit(app.exec())
@@ -426,3 +436,6 @@ def run_colliderscope():
 
 if __name__ == "__main__":
     run_colliderscope()
+
+# self.ui.graphic_preview_plot_widget.getViewBox().rbScaleBox.setPen(pg.mkPen((64, 128, 200), width=2)) #4080C8
+# self.ui.graphic_preview_plot_widget.getViewBox().rbScaleBox.setBrush(pg.mkBrush(81, 197, 255, 100)) #51c5ff64
