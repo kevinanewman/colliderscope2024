@@ -39,6 +39,10 @@ status_bar_message = ''
 latest_item = None
 latest_items = None
 
+numeric_fields = ['num']
+string_fields = ['str']
+ignore_fields = ['ignore']
+
 pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
 # pg.setConfigOption('foreground', 'b')
@@ -94,6 +98,8 @@ def run():
 
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
+        global numeric_fields, string_fields, ignore_fields
+
         super().__init__(parent)
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
@@ -116,6 +122,13 @@ class ColliderScopeUI(QMainWindow):
         self.ui.file_import_browse_pushButton.setFocus()
 
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
+
+        self.ui.triage_numeric_listWidget.source_data = numeric_fields
+        self.ui.triage_string_listWidget.source_data = string_fields
+        self.ui.triage_ignore_listWidget.source_data = ignore_fields
+
+        self.ui.triage_filter_widget.widget_list = \
+            [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget]
 
         # timer.start()
 
@@ -264,12 +277,16 @@ class ColliderScopeUI(QMainWindow):
     def update_triage_lists(self):
         global data
         data = data.convert_dtypes()
-        non_string_columns = data.select_dtypes(exclude='string').columns
-        string_columns = data.select_dtypes(include='string').columns
+        numeric_fields.clear()
+        string_fields.clear()
+
+        numeric_fields.extend(data.select_dtypes(exclude='string').columns)
+        string_fields.extend(data.select_dtypes(include='string').columns)
+
         self.ui.triage_numeric_listWidget.clear()
-        self.ui.triage_numeric_listWidget.addItems(non_string_columns)
+        self.ui.triage_numeric_listWidget.addItems(numeric_fields)
         self.ui.triage_string_listWidget.clear()
-        self.ui.triage_string_listWidget.addItems(string_columns)
+        self.ui.triage_string_listWidget.addItems(string_fields)
 
     def setup_initial_triage_lists(self):
         global data
