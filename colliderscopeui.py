@@ -41,9 +41,12 @@ status_bar_message = ''
 latest_item = None
 latest_items = None
 
-numeric_fields = ['num']
-string_fields = ['str']
-ignore_fields = ['ignore']
+original_numeric_fields = []
+original_string_fields = []
+
+active_numeric_fields = []
+active_string_fields = []
+ignore_fields = []
 
 pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
@@ -113,7 +116,7 @@ def dropEvent(event):
 
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
-        global numeric_fields, string_fields, ignore_fields
+        global active_numeric_fields, active_string_fields, ignore_fields
 
         super().__init__(parent)
         self.ui = Ui_ColliderScopeUI()
@@ -138,8 +141,8 @@ class ColliderScopeUI(QMainWindow):
 
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
 
-        self.ui.triage_numeric_listWidget.source_data = numeric_fields
-        self.ui.triage_string_listWidget.source_data = string_fields
+        self.ui.triage_numeric_listWidget.source_data = active_numeric_fields
+        self.ui.triage_string_listWidget.source_data = active_string_fields
         self.ui.triage_ignore_listWidget.source_data = ignore_fields
 
         self.ui.triage_filter_widget.widget_list = \
@@ -149,26 +152,8 @@ class ColliderScopeUI(QMainWindow):
 
         # timer.start()
 
-
     def generic_slot(self):
         print('generic slot...')
-
-    def dragEnterEvent(self, event):
-        print('dragEnterEvent')
-        if event.mimeData().hasFormat("text/plain"):
-            event.accept()
-        else:
-            event.ignore()
-
-    def dropEvent(self, event):
-        print('dropEvent')
-        # if event.mimeData().hasFormat("text/plain"):
-        #     data = event.mimeData().text()
-        #     self.ui.triage_ignore_listWidget.addItem(data)
-        #     event.accept()
-        # else:
-        #     event.ignore()
-
 
     def init_graphic_preview_plot_widget(self):
         self.ui.graphic_preview_plot_widget.plotItem.clear()
@@ -315,122 +300,135 @@ class ColliderScopeUI(QMainWindow):
     def update_triage_lists(self):
         global data
         data = data.convert_dtypes()
-        numeric_fields.clear()
-        string_fields.clear()
+        active_numeric_fields.clear()
+        active_string_fields.clear()
 
-        numeric_fields.extend(data.select_dtypes(exclude='string').columns)
-        string_fields.extend(data.select_dtypes(include='string').columns)
+        active_numeric_fields.extend(data.select_dtypes(exclude='string').columns)
+        active_string_fields.extend(data.select_dtypes(include='string').columns)
 
         self.ui.triage_numeric_listWidget.clear()
-        self.ui.triage_numeric_listWidget.addItems(numeric_fields)
+        self.ui.triage_numeric_listWidget.addItems(active_numeric_fields)
         self.ui.triage_string_listWidget.clear()
-        self.ui.triage_string_listWidget.addItems(string_fields)
+        self.ui.triage_string_listWidget.addItems(active_string_fields)
 
     def setup_initial_triage_lists(self):
         global data
         self.ui.triage_tab.setEnabled(True)
         self.ui.tabWidget_main.setCurrentIndex(1)
         self.update_triage_lists()
+        # grab non-filtered original fields for later reference:
+        original_numeric_fields.extend(active_numeric_fields)
+        original_string_fields.extend(active_string_fields)
 
     def import_csv_file(self, nrows=False):
         global status_bar_message, data
 
-        self.init_graphic_preview_plot_widget()
-
         file_pathname = self.ui.filepathname_lineEdit.text()
 
-        delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
-        if delimiter == 'Auto':
-            delimiter = None
+        if file_pathname:
+            self.init_on_import()
 
-        skiprows = self.ui.import_csv_skip_rows_lineEdit.text()
-        if skiprows.startswith('[') and skiprows.endswith(']'):
-            skiprows = eval(skiprows)
-        else:
-            skiprows = int(skiprows)
+            delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
+            if delimiter == 'Auto':
+                delimiter = None
 
-        try:
-            if nrows is False:  # nrows can be False coming from Qt for some reason
-                data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
-                                   delimiter=delimiter,
-                                   encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                   skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                   skiprows=skiprows,
-                                   )
-                self.setup_initial_triage_lists()
-            else: # just reading in a preview
-                data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
-                                   delimiter=delimiter,
-                                   encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                   skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                   skiprows=skiprows,
-                                   nrows=nrows,
-                                   )
+            skiprows = self.ui.import_csv_skip_rows_lineEdit.text()
+            if skiprows.startswith('[') and skiprows.endswith(']'):
+                skiprows = eval(skiprows)
+            else:
+                skiprows = int(skiprows)
 
-            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                          (len(data), len(data.columns)), 10000)
+            try:
+                if nrows is False:  # nrows can be False coming from Qt for some reason
+                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
+                                       delimiter=delimiter,
+                                       encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                       skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                       skiprows=skiprows,
+                                       )
+                    self.setup_initial_triage_lists()
+                else: # just reading in a preview
+                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
+                                       delimiter=delimiter,
+                                       encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                       skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                       skiprows=skiprows,
+                                       nrows=nrows,
+                                       )
 
-            self.ui.script_preview_consoleWidget.locals().update(globals())
-            self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
+                self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                              (len(data), len(data.columns)), 10000)
 
-            return data
+                self.ui.script_preview_consoleWidget.locals().update(globals())
+                self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
-        except Exception as e:
-            QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
-                        (file_pathname, str(e))).exec()
-            return None
+                return data
+
+            except Exception as e:
+                QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
+                            (file_pathname, str(e))).exec()
+                return None
 
     def import_excel_file(self, nrows=False):
         global status_bar_message, data
 
-        self.init_graphic_preview_plot_widget()
-
         file_pathname = self.ui.filepathname_lineEdit.text()
 
-        skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
-        if skiprows.startswith('[') and skiprows.endswith(']'):
-            skiprows = eval(skiprows)
-        else:
-            skiprows = int(skiprows)
+        if file_pathname:
+            self.init_on_import()
 
-        sheet = self.ui.import_excel_sheet_lineEdit.text()
-        if sheet.startswith('[') and sheet.endswith(']') or str.isnumeric(sheet):
-            sheet = eval(sheet)
+            skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
+            if skiprows.startswith('[') and skiprows.endswith(']'):
+                skiprows = eval(skiprows)
+            else:
+                skiprows = int(skiprows)
 
-        header = self.ui.import_excel_header_lineEdit.text()
-        if header == 'None':
-            header = None
-        elif header.startswith('[') and header.endswith(']'):
-            header = eval(sheet)
-        else:
-            header = int(header)
+            sheet = self.ui.import_excel_sheet_lineEdit.text()
+            if sheet.startswith('[') and sheet.endswith(']') or str.isnumeric(sheet):
+                sheet = eval(sheet)
 
-        try:
-            if nrows is False:
-                nrows = None
+            header = self.ui.import_excel_header_lineEdit.text()
+            if header == 'None':
+                header = None
+            elif header.startswith('[') and header.endswith(']'):
+                header = eval(sheet)
+            else:
+                header = int(header)
 
-            data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
-                                 sheet_name=sheet,
-                                 skiprows=skiprows,
-                                 header=header,
-                                 nrows=nrows,
-                                 )
+            try:
+                if nrows is False:
+                    nrows = None
 
-            if nrows is None:
-                self.setup_initial_triage_lists()
+                data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
+                                     sheet_name=sheet,
+                                     skiprows=skiprows,
+                                     header=header,
+                                     nrows=nrows,
+                                     )
 
-            self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                          (len(data), len(data.columns)), 10000)
+                if nrows is None:
+                    self.setup_initial_triage_lists()
 
-            self.ui.script_preview_consoleWidget.locals().update(globals())
-            self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
+                self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                              (len(data), len(data.columns)), 10000)
 
-            return data
+                self.ui.script_preview_consoleWidget.locals().update(globals())
+                self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
-        except Exception as e:
-            QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
-                        (file_pathname, str(e))).exec()
-            return None
+                return data
+
+            except Exception as e:
+                QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
+                            (file_pathname, str(e))).exec()
+                return None
+
+    def init_on_import(self):
+        original_numeric_fields.clear()
+        original_string_fields.clear()
+        active_numeric_fields.clear()
+        active_string_fields.clear()
+        ignore_fields.clear()
+        self.init_graphic_preview_plot_widget()
 
     def script_run(self):
         self.ui.script_preview_consoleWidget.repl.runCmd('run()')
