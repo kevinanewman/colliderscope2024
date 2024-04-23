@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication, QWidget
 # You need to run the following command to generate the ui_form.py file
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
-from ui_form import Ui_FilterWidget
+from ui_filterwidget import Ui_FilterWidget
 
 
 class FilterWidget(QWidget):
@@ -15,6 +15,13 @@ class FilterWidget(QWidget):
         super().__init__(parent)
         self.ui = Ui_FilterWidget()
         self.ui.setupUi(self)
+        self.widget_list = None
+
+    def addListWidgets(self, widget_list):
+        self.widget_list = widget_list
+
+    def inputChanged(self):
+        print('inputChanged')
 
 
 if __name__ == "__main__":

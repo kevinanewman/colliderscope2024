@@ -57,7 +57,7 @@ class Ui_ColliderScopeUI(object):
         sizePolicy1.setHeightForWidth(self.tabWidget_main.sizePolicy().hasHeightForWidth())
         self.tabWidget_main.setSizePolicy(sizePolicy1)
         self.tabWidget_main.setTabPosition(QTabWidget.North)
-        self.tabWidget_main.setTabShape(QTabWidget.Triangular)
+        self.tabWidget_main.setTabShape(QTabWidget.Rounded)
         self.tabWidget_main.setDocumentMode(True)
         self.import_tab = QWidget()
         self.import_tab.setObjectName(u"import_tab")
@@ -373,7 +373,8 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_filter.setObjectName(u"horizontalLayout_filter")
         self.widget = FilterWidget(self.layoutWidget)
         self.widget.setObjectName(u"widget")
-        self.widget.setMinimumSize(QSize(500, 0))
+        self.widget.setMinimumSize(QSize(300, 0))
+        self.widget.setMaximumSize(QSize(300, 16777215))
 
         self.horizontalLayout_filter.addWidget(self.widget)
 

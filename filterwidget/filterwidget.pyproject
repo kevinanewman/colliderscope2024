@@ -1,6 +1,6 @@
 {
     "files": [
         "filterwidget.py",
-        "form.ui"
+        "filterwidget.ui"
     ]
 }
