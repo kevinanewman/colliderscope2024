@@ -732,7 +732,7 @@ class Ui_ColliderScopeUI(object):
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
-        self.file_import_tabWidget.setCurrentIndex(1)
+        self.file_import_tabWidget.setCurrentIndex(0)
         self.import_excel_pushButton.setDefault(False)
         self.preview_tabWidget.setCurrentIndex(1)
 
