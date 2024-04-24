@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 ################################################################################
 ## Form generated from reading UI file 'colliderscope.ui'
@@ -24,12 +25,13 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
     QToolButton, QVBoxLayout, QWidget)
 
-from filterwidget.filterwidget import FilterWidget
+from filterwidget import FilterWidget
 from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
 
 class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
+
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
         ColliderScopeUI.resize(1025, 768)

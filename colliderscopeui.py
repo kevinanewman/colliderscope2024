@@ -5,7 +5,8 @@ import os
 import sys
 
 path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(path))  # picks up this package
+# sys.path.insert(0, os.path.join(path))  # picks up this package
+sys.path.insert(0, os.path.join(path, path+os.sep+'assets'))  # picks up this package
 
 os.chdir(path)
 # print('colliderscopeui.py path = %s\n' % path)
@@ -53,7 +54,7 @@ pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('foreground', 'b')
 
 
-def file_dialog(file_pathname, file_type_filter, file_dialog_title, mode='open'):
+def file_dialog(file_pathname, file_type_filter, file_dialog_title):
     """
     Opens a file dialog to select a file with extension options.
 
@@ -66,10 +67,7 @@ def file_dialog(file_pathname, file_type_filter, file_dialog_title, mode='open')
     dialog = QFileDialog()
     dialog.selectFile(file_pathname)
     dialog.setWindowTitle(file_dialog_title)
-    if mode == 'open':
-        dialog.setFileMode(QFileDialog.ExistingFile)
-    else:
-        dialog.setAcceptMode(QFileDialog.AcceptSave)
+    dialog.setFileMode(QFileDialog.ExistingFile)
     # dialog.setFileMode(QFileDialog.AnyFile)
     if type(file_type_filter) is not list:
         dialog.setNameFilters([file_type_filter])
