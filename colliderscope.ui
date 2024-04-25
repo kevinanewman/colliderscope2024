@@ -150,12 +150,6 @@ Preview</string>
                   <height>16777208</height>
                  </size>
                 </property>
-                <property name="horizontalScrollBarPolicy">
-                 <enum>Qt::ScrollBarAsNeeded</enum>
-                </property>
-                <property name="sizeAdjustPolicy">
-                 <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                </property>
                 <property name="autoScroll">
                  <bool>false</bool>
                 </property>
@@ -174,9 +168,6 @@ Preview</string>
                 <property name="alternatingRowColors">
                  <bool>false</bool>
                 </property>
-                <property name="textElideMode">
-                 <enum>Qt::ElideNone</enum>
-                </property>
                 <property name="showGrid">
                  <bool>false</bool>
                 </property>
@@ -194,9 +185,6 @@ Preview</string>
                 </property>
                 <attribute name="horizontalHeaderVisible">
                  <bool>false</bool>
-                </attribute>
-                <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>10000</number>
                 </attribute>
                 <attribute name="horizontalHeaderHighlightSections">
                  <bool>false</bool>
@@ -245,7 +233,7 @@ Preview</string>
                    <number>5</number>
                   </property>
                   <property name="bottomMargin">
-                   <number>0</number>
+                   <number>5</number>
                   </property>
                   <item>
                    <layout class="QHBoxLayout" name="import_csv_delimiter_horizontalLayout">
@@ -329,6 +317,9 @@ Preview</string>
                         <height>16777215</height>
                        </size>
                       </property>
+                      <property name="currentIndex">
+                       <number>0</number>
+                      </property>
                       <item>
                        <property name="text">
                         <string notr="true">utf_8</string>
@@ -387,6 +378,34 @@ Preview</string>
                     </item>
                     <item>
                      <widget class="QComboBox" name="import_csv_skip_blank_lines_comboBox">
+                      <item>
+                       <property name="text">
+                        <string>True</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>False</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="import_csv_two_row_header_horizontalLayout">
+                    <item>
+                     <widget class="QLabel" name="import_csv_two_row_header_lines_label">
+                      <property name="text">
+                       <string>two-row header</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="import_csv_two_row_header_comboBox">
+                      <property name="currentIndex">
+                       <number>1</number>
+                      </property>
                       <item>
                        <property name="text">
                         <string>True</string>
@@ -505,20 +524,7 @@ Preview</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="import_excel_sheet_lineEdit">
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>0</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                      </property>
-                     </widget>
+                     <widget class="QComboBox" name="import_excel_sheet_comboBox"/>
                     </item>
                    </layout>
                   </item>
@@ -551,6 +557,34 @@ Preview</string>
                       <property name="alignment">
                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                       </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="import_excel_two_row_header_horizontalLayout">
+                    <item>
+                     <widget class="QLabel" name="import_excel_two_row_header_lines_label">
+                      <property name="text">
+                       <string>two-row header</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="import_excel_two_row_header_comboBox">
+                      <property name="currentIndex">
+                       <number>1</number>
+                      </property>
+                      <item>
+                       <property name="text">
+                        <string>True</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>False</string>
+                       </property>
+                      </item>
                      </widget>
                     </item>
                    </layout>
@@ -1415,7 +1449,7 @@ color: black;</string>
   <customwidget>
    <class>FilterWidget</class>
    <extends>QWidget</extends>
-   <header>filterwidget.filterwidget</header>
+   <header>filterwidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1494,22 +1528,6 @@ color: black;</string>
     <hint type="sourcelabel">
      <x>953</x>
      <y>157</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>541</x>
-     <y>361</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>import_excel_sheet_lineEdit</sender>
-   <signal>editingFinished()</signal>
-   <receiver>ColliderScopeUI</receiver>
-   <slot>load_file_preview()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>953</x>
-     <y>190</y>
     </hint>
     <hint type="destinationlabel">
      <x>541</x>
@@ -1750,6 +1768,54 @@ color: black;</string>
     <hint type="sourcelabel">
      <x>879</x>
      <y>264</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>512</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_csv_two_row_header_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>922</x>
+     <y>308</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>512</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_excel_two_row_header_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>922</x>
+     <y>248</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>512</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_excel_sheet_comboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>load_file_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>922</x>
+     <y>182</y>
     </hint>
     <hint type="destinationlabel">
      <x>512</x>

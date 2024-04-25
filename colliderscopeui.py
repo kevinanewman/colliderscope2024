@@ -114,15 +114,10 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='u
     unitized_columns = []
 
     for col, unit in zip(columns.values[0], units.values[0]):
-        if unit not in ignore_units:
+        if unit not in ignore_units and units_nrows > 0:
             unitized_columns.append('%s_%s' % (col, unit))
         else:
             unitized_columns.append('%s' % col)
-
-    if phdp_globals.options.verbose:
-        for idx, uc in enumerate(unitized_columns):
-            phdp_log.logwrite('%s: %s' % (get_letters_from_index(idx).ljust(2), uc))
-        phdp_log.logwrite('')
 
     return unitized_columns
 
@@ -192,6 +187,8 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.triage_ignore_listWidget.dropEvent = dropEvent
 
+        self.prior_nan_count = None
+
         # timer.start()
 
     def generic_slot(self):
@@ -204,7 +201,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.graphic_preview_plot_widget.plotItem.showButtons()
         self.ui.graphic_preview_plot_widget.new = True
 
-    def load_file_preview(self, file_pathname=None):
+    def load_file_preview(self, qstring='', file_pathname=None):
         self.ui.file_import_browse_pushButton.clearFocus()
 
         num_preview_rows = 256
@@ -212,37 +209,38 @@ class ColliderScopeUI(QMainWindow):
         if file_pathname is None:
             file_pathname = self.ui.filepathname_lineEdit.text()
 
-        if 'xls' in file_pathname.split('.')[-1]:
-            self.ui.file_import_tabWidget.setCurrentIndex(1)
-            self.ui.import_excel_pushButton.setFocus()
-            self.ui.import_csv_pushButton.clearFocus()
+        if file_pathname:
+            if 'xls' in file_pathname.split('.')[-1]:
+                self.ui.file_import_tabWidget.setCurrentIndex(1)
+                self.ui.import_excel_pushButton.setFocus()
+                self.ui.import_csv_pushButton.clearFocus()
 
-            df = self.import_excel_file(nrows=num_preview_rows)
-            if df is not None:
-                self.preview_dataframe(df, num_preview_rows)
+                df = self.import_excel_file(nrows=num_preview_rows)
+                if df is not None:
+                    self.preview_dataframe(df, num_preview_rows)
 
-        else:
-            self.ui.file_import_tabWidget.setCurrentIndex(0)
-            self.ui.import_csv_pushButton.setFocus()
-            self.ui.import_excel_pushButton.clearFocus()
-
-            # preview first N lines of input file
-            self.ui.file_preview_tableWidget.setRowCount(0)
-            self.ui.file_preview_tableWidget.setColumnCount(1)
-
-            df = self.import_csv_file(nrows=num_preview_rows)
-            if df is not None:
-                self.preview_dataframe(df, num_preview_rows)
             else:
-                with open(file_pathname, 'r') as f_read:
-                    for i in range(0, num_preview_rows):
-                        line = f_read.readline()
-                        if line:
-                            self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
-                            self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+                self.ui.file_import_tabWidget.setCurrentIndex(0)
+                self.ui.import_csv_pushButton.setFocus()
+                self.ui.import_excel_pushButton.clearFocus()
 
-                    self.ui.file_preview_tableWidget.horizontalHeader().setVisible(False)
-                    self.ui.file_preview_tableWidget.resizeColumnsToContents()
+                # preview first N lines of input file
+                self.ui.file_preview_tableWidget.setRowCount(0)
+                self.ui.file_preview_tableWidget.setColumnCount(1)
+
+                df = self.import_csv_file(nrows=num_preview_rows)
+                if df is not None:
+                    self.preview_dataframe(df, num_preview_rows)
+                else:
+                    with open(file_pathname, 'r') as f_read:
+                        for i in range(0, num_preview_rows):
+                            line = f_read.readline()
+                            if line:
+                                self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
+                                self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+
+                        self.ui.file_preview_tableWidget.horizontalHeader().setVisible(False)
+                        self.ui.file_preview_tableWidget.resizeColumnsToContents()
 
     def preview_dataframe(self, df, num_preview_rows):
         # Set row and column count
@@ -268,16 +266,17 @@ class ColliderScopeUI(QMainWindow):
             self.ui.file_import_tabWidget.setEnabled(False)
 
     def filepathname_changed(self):
-        self.load_file_preview(self.ui.filepathname_lineEdit.text())
+        self.load_file_preview('', self.ui.filepathname_lineEdit.text())
         self.handle_import_button_enables()
 
     def import_filebrowse(self):
         # file_pathname = file_dialog('', ['*.txt', '*.csv', '*.xls*'], 'file_dialog_title')
         file_pathname = file_dialog('', '*.*', 'file_dialog_title')
         self.ui.filepathname_lineEdit.setText(file_pathname)
+        self.ui.import_excel_sheet_comboBox.clear()
         self.handle_import_button_enables()
 
-        self.load_file_preview(file_pathname)
+        self.load_file_preview('', file_pathname)
 
     def update_string_preview(self, force=False):
         global latest_item, latest_items
@@ -313,7 +312,9 @@ class ColliderScopeUI(QMainWindow):
             self.ui.text_preview_listWidget.clear()
             self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
 
-            if self.ui.graphic_preview_plot_widget.new:
+            nan_count = sum(data[latest_item].isna())
+
+            if self.ui.graphic_preview_plot_widget.new or nan_count != self.prior_nan_count:
                 # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
                 #                                      symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
                 #                                      symbolSize=1.5, clear=True)
@@ -323,8 +324,13 @@ class ColliderScopeUI(QMainWindow):
 
                 # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
 
-                self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None, symbolBrush=None,
-                                                         symbolPen=(231, 232, 255), symbol='t1', symbolSize=4) # , clear=True)
+                if sum(data[latest_item].isna()) > 0 or len(data[latest_item]) == 1:
+                    self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen='#00000000',
+                                                             symbolBrush=None, symbolPen=(231, 232, 255),
+                                                             symbol='t1', symbolSize=4, clear=True)
+                else:
+                    self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255),
+                                                             clear=True)
 
                 self.ui.graphic_preview_plot_widget.new = False
             else:
@@ -334,6 +340,8 @@ class ColliderScopeUI(QMainWindow):
             self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
             # maybe do this if len(data) > X?
             # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
+
+            self.prior_nan_count = nan_count
 
     def force_numeric_preview(self):
         print('force_numeric_preview')
@@ -345,7 +353,7 @@ class ColliderScopeUI(QMainWindow):
         active_numeric_fields.clear()
         active_string_fields.clear()
 
-        active_numeric_fields.extend(data.select_dtypes(exclude='string').columns)
+        active_numeric_fields.extend(data.select_dtypes(exclude=['string', 'object']).columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
 
         self.ui.triage_numeric_listWidget.clear()
@@ -374,15 +382,25 @@ class ColliderScopeUI(QMainWindow):
             if delimiter == 'Auto':
                 delimiter = None
 
-            skiprows = self.ui.import_csv_skip_rows_lineEdit.text()
-            if skiprows.startswith('[') and skiprows.endswith(']'):
-                skiprows = eval(skiprows)
-            else:
-                skiprows = int(skiprows)
-
             try:
+                if self.ui.import_csv_two_row_header_comboBox.currentText() == 'False':
+                    units_nrows = 0
+                else:
+                    units_nrows = 1
+                    self.ui.import_csv_skip_rows_lineEdit.setText('[0, 1]')
+
+                skiprows = self.ui.import_csv_skip_rows_lineEdit.text()
+                if skiprows.startswith('[') and skiprows.endswith(']'):
+                    skiprows = eval(skiprows)
+                else:
+                    skiprows = int(skiprows)
+
+                unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(),
+                                                        encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                                        units_nrows=units_nrows)
+
                 if nrows is False:  # nrows can be False coming from Qt for some reason
-                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
+                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
                                        delimiter=delimiter,
                                        encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                        skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
@@ -390,7 +408,7 @@ class ColliderScopeUI(QMainWindow):
                                        )
                     self.setup_initial_triage_lists()
                 else: # just reading in a preview
-                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(),
+                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
                                        delimiter=delimiter,
                                        encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                        skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
@@ -419,21 +437,19 @@ class ColliderScopeUI(QMainWindow):
         if file_pathname:
             self.init_on_import()
 
-            skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
-            if skiprows.startswith('[') and skiprows.endswith(']'):
-                skiprows = eval(skiprows)
-            else:
-                skiprows = int(skiprows)
+            if self.ui.import_excel_sheet_comboBox.count() == 0:
+                from openpyxl import load_workbook
+                wb = load_workbook(filename=self.ui.filepathname_lineEdit.text(), read_only=True)
+                self.ui.import_excel_sheet_comboBox.addItems(wb.sheetnames)
+                self.ui.import_excel_sheet_comboBox.setCurrentIndex(0)
 
-            sheet = self.ui.import_excel_sheet_lineEdit.text()
-            if sheet.startswith('[') and sheet.endswith(']') or str.isnumeric(sheet):
-                sheet = eval(sheet)
+            sheet_name = self.ui.import_excel_sheet_comboBox.currentText()
 
             header = self.ui.import_excel_header_lineEdit.text()
             if header == 'None':
                 header = None
             elif header.startswith('[') and header.endswith(']'):
-                header = eval(sheet)
+                header = eval(header)
             else:
                 header = int(header)
 
@@ -441,11 +457,23 @@ class ColliderScopeUI(QMainWindow):
                 if nrows is False:
                     nrows = None
 
-                data = pd.read_excel(self.ui.filepathname_lineEdit.text(),
-                                     sheet_name=sheet,
-                                     skiprows=skiprows,
-                                     header=header,
-                                     nrows=nrows,
+                if self.ui.import_excel_two_row_header_comboBox.currentText() == 'False':
+                    units_nrows = 0
+                else:
+                    units_nrows = 1
+                    self.ui.import_excel_skip_rows_lineEdit.setText('[0, 1]')
+
+                skiprows = self.ui.import_excel_skip_rows_lineEdit.text()
+                if skiprows.startswith('[') and skiprows.endswith(']'):
+                    skiprows = eval(skiprows)
+                else:
+                    skiprows = int(skiprows)
+
+                unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(), sheet_name=sheet_name,
+                                                        units_nrows=units_nrows)
+
+                data = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
+                                     skiprows=skiprows, header=header, nrows=nrows,
                                      )
 
                 if nrows is None:
