@@ -328,6 +328,12 @@ class ColliderScopeUI(QMainWindow):
                     self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen='#00000000',
                                                              symbolBrush=None, symbolPen=(231, 232, 255),
                                                              symbol='t1', symbolSize=4, clear=True)
+                    text = pg.TextItem(
+                        html='<div style="text-align: center"><span style="color: #FFF;'
+                             '"<span style="color: #FF0; font-size: 16pt;">%d NaNs</span></div>' % nan_count,
+                        anchor=(-0.3, 0.5), border='w', fill=(255, 80, 80, 100))
+                    self.ui.graphic_preview_plot_widget.addItem(text)
+                    text.setPos(0, data[latest_item].max())
                 else:
                     self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255),
                                                              clear=True)
@@ -336,8 +342,8 @@ class ColliderScopeUI(QMainWindow):
             else:
                 self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
 
-            self.ui.graphic_preview_plot_widget.plotItem.autoRange()
             self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
+            self.ui.graphic_preview_plot_widget.plotItem.autoRange()
             # maybe do this if len(data) > X?
             # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
 
