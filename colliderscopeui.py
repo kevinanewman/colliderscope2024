@@ -83,6 +83,50 @@ def file_dialog(file_pathname, file_type_filter, file_dialog_title):
         return file_pathname
 
 
+def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='utf-8', units_nrows=0):
+    """
+    Combine column labels and units row into a single combined string to identify the column.
+
+    Args:
+        filename (str): name of the file to read
+        sheet_name (str): for reading a particular Excel sheet, or ``None`` for CSV files
+        ignore_units (list of str): unit values to ignore, default ``Text``
+        encoding (str): file encoding (decoding) method name
+        units_nrows (int): number of units rows, if any
+
+    Returns:
+        List of combined column headers and units as in ``['ColumnName_units', ...]``
+
+    """
+    if sheet_name:
+        columns = pd.read_excel(filename, header=None, nrows=1, sheet_name=sheet_name)
+        if units_nrows > 0:
+            units = pd.read_excel(filename, header=None, skiprows=1, nrows=units_nrows, sheet_name=sheet_name)
+        else:
+            units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
+    else:
+        columns = pd.read_csv(filename, header=None, nrows=1,  encoding=encoding, encoding_errors='strict')
+        if units_nrows > 0:
+            units = pd.read_csv(filename, header=None, skiprows=1, nrows=units_nrows, encoding=encoding, encoding_errors='strict')
+        else:
+            units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
+
+    unitized_columns = []
+
+    for col, unit in zip(columns.values[0], units.values[0]):
+        if unit not in ignore_units:
+            unitized_columns.append('%s_%s' % (col, unit))
+        else:
+            unitized_columns.append('%s' % col)
+
+    if phdp_globals.options.verbose:
+        for idx, uc in enumerate(unitized_columns):
+            phdp_log.logwrite('%s: %s' % (get_letters_from_index(idx).ljust(2), uc))
+        phdp_log.logwrite('')
+
+    return unitized_columns
+
+
 def mouseMoved(*args, **kwargs):
     print('mouseMoved', args)
 
