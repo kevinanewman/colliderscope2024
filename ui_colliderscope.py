@@ -16,13 +16,14 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFrame,
-    QHBoxLayout, QHeaderView, QLabel, QLayout,
-    QLineEdit, QListWidget, QListWidgetItem, QMainWindow,
-    QMenu, QMenuBar, QPlainTextEdit, QPushButton,
-    QSizePolicy, QSpacerItem, QSplitter, QStatusBar,
-    QTabWidget, QTableWidget, QTableWidgetItem, QToolButton,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QCheckBox,
+    QComboBox, QFrame, QHBoxLayout, QHeaderView,
+    QLabel, QLayout, QLineEdit, QListWidget,
+    QListWidgetItem, QMainWindow, QMenu, QMenuBar,
+    QPlainTextEdit, QPushButton, QSizePolicy, QSpacerItem,
+    QSpinBox, QSplitter, QStatusBar, QTabWidget,
+    QTableWidget, QTableWidgetItem, QToolButton, QVBoxLayout,
+    QWidget)
 
 from filterwidget import FilterWidget
 from pyqtgraph import PlotWidget
@@ -61,10 +62,9 @@ class Ui_ColliderScopeUI(object):
         self.tabWidget_main.setDocumentMode(True)
         self.import_tab = QWidget()
         self.import_tab.setObjectName(u"import_tab")
-        self.horizontalLayout_12 = QHBoxLayout(self.import_tab)
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.import_tab_verticalLayout = QVBoxLayout()
-        self.import_tab_verticalLayout.setObjectName(u"import_tab_verticalLayout")
+        self.verticalLayout_6 = QVBoxLayout(self.import_tab)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(5, 5, 5, 5)
         self.file_import_browse_horizontalLayout = QHBoxLayout()
         self.file_import_browse_horizontalLayout.setObjectName(u"file_import_browse_horizontalLayout")
         self.filepathname_label = QLabel(self.import_tab)
@@ -91,17 +91,43 @@ class Ui_ColliderScopeUI(object):
         self.file_import_browse_horizontalLayout.addWidget(self.file_import_browse_pushButton)
 
 
-        self.import_tab_verticalLayout.addLayout(self.file_import_browse_horizontalLayout)
+        self.verticalLayout_6.addLayout(self.file_import_browse_horizontalLayout)
 
-        self.horizontalLayout_7 = QHBoxLayout()
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.file_preview_horizontalLayout = QHBoxLayout()
-        self.file_preview_horizontalLayout.setObjectName(u"file_preview_horizontalLayout")
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.verticalLayout_13 = QVBoxLayout()
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
         self.file_preview_label = QLabel(self.import_tab)
         self.file_preview_label.setObjectName(u"file_preview_label")
         self.file_preview_label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
-        self.file_preview_horizontalLayout.addWidget(self.file_preview_label)
+        self.verticalLayout_13.addWidget(self.file_preview_label)
+
+        self.preview_size_checkBox = QCheckBox(self.import_tab)
+        self.preview_size_checkBox.setObjectName(u"preview_size_checkBox")
+        self.preview_size_checkBox.setChecked(True)
+
+        self.verticalLayout_13.addWidget(self.preview_size_checkBox)
+
+        self.preview_size_spinBox = QSpinBox(self.import_tab)
+        self.preview_size_spinBox.setObjectName(u"preview_size_spinBox")
+        self.preview_size_spinBox.setWrapping(False)
+        self.preview_size_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.preview_size_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.preview_size_spinBox.setAccelerated(True)
+        self.preview_size_spinBox.setMinimum(100)
+        self.preview_size_spinBox.setMaximum(1000000)
+        self.preview_size_spinBox.setSingleStep(100)
+        self.preview_size_spinBox.setValue(100)
+
+        self.verticalLayout_13.addWidget(self.preview_size_spinBox)
+
+        self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_13.addItem(self.verticalSpacer_4)
+
+
+        self.horizontalLayout_3.addLayout(self.verticalLayout_13)
 
         self.file_preview_tableWidget = QTableWidget(self.import_tab)
         if (self.file_preview_tableWidget.columnCount() < 1):
@@ -129,7 +155,7 @@ class Ui_ColliderScopeUI(object):
         self.file_preview_tableWidget.horizontalHeader().setHighlightSections(False)
         self.file_preview_tableWidget.horizontalHeader().setStretchLastSection(False)
 
-        self.file_preview_horizontalLayout.addWidget(self.file_preview_tableWidget)
+        self.horizontalLayout_3.addWidget(self.file_preview_tableWidget)
 
         self.file_import_tabWidget = QTabWidget(self.import_tab)
         self.file_import_tabWidget.setObjectName(u"file_import_tabWidget")
@@ -359,21 +385,10 @@ class Ui_ColliderScopeUI(object):
 
         self.file_import_tabWidget.addTab(self.import_excel_tab, "")
 
-        self.file_preview_horizontalLayout.addWidget(self.file_import_tabWidget)
+        self.horizontalLayout_3.addWidget(self.file_import_tabWidget)
 
 
-        self.horizontalLayout_7.addLayout(self.file_preview_horizontalLayout)
-
-        self.verticalLayout_6 = QVBoxLayout()
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-
-        self.horizontalLayout_7.addLayout(self.verticalLayout_6)
-
-
-        self.import_tab_verticalLayout.addLayout(self.horizontalLayout_7)
-
-
-        self.horizontalLayout_12.addLayout(self.import_tab_verticalLayout)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_3)
 
         self.tabWidget_main.addTab(self.import_tab, "")
         self.triage_tab = QWidget()
@@ -762,6 +777,8 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_two_row_header_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_excel_two_row_header_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_excel_sheet_comboBox.currentIndexChanged.connect(ColliderScopeUI.load_file_preview)
+        self.preview_size_checkBox.stateChanged.connect(ColliderScopeUI.load_file_preview)
+        self.preview_size_spinBox.editingFinished.connect(ColliderScopeUI.load_file_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -784,6 +801,7 @@ class Ui_ColliderScopeUI(object):
         self.file_import_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Browse ...", None))
         self.file_preview_label.setText(QCoreApplication.translate("ColliderScopeUI", u"File\n"
 "Preview", None))
+        self.preview_size_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Limit", None))
         self.import_csv_delimiter_label.setText(QCoreApplication.translate("ColliderScopeUI", u"delimiter", None))
         self.import_csv_delimiter_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"Auto", None))
         self.import_csv_delimiter_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u",", None))

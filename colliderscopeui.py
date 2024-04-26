@@ -204,7 +204,12 @@ class ColliderScopeUI(QMainWindow):
     def load_file_preview(self, qstring='', file_pathname=None):
         self.ui.file_import_browse_pushButton.clearFocus()
 
-        num_preview_rows = 256
+        if self.ui.preview_size_checkBox.isChecked():
+            self.ui.preview_size_spinBox.setEnabled(True)
+            num_preview_rows = self.ui.preview_size_spinBox.value()
+        else:
+            self.ui.preview_size_spinBox.setEnabled(False)
+            num_preview_rows = None
 
         if file_pathname is None:
             file_pathname = self.ui.filepathname_lineEdit.text()
