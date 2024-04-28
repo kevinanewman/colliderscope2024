@@ -83,7 +83,7 @@ def file_dialog(file_pathname, file_type_filter, file_dialog_title):
         return file_pathname
 
 
-def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='utf-8', units_nrows=0):
+def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='utf-8', skiprows=0, units_nrows=0):
     """
     Combine column labels and units row into a single combined string to identify the column.
 
@@ -99,15 +99,16 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='u
 
     """
     if sheet_name:
-        columns = pd.read_excel(filename, header=None, nrows=1, sheet_name=sheet_name)
+        columns = pd.read_excel(filename, header=None, kiprows=skiprows, nrows=1, sheet_name=sheet_name)
         if units_nrows > 0:
-            units = pd.read_excel(filename, header=None, skiprows=1, nrows=units_nrows, sheet_name=sheet_name)
+            units = pd.read_excel(filename, header=None, skiprows=skiprows+1, nrows=units_nrows, sheet_name=sheet_name)
         else:
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
     else:
-        columns = pd.read_csv(filename, header=None, nrows=1,  encoding=encoding, encoding_errors='strict')
+        columns = pd.read_csv(filename, header=None, nrows=1, skiprows=skiprows, encoding=encoding,
+                              encoding_errors='strict')
         if units_nrows > 0:
-            units = pd.read_csv(filename, header=None, skiprows=1, nrows=units_nrows, encoding=encoding, encoding_errors='strict')
+            units = pd.read_csv(filename, header=None, skiprows=skiprows+1, nrows=units_nrows, encoding=encoding, encoding_errors='strict')
         else:
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
 
@@ -428,16 +429,25 @@ class ColliderScopeUI(QMainWindow):
 
                 unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(),
                                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                                        units_nrows=units_nrows)
+                                                        skiprows=skiprows, units_nrows=units_nrows)
 
                 if preview:
-                    df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
-                                     delimiter=delimiter,
-                                     encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                     skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                     skiprows=skiprows,
-                                     nrows=nrows,
-                                     )
+                    try:
+                        df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
+                                         delimiter=delimiter,
+                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                         skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                         skiprows=skiprows,
+                                         nrows=nrows,
+                                         )
+                    except:
+                        df = pd.read_csv(self.ui.filepathname_lineEdit.text(), header=0,
+                                         delimiter=delimiter,
+                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                         skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                         skiprows=skiprows,
+                                         nrows=nrows,
+                                         )
                 else:
                     df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
                                      delimiter=delimiter,
@@ -502,7 +512,7 @@ class ColliderScopeUI(QMainWindow):
                     skiprows = int(skiprows)
 
                 unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(), sheet_name=sheet_name,
-                                                        units_nrows=units_nrows)
+                                                        skiprows=skiprows, units_nrows=units_nrows)
 
                 engine_kwargs = {'read_only': preview is True}
                 df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
