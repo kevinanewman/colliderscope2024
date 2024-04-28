@@ -430,31 +430,29 @@ class ColliderScopeUI(QMainWindow):
                                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                                         units_nrows=units_nrows)
 
-                if nrows is False:  # nrows can be False coming from Qt for some reason
+                if preview:
                     df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
-                                       delimiter=delimiter,
-                                       encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                       skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                       skiprows=skiprows,
-                                       )
-                else: # just reading in a preview
+                                     delimiter=delimiter,
+                                     encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                     skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                     skiprows=skiprows,
+                                     nrows=nrows,
+                                     )
+                else:
                     df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
-                                       delimiter=delimiter,
-                                       encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                       skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                       skiprows=skiprows,
-                                       nrows=nrows,
-                                       )
+                                     delimiter=delimiter,
+                                     encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                     skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                     skiprows=skiprows,
+                                     )
+                    data = df
+                    self.setup_initial_triage_lists()
 
                 self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
                                               (len(df), len(df.columns)), 10000)
 
                 self.ui.script_preview_consoleWidget.locals().update(globals())
                 self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
-
-                if not preview:
-                    data = df
-                    self.setup_initial_triage_lists()
 
                 return df
 
