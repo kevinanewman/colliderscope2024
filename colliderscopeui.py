@@ -194,6 +194,24 @@ class ColliderScopeUI(QMainWindow):
     def generic_slot(self):
         print('generic slot...')
 
+    @staticmethod
+    def get_csv_help():
+        doc_link = 'https://pandas.pydata.org/pandas-docs/version/%s/reference/api/pandas.read_csv.html' % pd.__version__
+
+        if sys.platform.startswith('win'):
+            os.system("start \"\" %s" % doc_link)
+        else:
+            os.system('open %s' % doc_link)
+
+    @staticmethod
+    def get_excel_help():
+        doc_link = 'https://pandas.pydata.org/pandas-docs/version/%s/reference/api/pandas.read_excel.html' % pd.__version__
+
+        if sys.platform.startswith('win'):
+            os.system("start \"\" %s" % doc_link)
+        else:
+            os.system('open %s' % doc_link)
+
     def init_graphic_preview_plot_widget(self):
         self.ui.graphic_preview_plot_widget.plotItem.clear()
         self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
@@ -220,7 +238,7 @@ class ColliderScopeUI(QMainWindow):
                 self.ui.import_excel_pushButton.setFocus()
                 self.ui.import_csv_pushButton.clearFocus()
 
-                df = self.import_excel_file(nrows=num_preview_rows)
+                df = self.import_excel_file(preview=True, nrows=num_preview_rows)
                 if df is not None:
                     self.preview_dataframe(df, num_preview_rows)
 
@@ -233,7 +251,7 @@ class ColliderScopeUI(QMainWindow):
                 self.ui.file_preview_tableWidget.setRowCount(0)
                 self.ui.file_preview_tableWidget.setColumnCount(1)
 
-                df = self.import_csv_file(nrows=num_preview_rows)
+                df = self.import_csv_file(preview=True, nrows=num_preview_rows)
                 if df is not None:
                     self.preview_dataframe(df, num_preview_rows)
                 else:
@@ -363,6 +381,7 @@ class ColliderScopeUI(QMainWindow):
         data = data.convert_dtypes()
         active_numeric_fields.clear()
         active_string_fields.clear()
+        ignore_fields.clear()
 
         active_numeric_fields.extend(data.select_dtypes(exclude=['string', 'object']).columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
@@ -371,6 +390,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_numeric_listWidget.addItems(active_numeric_fields)
         self.ui.triage_string_listWidget.clear()
         self.ui.triage_string_listWidget.addItems(active_string_fields)
+        self.ui.triage_ignore_listWidget.clear()
 
     def setup_initial_triage_lists(self):
         global data
@@ -381,7 +401,7 @@ class ColliderScopeUI(QMainWindow):
         original_numeric_fields.extend(active_numeric_fields)
         original_string_fields.extend(active_string_fields)
 
-    def import_csv_file(self, nrows=False):
+    def import_csv_file(self, preview=False, nrows=False):
         global status_bar_message, data
 
         file_pathname = self.ui.filepathname_lineEdit.text()
@@ -411,15 +431,14 @@ class ColliderScopeUI(QMainWindow):
                                                         units_nrows=units_nrows)
 
                 if nrows is False:  # nrows can be False coming from Qt for some reason
-                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
+                    df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
                                        delimiter=delimiter,
                                        encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                        skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
                                        skiprows=skiprows,
                                        )
-                    self.setup_initial_triage_lists()
                 else: # just reading in a preview
-                    data = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
+                    df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=0,
                                        delimiter=delimiter,
                                        encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                        skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
@@ -428,19 +447,23 @@ class ColliderScopeUI(QMainWindow):
                                        )
 
                 self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                              (len(data), len(data.columns)), 10000)
+                                              (len(df), len(df.columns)), 10000)
 
                 self.ui.script_preview_consoleWidget.locals().update(globals())
                 self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
-                return data
+                if not preview:
+                    data = df
+                    self.setup_initial_triage_lists()
+
+                return df
 
             except Exception as e:
                 QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
                             (file_pathname, str(e))).exec()
                 return None
 
-    def import_excel_file(self, nrows=False):
+    def import_excel_file(self, preview=False, nrows=False):
         global status_bar_message, data
 
         file_pathname = self.ui.filepathname_lineEdit.text()
@@ -483,20 +506,22 @@ class ColliderScopeUI(QMainWindow):
                 unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(), sheet_name=sheet_name,
                                                         units_nrows=units_nrows)
 
-                data = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
-                                     skiprows=skiprows, header=header, nrows=nrows,
+                engine_kwargs = {'read_only': preview is True}
+                df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
+                                     skiprows=skiprows, header=header, nrows=nrows, engine_kwargs=engine_kwargs,
                                      )
 
-                if nrows is None:
-                    self.setup_initial_triage_lists()
-
-                self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                              (len(data), len(data.columns)), 10000)
+                self.ui.statusbar.showMessage('imported %d rows of df, %d columns' %
+                                              (len(df), len(df.columns)), 10000)
 
                 self.ui.script_preview_consoleWidget.locals().update(globals())
                 self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
-                return data
+                if not preview:
+                    data = df
+                    self.setup_initial_triage_lists()
+
+                return df
 
             except Exception as e:
                 QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %

@@ -271,10 +271,23 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout.addLayout(self.import_csv_two_row_header_horizontalLayout)
 
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.import_csv_help_toolButton = QToolButton(self.import_csv_tab)
+        self.import_csv_help_toolButton.setObjectName(u"import_csv_help_toolButton")
+        icon = QIcon()
+        icon.addFile(u"assets/info.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.import_csv_help_toolButton.setIcon(icon)
+
+        self.horizontalLayout_4.addWidget(self.import_csv_help_toolButton)
+
         self.import_csv_freeform_label = QLabel(self.import_csv_tab)
         self.import_csv_freeform_label.setObjectName(u"import_csv_freeform_label")
 
-        self.verticalLayout.addWidget(self.import_csv_freeform_label)
+        self.horizontalLayout_4.addWidget(self.import_csv_freeform_label)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
 
         self.import_csv_freeform_options_plainTextEdit = QPlainTextEdit(self.import_csv_tab)
         self.import_csv_freeform_options_plainTextEdit.setObjectName(u"import_csv_freeform_options_plainTextEdit")
@@ -369,9 +382,26 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_8.addLayout(self.import_excel_two_row_header_horizontalLayout)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.import_excel_help_toolButton = QToolButton(self.import_excel_tab)
+        self.import_excel_help_toolButton.setObjectName(u"import_excel_help_toolButton")
+        self.import_excel_help_toolButton.setIcon(icon)
 
-        self.verticalLayout_8.addItem(self.verticalSpacer_2)
+        self.horizontalLayout_7.addWidget(self.import_excel_help_toolButton)
+
+        self.label_2 = QLabel(self.import_excel_tab)
+        self.label_2.setObjectName(u"label_2")
+
+        self.horizontalLayout_7.addWidget(self.label_2)
+
+
+        self.verticalLayout_8.addLayout(self.horizontalLayout_7)
+
+        self.plainTextEdit = QPlainTextEdit(self.import_excel_tab)
+        self.plainTextEdit.setObjectName(u"plainTextEdit")
+
+        self.verticalLayout_8.addWidget(self.plainTextEdit)
 
         self.import_excel_pushButton = QPushButton(self.import_excel_tab)
         self.import_excel_pushButton.setObjectName(u"import_excel_pushButton")
@@ -487,9 +517,9 @@ class Ui_ColliderScopeUI(object):
         self.add_to_script_toolButton.setSizePolicy(sizePolicy9)
         self.add_to_script_toolButton.setMinimumSize(QSize(40, 0))
         self.add_to_script_toolButton.setMaximumSize(QSize(40, 16777215))
-        icon = QIcon()
-        icon.addFile(u"assets/addList.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.add_to_script_toolButton.setIcon(icon)
+        icon1 = QIcon()
+        icon1.addFile(u"assets/addList.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.add_to_script_toolButton.setIcon(icon1)
         self.add_to_script_toolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.verticalLayout_3.addWidget(self.add_to_script_toolButton)
@@ -659,18 +689,18 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.script_load_toolButton = QToolButton(self.layoutWidget1)
         self.script_load_toolButton.setObjectName(u"script_load_toolButton")
-        icon1 = QIcon()
-        icon1.addFile(u"assets/open_line.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_load_toolButton.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u"assets/open_line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_load_toolButton.setIcon(icon2)
         self.script_load_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_6.addWidget(self.script_load_toolButton)
 
         self.script_save_toolButton = QToolButton(self.layoutWidget1)
         self.script_save_toolButton.setObjectName(u"script_save_toolButton")
-        icon2 = QIcon()
-        icon2.addFile(u"assets/save.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_save_toolButton.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u"assets/save.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_save_toolButton.setIcon(icon3)
         self.script_save_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         self.script_save_toolButton.setArrowType(Qt.NoArrow)
 
@@ -682,9 +712,9 @@ class Ui_ColliderScopeUI(object):
 
         self.script_run_toolButton = QToolButton(self.layoutWidget1)
         self.script_run_toolButton.setObjectName(u"script_run_toolButton")
-        icon3 = QIcon()
-        icon3.addFile(u"assets/run.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_run_toolButton.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"assets/run.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_run_toolButton.setIcon(icon4)
         self.script_run_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_6.addWidget(self.script_run_toolButton)
@@ -779,6 +809,8 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_sheet_comboBox.currentIndexChanged.connect(ColliderScopeUI.load_file_preview)
         self.preview_size_checkBox.stateChanged.connect(ColliderScopeUI.load_file_preview)
         self.preview_size_spinBox.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_help_toolButton.clicked.connect(ColliderScopeUI.get_csv_help)
+        self.import_excel_help_toolButton.clicked.connect(ColliderScopeUI.get_excel_help)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -820,6 +852,7 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_two_row_header_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
         self.import_csv_two_row_header_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
 
+        self.import_csv_help_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
         self.import_csv_freeform_label.setText(QCoreApplication.translate("ColliderScopeUI", u"read_csv freeform options:", None))
         self.import_csv_freeform_options_plainTextEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"e.g. nrows=100, engine=python, etc...", None))
         self.import_csv_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
@@ -833,6 +866,9 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_two_row_header_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
         self.import_excel_two_row_header_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
 
+        self.import_excel_help_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
+        self.label_2.setText(QCoreApplication.translate("ColliderScopeUI", u"read_excel freeform options:", None))
+        self.plainTextEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"e.g. decimal=',' etc...", None))
         self.import_excel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_excel_tab), QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.import_tab), QCoreApplication.translate("ColliderScopeUI", u"Import", None))
