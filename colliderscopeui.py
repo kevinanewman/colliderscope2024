@@ -42,6 +42,8 @@ status_bar_message = ''
 latest_item = None
 latest_items = None
 
+source_file_pathname = ''
+
 original_numeric_fields = []
 original_string_fields = []
 
@@ -404,11 +406,14 @@ class ColliderScopeUI(QMainWindow):
         original_string_fields.extend(active_string_fields)
 
     def import_csv_file(self, preview=False, nrows=False):
-        global status_bar_message, data
+        global status_bar_message, data, source_file_pathname
 
         file_pathname = self.ui.filepathname_lineEdit.text()
 
         if file_pathname:
+            source_file_pathname = file_pathname
+            self.ui.export_data_lineEdit.setText(os.path.basename(file_pathname).rsplit('.', 1)[0])
+
             self.init_on_import()
 
             delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
@@ -473,11 +478,14 @@ class ColliderScopeUI(QMainWindow):
                 return None
 
     def import_excel_file(self, preview=False, nrows=False):
-        global status_bar_message, data
+        global status_bar_message, data, source_file_pathname
 
         file_pathname = self.ui.filepathname_lineEdit.text()
 
         if file_pathname:
+            source_file_pathname = file_pathname
+            self.ui.export_data_lineEdit.setText(os.path.basename(file_pathname).rsplit('.', 1)[0])
+
             self.init_on_import()
 
             if self.ui.import_excel_sheet_comboBox.count() == 0:
@@ -573,6 +581,28 @@ class ColliderScopeUI(QMainWindow):
             self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']" % latest_item)
 
         self.ui.preview_tabWidget.setCurrentIndex(2)
+
+    def export_data(self):
+        # file_pathname = QFileDialog().getSaveFileName(self, 'Export Data', os.getcwd(), '*.*', '*.*')[0]
+        folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
+
+        if folder_pathname:
+            file_name = self.ui.export_data_lineEdit.text()
+
+            file_name_noext = file_name.rsplit('.', 1)[0]
+            source_file_name_noext = os.path.basename(source_file_pathname).rsplit('.', 1)[0]
+
+            if file_name_noext == source_file_name_noext:
+                file_name_noext = file_name_noext + '_EXPORT'
+
+            if self.ui.export_data_comboBox.currentText() == 'CSV':
+                save_file_pathname = folder_pathname + os.sep + file_name_noext + '.csv'
+                data.to_csv(save_file_pathname, index=False)
+            else:
+                save_file_pathname = folder_pathname + os.sep + file_name_noext + '.xlsx'
+                data.to_excel(save_file_pathname, index=False)
+
+            self.statusBar().showMessage('Exported data to "%s"' % save_file_pathname, 10000)
 
 
 def status_bar():

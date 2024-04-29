@@ -765,6 +765,42 @@ class Ui_ColliderScopeUI(object):
         self.export_tab = QWidget()
         self.export_tab.setObjectName(u"export_tab")
         self.export_tab.setEnabled(True)
+        self.verticalLayout_14 = QVBoxLayout(self.export_tab)
+        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_8.setContentsMargins(-1, 0, -1, -1)
+        self.export_data_lineEdit = QLineEdit(self.export_tab)
+        self.export_data_lineEdit.setObjectName(u"export_data_lineEdit")
+
+        self.horizontalLayout_8.addWidget(self.export_data_lineEdit)
+
+        self.export_data_comboBox = QComboBox(self.export_tab)
+        self.export_data_comboBox.addItem("")
+        self.export_data_comboBox.addItem("")
+        self.export_data_comboBox.setObjectName(u"export_data_comboBox")
+        self.export_data_comboBox.setMinimumSize(QSize(0, 21))
+        self.export_data_comboBox.setMaximumSize(QSize(16777215, 21))
+
+        self.horizontalLayout_8.addWidget(self.export_data_comboBox)
+
+        self.export_data_pushButton = QPushButton(self.export_tab)
+        self.export_data_pushButton.setObjectName(u"export_data_pushButton")
+        self.export_data_pushButton.setAutoDefault(True)
+
+        self.horizontalLayout_8.addWidget(self.export_data_pushButton)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_3)
+
+
+        self.verticalLayout_14.addLayout(self.horizontalLayout_8)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_14.addItem(self.verticalSpacer_2)
+
         self.tabWidget_main.addTab(self.export_tab, "")
 
         self.verticalLayout_11.addWidget(self.tabWidget_main)
@@ -811,6 +847,8 @@ class Ui_ColliderScopeUI(object):
         self.preview_size_spinBox.editingFinished.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_help_toolButton.clicked.connect(ColliderScopeUI.get_csv_help)
         self.import_excel_help_toolButton.clicked.connect(ColliderScopeUI.get_excel_help)
+        self.export_data_pushButton.clicked.connect(ColliderScopeUI.export_data)
+        self.export_data_lineEdit.returnPressed.connect(ColliderScopeUI.export_data)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -820,6 +858,7 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_two_row_header_comboBox.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
         self.preview_tabWidget.setCurrentIndex(1)
+        self.export_data_pushButton.setDefault(True)
 
 
         QMetaObject.connectSlotsByName(ColliderScopeUI)
@@ -899,6 +938,10 @@ class Ui_ColliderScopeUI(object):
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.script_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Preprocess Script", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.triage_tab), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.plot_tab), QCoreApplication.translate("ColliderScopeUI", u"Plotting", None))
+        self.export_data_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"CSV", None))
+        self.export_data_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
+
+        self.export_data_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.export_tab), QCoreApplication.translate("ColliderScopeUI", u"Export", None))
         self.menuColliderScope2024.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Menu", None))
     # retranslateUi
