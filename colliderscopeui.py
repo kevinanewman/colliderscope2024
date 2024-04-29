@@ -242,6 +242,8 @@ class ColliderScopeUI(QMainWindow):
 
         if file_pathname:
             if 'xls' in file_pathname.split('.')[-1]:
+                self.ui.import_excel_units_row_spinBox.setEnabled(self.ui.import_excel_units_row_checkBox.isChecked())
+
                 self.ui.file_import_tabWidget.setCurrentIndex(1)
                 self.ui.import_excel_pushButton.setFocus()
                 self.ui.import_csv_pushButton.clearFocus()
@@ -251,6 +253,8 @@ class ColliderScopeUI(QMainWindow):
                     self.preview_dataframe(df, num_preview_rows)
 
             else:
+                self.ui.import_csv_units_row_spinBox.setEnabled(self.ui.import_csv_units_row_checkBox.isChecked())
+
                 self.ui.file_import_tabWidget.setCurrentIndex(0)
                 self.ui.import_csv_pushButton.setFocus()
                 self.ui.import_excel_pushButton.clearFocus()
