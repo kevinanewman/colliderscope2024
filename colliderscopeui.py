@@ -105,17 +105,18 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='u
         else:
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
     else:
-        columns = pd.read_csv(filename, header=None, nrows=1, skiprows=skiprows, encoding=encoding,
+        columns = pd.read_csv(filename, header=None, nrows=1, skiprows=0, encoding=encoding,
                               encoding_errors='strict')
         if units_nrows > 0:
-            units = pd.read_csv(filename, header=None, skiprows=skiprows+1, nrows=units_nrows, encoding=encoding, encoding_errors='strict')
+            units = pd.read_csv(filename, header=None, skiprows=1, nrows=units_nrows, encoding=encoding,
+                                encoding_errors='strict')
         else:
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
 
     unitized_columns = []
 
     for col, unit in zip(columns.values[0], units.values[0]):
-        if unit not in ignore_units and units_nrows > 0:
+        if unit not in ignore_units and pd.notna(unit) and units_nrows > 0:
             unitized_columns.append('%s_%s' % (col, unit))
         else:
             unitized_columns.append('%s' % col)
