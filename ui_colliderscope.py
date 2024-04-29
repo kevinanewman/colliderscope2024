@@ -115,7 +115,7 @@ class Ui_ColliderScopeUI(object):
         self.preview_size_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.preview_size_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
         self.preview_size_spinBox.setAccelerated(True)
-        self.preview_size_spinBox.setMinimum(100)
+        self.preview_size_spinBox.setMinimum(10)
         self.preview_size_spinBox.setMaximum(1000000)
         self.preview_size_spinBox.setSingleStep(100)
         self.preview_size_spinBox.setValue(100)
@@ -219,23 +219,55 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout.addLayout(self.import_csv_encoding_horizontalLayout)
 
-        self.import_csv_skip_rows_horizontalLayout = QHBoxLayout()
-        self.import_csv_skip_rows_horizontalLayout.setObjectName(u"import_csv_skip_rows_horizontalLayout")
-        self.import_csv_skip_rows_label = QLabel(self.import_csv_tab)
-        self.import_csv_skip_rows_label.setObjectName(u"import_csv_skip_rows_label")
-        self.import_csv_skip_rows_label.setMinimumSize(QSize(70, 0))
+        self.import_csv_header_row_horizontalLayout = QHBoxLayout()
+        self.import_csv_header_row_horizontalLayout.setObjectName(u"import_csv_header_row_horizontalLayout")
+        self.import_csv_header_row_label = QLabel(self.import_csv_tab)
+        self.import_csv_header_row_label.setObjectName(u"import_csv_header_row_label")
+        self.import_csv_header_row_label.setMinimumSize(QSize(70, 0))
 
-        self.import_csv_skip_rows_horizontalLayout.addWidget(self.import_csv_skip_rows_label)
+        self.import_csv_header_row_horizontalLayout.addWidget(self.import_csv_header_row_label)
 
-        self.import_csv_skip_rows_lineEdit = QLineEdit(self.import_csv_tab)
-        self.import_csv_skip_rows_lineEdit.setObjectName(u"import_csv_skip_rows_lineEdit")
-        self.import_csv_skip_rows_lineEdit.setMaximumSize(QSize(16777215, 16777215))
-        self.import_csv_skip_rows_lineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.import_csv_header_row_spinBox = QSpinBox(self.import_csv_tab)
+        self.import_csv_header_row_spinBox.setObjectName(u"import_csv_header_row_spinBox")
+        self.import_csv_header_row_spinBox.setEnabled(True)
+        self.import_csv_header_row_spinBox.setWrapping(False)
+        self.import_csv_header_row_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.import_csv_header_row_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.import_csv_header_row_spinBox.setAccelerated(True)
+        self.import_csv_header_row_spinBox.setMinimum(0)
+        self.import_csv_header_row_spinBox.setMaximum(1000000)
+        self.import_csv_header_row_spinBox.setSingleStep(1)
+        self.import_csv_header_row_spinBox.setValue(0)
 
-        self.import_csv_skip_rows_horizontalLayout.addWidget(self.import_csv_skip_rows_lineEdit)
+        self.import_csv_header_row_horizontalLayout.addWidget(self.import_csv_header_row_spinBox)
 
 
-        self.verticalLayout.addLayout(self.import_csv_skip_rows_horizontalLayout)
+        self.verticalLayout.addLayout(self.import_csv_header_row_horizontalLayout)
+
+        self.import_csv_units_row_horizontalLayout = QHBoxLayout()
+        self.import_csv_units_row_horizontalLayout.setObjectName(u"import_csv_units_row_horizontalLayout")
+        self.import_csv_units_row_checkBox = QCheckBox(self.import_csv_tab)
+        self.import_csv_units_row_checkBox.setObjectName(u"import_csv_units_row_checkBox")
+        self.import_csv_units_row_checkBox.setEnabled(True)
+
+        self.import_csv_units_row_horizontalLayout.addWidget(self.import_csv_units_row_checkBox)
+
+        self.import_csv_units_row_spinBox = QSpinBox(self.import_csv_tab)
+        self.import_csv_units_row_spinBox.setObjectName(u"import_csv_units_row_spinBox")
+        self.import_csv_units_row_spinBox.setEnabled(False)
+        self.import_csv_units_row_spinBox.setWrapping(False)
+        self.import_csv_units_row_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.import_csv_units_row_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.import_csv_units_row_spinBox.setAccelerated(True)
+        self.import_csv_units_row_spinBox.setMinimum(0)
+        self.import_csv_units_row_spinBox.setMaximum(1000000)
+        self.import_csv_units_row_spinBox.setSingleStep(1)
+        self.import_csv_units_row_spinBox.setValue(1)
+
+        self.import_csv_units_row_horizontalLayout.addWidget(self.import_csv_units_row_spinBox)
+
+
+        self.verticalLayout.addLayout(self.import_csv_units_row_horizontalLayout)
 
         self.import_csv_skip_blank_lines_horizontalLayout = QHBoxLayout()
         self.import_csv_skip_blank_lines_horizontalLayout.setObjectName(u"import_csv_skip_blank_lines_horizontalLayout")
@@ -253,23 +285,6 @@ class Ui_ColliderScopeUI(object):
 
 
         self.verticalLayout.addLayout(self.import_csv_skip_blank_lines_horizontalLayout)
-
-        self.import_csv_two_row_header_horizontalLayout = QHBoxLayout()
-        self.import_csv_two_row_header_horizontalLayout.setObjectName(u"import_csv_two_row_header_horizontalLayout")
-        self.import_csv_two_row_header_lines_label = QLabel(self.import_csv_tab)
-        self.import_csv_two_row_header_lines_label.setObjectName(u"import_csv_two_row_header_lines_label")
-
-        self.import_csv_two_row_header_horizontalLayout.addWidget(self.import_csv_two_row_header_lines_label)
-
-        self.import_csv_two_row_header_comboBox = QComboBox(self.import_csv_tab)
-        self.import_csv_two_row_header_comboBox.addItem("")
-        self.import_csv_two_row_header_comboBox.addItem("")
-        self.import_csv_two_row_header_comboBox.setObjectName(u"import_csv_two_row_header_comboBox")
-
-        self.import_csv_two_row_header_horizontalLayout.addWidget(self.import_csv_two_row_header_comboBox)
-
-
-        self.verticalLayout.addLayout(self.import_csv_two_row_header_horizontalLayout)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -347,40 +362,55 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_8.addLayout(self.import_excel_sheet_horizontalLayout)
 
-        self.import_excel_header_horizontalLayout = QHBoxLayout()
-        self.import_excel_header_horizontalLayout.setObjectName(u"import_excel_header_horizontalLayout")
-        self.import_excel_header_label = QLabel(self.import_excel_tab)
-        self.import_excel_header_label.setObjectName(u"import_excel_header_label")
-        self.import_excel_header_label.setMinimumSize(QSize(70, 0))
+        self.import_excel_header_row_horizontalLayout = QHBoxLayout()
+        self.import_excel_header_row_horizontalLayout.setObjectName(u"import_excel_header_row_horizontalLayout")
+        self.import_excel_header_row_label = QLabel(self.import_excel_tab)
+        self.import_excel_header_row_label.setObjectName(u"import_excel_header_row_label")
+        self.import_excel_header_row_label.setMinimumSize(QSize(70, 0))
 
-        self.import_excel_header_horizontalLayout.addWidget(self.import_excel_header_label)
+        self.import_excel_header_row_horizontalLayout.addWidget(self.import_excel_header_row_label)
 
-        self.import_excel_header_lineEdit = QLineEdit(self.import_excel_tab)
-        self.import_excel_header_lineEdit.setObjectName(u"import_excel_header_lineEdit")
-        self.import_excel_header_lineEdit.setMaximumSize(QSize(16777215, 16777215))
-        self.import_excel_header_lineEdit.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.import_excel_header_row_spinBox = QSpinBox(self.import_excel_tab)
+        self.import_excel_header_row_spinBox.setObjectName(u"import_excel_header_row_spinBox")
+        self.import_excel_header_row_spinBox.setEnabled(True)
+        self.import_excel_header_row_spinBox.setWrapping(False)
+        self.import_excel_header_row_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.import_excel_header_row_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.import_excel_header_row_spinBox.setAccelerated(True)
+        self.import_excel_header_row_spinBox.setMinimum(0)
+        self.import_excel_header_row_spinBox.setMaximum(1000000)
+        self.import_excel_header_row_spinBox.setSingleStep(1)
+        self.import_excel_header_row_spinBox.setValue(0)
 
-        self.import_excel_header_horizontalLayout.addWidget(self.import_excel_header_lineEdit)
-
-
-        self.verticalLayout_8.addLayout(self.import_excel_header_horizontalLayout)
-
-        self.import_excel_two_row_header_horizontalLayout = QHBoxLayout()
-        self.import_excel_two_row_header_horizontalLayout.setObjectName(u"import_excel_two_row_header_horizontalLayout")
-        self.import_excel_two_row_header_lines_label = QLabel(self.import_excel_tab)
-        self.import_excel_two_row_header_lines_label.setObjectName(u"import_excel_two_row_header_lines_label")
-
-        self.import_excel_two_row_header_horizontalLayout.addWidget(self.import_excel_two_row_header_lines_label)
-
-        self.import_excel_two_row_header_comboBox = QComboBox(self.import_excel_tab)
-        self.import_excel_two_row_header_comboBox.addItem("")
-        self.import_excel_two_row_header_comboBox.addItem("")
-        self.import_excel_two_row_header_comboBox.setObjectName(u"import_excel_two_row_header_comboBox")
-
-        self.import_excel_two_row_header_horizontalLayout.addWidget(self.import_excel_two_row_header_comboBox)
+        self.import_excel_header_row_horizontalLayout.addWidget(self.import_excel_header_row_spinBox)
 
 
-        self.verticalLayout_8.addLayout(self.import_excel_two_row_header_horizontalLayout)
+        self.verticalLayout_8.addLayout(self.import_excel_header_row_horizontalLayout)
+
+        self.import_excel_units_row_horizontalLayout = QHBoxLayout()
+        self.import_excel_units_row_horizontalLayout.setObjectName(u"import_excel_units_row_horizontalLayout")
+        self.import_excel_units_row_checkBox = QCheckBox(self.import_excel_tab)
+        self.import_excel_units_row_checkBox.setObjectName(u"import_excel_units_row_checkBox")
+        self.import_excel_units_row_checkBox.setEnabled(True)
+
+        self.import_excel_units_row_horizontalLayout.addWidget(self.import_excel_units_row_checkBox)
+
+        self.import_excel_units_row_spinBox = QSpinBox(self.import_excel_tab)
+        self.import_excel_units_row_spinBox.setObjectName(u"import_excel_units_row_spinBox")
+        self.import_excel_units_row_spinBox.setEnabled(False)
+        self.import_excel_units_row_spinBox.setWrapping(False)
+        self.import_excel_units_row_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.import_excel_units_row_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
+        self.import_excel_units_row_spinBox.setAccelerated(True)
+        self.import_excel_units_row_spinBox.setMinimum(0)
+        self.import_excel_units_row_spinBox.setMaximum(1000000)
+        self.import_excel_units_row_spinBox.setSingleStep(1)
+        self.import_excel_units_row_spinBox.setValue(1)
+
+        self.import_excel_units_row_horizontalLayout.addWidget(self.import_excel_units_row_spinBox)
+
+
+        self.verticalLayout_8.addLayout(self.import_excel_units_row_horizontalLayout)
 
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
@@ -825,10 +855,8 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_pushButton.clicked.connect(ColliderScopeUI.import_csv_file)
         self.file_import_browse_pushButton.clicked.connect(ColliderScopeUI.import_filebrowse)
         self.import_excel_skip_rows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
-        self.import_excel_header_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_delimiter_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_encoding_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
-        self.import_csv_skip_rows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_skip_blank_lines_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_freeform_options_plainTextEdit.textChanged.connect(ColliderScopeUI.load_file_preview)
         self.triage_string_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_string_preview)
@@ -840,8 +868,6 @@ class Ui_ColliderScopeUI(object):
         self.triage_string_listWidget.itemDoubleClicked.connect(ColliderScopeUI.force_string_preview)
         self.triage_numeric_listWidget.itemDoubleClicked.connect(ColliderScopeUI.force_numeric_preview)
         self.triage_ignore_listWidget.currentItemChanged.connect(ColliderScopeUI.generic_slot)
-        self.import_csv_two_row_header_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
-        self.import_excel_two_row_header_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_excel_sheet_comboBox.currentIndexChanged.connect(ColliderScopeUI.load_file_preview)
         self.preview_size_checkBox.stateChanged.connect(ColliderScopeUI.load_file_preview)
         self.preview_size_spinBox.editingFinished.connect(ColliderScopeUI.load_file_preview)
@@ -849,13 +875,17 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_help_toolButton.clicked.connect(ColliderScopeUI.get_excel_help)
         self.export_data_pushButton.clicked.connect(ColliderScopeUI.export_data)
         self.export_data_lineEdit.returnPressed.connect(ColliderScopeUI.export_data)
+        self.import_csv_header_row_spinBox.editingFinished.connect(ColliderScopeUI.import_csv_header_row_changed)
+        self.import_csv_units_row_checkBox.stateChanged.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_units_row_spinBox.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.import_excel_header_row_spinBox.editingFinished.connect(ColliderScopeUI.import_excel_header_row_changed)
+        self.import_excel_units_row_checkBox.stateChanged.connect(ColliderScopeUI.load_file_preview)
+        self.import_excel_units_row_spinBox.editingFinished.connect(ColliderScopeUI.load_file_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_csv_encoding_comboBox.setCurrentIndex(0)
-        self.import_csv_two_row_header_comboBox.setCurrentIndex(1)
-        self.import_excel_two_row_header_comboBox.setCurrentIndex(1)
         self.import_excel_pushButton.setDefault(False)
         self.preview_tabWidget.setCurrentIndex(1)
         self.export_data_pushButton.setDefault(True)
@@ -881,15 +911,11 @@ class Ui_ColliderScopeUI(object):
 
         self.import_csv_encoding_label.setText(QCoreApplication.translate("ColliderScopeUI", u"encoding", None))
 
-        self.import_csv_skip_rows_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skiprows", None))
-        self.import_csv_skip_rows_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
+        self.import_csv_header_row_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header row", None))
+        self.import_csv_units_row_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"units row", None))
         self.import_csv_skip_blank_lines_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skip_blank_lines", None))
         self.import_csv_skip_blank_lines_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
         self.import_csv_skip_blank_lines_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
-
-        self.import_csv_two_row_header_lines_label.setText(QCoreApplication.translate("ColliderScopeUI", u"two-row header", None))
-        self.import_csv_two_row_header_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
-        self.import_csv_two_row_header_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
 
         self.import_csv_help_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
         self.import_csv_freeform_label.setText(QCoreApplication.translate("ColliderScopeUI", u"read_csv freeform options:", None))
@@ -899,12 +925,8 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_skip_rows_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skiprows", None))
         self.import_excel_skip_rows_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
         self.import_excel_sheet_label.setText(QCoreApplication.translate("ColliderScopeUI", u"sheet", None))
-        self.import_excel_header_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header", None))
-        self.import_excel_header_lineEdit.setText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
-        self.import_excel_two_row_header_lines_label.setText(QCoreApplication.translate("ColliderScopeUI", u"two-row header", None))
-        self.import_excel_two_row_header_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
-        self.import_excel_two_row_header_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
-
+        self.import_excel_header_row_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header row", None))
+        self.import_excel_units_row_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"units row", None))
         self.import_excel_help_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
         self.label_2.setText(QCoreApplication.translate("ColliderScopeUI", u"read_excel freeform options:", None))
         self.plainTextEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"e.g. decimal=',' etc...", None))
