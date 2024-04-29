@@ -99,7 +99,7 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='u
 
     """
     if sheet_name:
-        columns = pd.read_excel(filename, header=None, kiprows=skiprows, nrows=1, sheet_name=sheet_name)
+        columns = pd.read_excel(filename, header=None, skiprows=skiprows, nrows=1, sheet_name=sheet_name)
         if units_nrows > 0:
             units = pd.read_excel(filename, header=None, skiprows=skiprows+1, nrows=units_nrows, sheet_name=sheet_name)
         else:
