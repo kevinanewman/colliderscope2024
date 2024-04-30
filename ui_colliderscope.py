@@ -663,6 +663,9 @@ class Ui_ColliderScopeUI(object):
         self.verticalLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.ignore_pushButton = QPushButton(self.triage_tab)
         self.ignore_pushButton.setObjectName(u"ignore_pushButton")
+        sizePolicy.setHeightForWidth(self.ignore_pushButton.sizePolicy().hasHeightForWidth())
+        self.ignore_pushButton.setSizePolicy(sizePolicy)
+        self.ignore_pushButton.setMaximumSize(QSize(44, 32))
         self.ignore_pushButton.setAutoFillBackground(False)
         self.ignore_pushButton.setFlat(False)
 
@@ -670,6 +673,9 @@ class Ui_ColliderScopeUI(object):
 
         self.unignore_pushButton = QPushButton(self.triage_tab)
         self.unignore_pushButton.setObjectName(u"unignore_pushButton")
+        sizePolicy.setHeightForWidth(self.unignore_pushButton.sizePolicy().hasHeightForWidth())
+        self.unignore_pushButton.setSizePolicy(sizePolicy)
+        self.unignore_pushButton.setMaximumSize(QSize(44, 32))
 
         self.verticalLayout_2.addWidget(self.unignore_pushButton)
 

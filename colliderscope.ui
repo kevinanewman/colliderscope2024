@@ -1416,11 +1416,32 @@ color: black;
             </property>
             <item>
              <widget class="QPushButton" name="ignore_pushButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>44</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="statusTip">
+               <string/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
               <property name="autoFillBackground">
                <bool>false</bool>
               </property>
               <property name="text">
-               <string>&gt;&gt;&gt;</string>
+               <string>-&gt;</string>
               </property>
               <property name="flat">
                <bool>false</bool>
@@ -1429,8 +1450,20 @@ color: black;
             </item>
             <item>
              <widget class="QPushButton" name="unignore_pushButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>44</width>
+                <height>32</height>
+               </size>
+              </property>
               <property name="text">
-               <string>&lt;&lt;&lt;</string>
+               <string>&lt;-</string>
               </property>
              </widget>
             </item>
