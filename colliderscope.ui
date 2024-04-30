@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
+    <width>1055</width>
     <height>825</height>
    </rect>
   </property>
@@ -1983,7 +1983,7 @@ color: black;</string>
   </connection>
   <connection>
    <sender>import_csv_delimiter_comboBox</sender>
-   <signal>currentTextChanged(QString)</signal>
+   <signal>activated(int)</signal>
    <receiver>ColliderScopeUI</receiver>
    <slot>load_file_preview()</slot>
    <hints>
@@ -1999,7 +1999,7 @@ color: black;</string>
   </connection>
   <connection>
    <sender>import_csv_encoding_comboBox</sender>
-   <signal>currentTextChanged(QString)</signal>
+   <signal>activated(int)</signal>
    <receiver>ColliderScopeUI</receiver>
    <slot>load_file_preview()</slot>
    <hints>
@@ -2015,7 +2015,7 @@ color: black;</string>
   </connection>
   <connection>
    <sender>import_csv_skip_blank_lines_comboBox</sender>
-   <signal>currentTextChanged(QString)</signal>
+   <signal>activated(int)</signal>
    <receiver>ColliderScopeUI</receiver>
    <slot>load_file_preview()</slot>
    <hints>
@@ -2159,7 +2159,7 @@ color: black;</string>
   </connection>
   <connection>
    <sender>import_excel_sheet_comboBox</sender>
-   <signal>currentIndexChanged(int)</signal>
+   <signal>activated(int)</signal>
    <receiver>ColliderScopeUI</receiver>
    <slot>load_file_preview()</slot>
    <hints>
