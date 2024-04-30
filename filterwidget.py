@@ -62,6 +62,11 @@ class FilterWidget(QWidget):
                         f'(self.ui.lineEdit.text(){case_modifier} {compare} f{case_modifier})]'.format(), locals())
 
                 lw.addItems(fields)
+        else:
+            for lw in self.widget_list:
+                lw.clear()
+                fields = [f for f in lw.source_data]
+                lw.addItems(fields)
 
     def goto_settings(self):
         self.ui.stackedWidget.setCurrentIndex(1)

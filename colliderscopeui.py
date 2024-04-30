@@ -50,6 +50,7 @@ original_string_fields = []
 active_numeric_fields = []
 active_string_fields = []
 ignore_fields = []
+favorite_fields = []
 
 pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
@@ -182,12 +183,12 @@ def run():
     exec(mainwindow.ui.script_preview_plainTextEdit.toPlainText(), globals())
 
 
-def dropEvent(event):
+def ignore_listWidget_dropEvent(event):
     item_list = [i.text() for i in event.source().selectedItems()]
 
     for i in item_list:
         event.source().source_data.remove(i)
-        ignore_fields.append(i)
+        mainwindow.ui.triage_ignore_listWidget.source_data.append(i)
 
     mainwindow.ui.triage_ignore_listWidget.addItems(item_list)
 
@@ -195,9 +196,22 @@ def dropEvent(event):
     event.accept()
 
 
+def favorites_listWidget_dropEvent(event):
+    item_list = [i.text() for i in event.source().selectedItems()]
+
+    for i in item_list:
+        event.source().source_data.remove(i)
+        mainwindow.ui.triage_favorites_listWidget.source_data.append(i)
+
+    mainwindow.ui.triage_favorites_listWidget.addItems(item_list)
+
+    event.setDropAction(PySide6.QtCore.Qt.DropAction.MoveAction)
+    event.accept()
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
-        global active_numeric_fields, active_string_fields, ignore_fields
+        global active_numeric_fields, active_string_fields, ignore_fields, favorite_fields
 
         super().__init__(parent)
         self.ui = Ui_ColliderScopeUI()
@@ -228,11 +242,14 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_numeric_listWidget.source_data = active_numeric_fields
         self.ui.triage_string_listWidget.source_data = active_string_fields
         self.ui.triage_ignore_listWidget.source_data = ignore_fields
+        self.ui.triage_favorites_listWidget.source_data = favorite_fields
 
         self.ui.triage_filter_widget.widget_list = \
-            [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget]
+            [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget,
+             self.ui.triage_ignore_listWidget, self.ui.triage_favorites_listWidget]
 
-        self.ui.triage_ignore_listWidget.dropEvent = dropEvent
+        self.ui.triage_ignore_listWidget.dropEvent = ignore_listWidget_dropEvent
+        self.ui.triage_favorites_listWidget.dropEvent = favorites_listWidget_dropEvent
 
         self.prior_nan_count = None
 
@@ -240,6 +257,47 @@ class ColliderScopeUI(QMainWindow):
 
     def generic_slot(self):
         print('generic slot...')
+
+    def send_right_pushbutton(self):
+        if self.ui.ignore_favorites_tabWidget.currentIndex() == 0:
+            destination = self.ui.triage_ignore_listWidget
+        else:
+            destination = self.ui.triage_favorites_listWidget
+
+        for lw in [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget]:
+            selected_fields = [s.text() for s in lw.selectedItems()]
+            for sf in selected_fields:
+                lw.source_data.remove(sf)
+                destination.source_data.append(sf)
+
+            destination.addItems(selected_fields)
+            # lw.clear()
+            # lw.addItems(lw.source_data)
+
+        self.ui.triage_filter_widget.inputChanged()
+
+    def send_left_pushbutton(self):
+        if self.ui.ignore_favorites_tabWidget.currentIndex() == 0:
+            source = self.ui.triage_ignore_listWidget
+        else:
+            source = self.ui.triage_favorites_listWidget
+
+        selected_fields = [s.text() for s in source.selectedItems()]
+        for sf in selected_fields:
+            source.source_data.remove(sf)
+            if sf in original_numeric_fields:
+                active_numeric_fields.append(sf)
+            else:
+                active_string_fields.append(sf)
+
+        source.clear()
+        source.addItems(source.source_data)
+
+        self.ui.triage_filter_widget.inputChanged()
+
+        # for lw in [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget]:
+        #     lw.clear()
+        #     lw.addItems(lw.source_data)
 
     @staticmethod
     def get_csv_help():
@@ -378,7 +436,6 @@ class ColliderScopeUI(QMainWindow):
             self.ui.text_preview_listWidget.addItems(data[latest_item].unique())
 
     def force_string_preview(self):
-        print('force_string_preview')
         self.update_string_preview(force=True)
 
     def update_numeric_preview(self, force=False):
@@ -434,7 +491,6 @@ class ColliderScopeUI(QMainWindow):
             self.prior_nan_count = nan_count
 
     def force_numeric_preview(self):
-        print('force_numeric_preview')
         self.update_numeric_preview(force=True)
 
     def update_triage_lists(self):
@@ -443,6 +499,7 @@ class ColliderScopeUI(QMainWindow):
         active_numeric_fields.clear()
         active_string_fields.clear()
         ignore_fields.clear()
+        favorite_fields.clear()
 
         active_numeric_fields.extend(data.select_dtypes(exclude=['string', 'object']).columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
@@ -601,6 +658,7 @@ class ColliderScopeUI(QMainWindow):
         active_numeric_fields.clear()
         active_string_fields.clear()
         ignore_fields.clear()
+        favorite_fields.clear()
         self.init_graphic_preview_plot_widget()
 
     def script_run(self):
@@ -647,7 +705,6 @@ class ColliderScopeUI(QMainWindow):
             two_column_tableWidget_to_dict(self.ui.import_excel_parameter_tableWidget))
 
         self.load_file_preview()
-
 
     def export_data(self):
         # file_pathname = QFileDialog().getSaveFileName(self, 'Export Data', os.getcwd(), '*.*', '*.*')[0]
