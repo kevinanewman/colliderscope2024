@@ -137,22 +137,24 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='u
         List of combined column headers and units as in ``['ColumnName_units', ...]``
 
     """
+    num_rows = 100  # may have to read a chunk of row2 if there are partial columns...
+
     if sheet_name:
-        columns = pd.read_excel(filename, header=None, nrows=1, skiprows=list(range(0, header_row)),
+        columns = pd.read_excel(filename, header=None, nrows=num_rows, skiprows=list(range(0, header_row)),
                                 sheet_name=sheet_name)
 
         if units_row is not None:
-            units = pd.read_excel(filename, header=None, nrows=1, skiprows=list(range(0, units_row)),
+            units = pd.read_excel(filename, header=None, nrows=num_rows, skiprows=list(range(0, units_row)),
                                   sheet_name=sheet_name)
         else:
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
     else:  # blank units
-        columns = pd.read_csv(filename, header=None, nrows=1, skiprows=list(range(0, header_row)), encoding=encoding,
-                              encoding_errors='strict')
+        columns = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, header_row)),
+                              encoding=encoding, encoding_errors='strict')
 
         if units_row is not None:
-            units = pd.read_csv(filename, header=None, nrows=1, skiprows=list(range(0, units_row)), encoding=encoding,
-                                encoding_errors='strict')
+            units = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, units_row)),
+                                encoding=encoding, encoding_errors='strict')
         else:  # blank units
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
 
