@@ -270,11 +270,7 @@ class ColliderScopeUI(QMainWindow):
                 lw.source_data.remove(sf)
                 destination.source_data.append(sf)
 
-            destination.addItems(selected_fields)
-            # lw.clear()
-            # lw.addItems(lw.source_data)
-
-        self.ui.triage_filter_widget.inputChanged()
+        self.ui.triage_filter_widget.inputChanged()  # update triage listWidgets
 
     def send_left_pushbutton(self):
         if self.ui.ignore_favorites_tabWidget.currentIndex() == 0:
@@ -290,14 +286,7 @@ class ColliderScopeUI(QMainWindow):
             else:
                 active_string_fields.append(sf)
 
-        source.clear()
-        source.addItems(source.source_data)
-
-        self.ui.triage_filter_widget.inputChanged()
-
-        # for lw in [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget]:
-        #     lw.clear()
-        #     lw.addItems(lw.source_data)
+        self.ui.triage_filter_widget.inputChanged()  # update triage listWidgets
 
     @staticmethod
     def get_csv_help():
