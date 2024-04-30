@@ -238,6 +238,9 @@ class ColliderScopeUI(QMainWindow):
 
         self.import_csv_options_dict = dict()
         self.import_excel_options_dict = dict()
+        self.ui.import_csv_parameter_tableWidget.horizontalHeader().setMinimumHeight(25)
+        self.ui.import_excel_parameter_tableWidget.horizontalHeader().setMinimumHeight(25)
+
 
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
 
@@ -364,6 +367,7 @@ class ColliderScopeUI(QMainWindow):
 
                         self.ui.file_preview_tableWidget.horizontalHeader().setVisible(False)
                         self.ui.file_preview_tableWidget.resizeColumnsToContents()
+                        self.ui.file_preview_tableWidget.horizontalHeader().setMinimumHeight(30)
 
     def import_csv_header_row_changed(self):
         # set unit row to header row + 1, by default:
@@ -391,6 +395,7 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.file_preview_tableWidget.horizontalHeader().setVisible(True)
         self.ui.file_preview_tableWidget.resizeColumnsToContents()
+        self.ui.file_preview_tableWidget.horizontalHeader().setMinimumHeight(30)
 
     def handle_import_button_enables(self):
         if self.ui.filepathname_lineEdit.text():

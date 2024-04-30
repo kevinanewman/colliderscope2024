@@ -33,7 +33,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1025, 825)
+        ColliderScopeUI.resize(1055, 825)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -1006,8 +1006,17 @@ class Ui_ColliderScopeUI(object):
 "To\n"
 "Script", None))
         self.label_string.setText(QCoreApplication.translate("ColliderScopeUI", u"Strings", None))
-        self.ignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u">>>", None))
-        self.unignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"<<<", None))
+#if QT_CONFIG(tooltip)
+        self.ignore_pushButton.setToolTip("")
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        self.ignore_pushButton.setStatusTip("")
+#endif // QT_CONFIG(statustip)
+#if QT_CONFIG(whatsthis)
+        self.ignore_pushButton.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.ignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"->", None))
+        self.unignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"<-", None))
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.ignore_tab), QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.favorites_tab), QCoreApplication.translate("ColliderScopeUI", u"Favorites", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.text_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Text Preview", None))
