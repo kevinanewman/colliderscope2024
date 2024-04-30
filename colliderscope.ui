@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1025</width>
-    <height>768</height>
+    <height>825</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -414,9 +414,6 @@ Preview</string>
                 </item>
                 <item>
                  <widget class="QSpinBox" name="import_csv_header_row_spinBox">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
                   <property name="wrapping">
                    <bool>false</bool>
                   </property>
@@ -449,9 +446,6 @@ Preview</string>
                <layout class="QHBoxLayout" name="import_csv_units_row_horizontalLayout">
                 <item>
                  <widget class="QCheckBox" name="import_csv_units_row_checkBox">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
                   <property name="text">
                    <string>units row</string>
                   </property>
@@ -531,24 +525,123 @@ Preview</string>
                 <item>
                  <widget class="QLabel" name="import_csv_freeform_label">
                   <property name="text">
-                   <string>read_csv freeform options:</string>
+                   <string>read_csv keyword arguments:</string>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
               <item>
-               <widget class="QPlainTextEdit" name="import_csv_freeform_options_plainTextEdit">
+               <widget class="QTableWidget" name="import_csv_parameter_tableWidget">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                 <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="placeholderText">
-                 <string>e.g. nrows=100, engine=python, etc...</string>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>300</height>
+                 </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>300</width>
+                  <height>300</height>
+                 </size>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::NoSelection</enum>
+                </property>
+                <property name="wordWrap">
+                 <bool>false</bool>
+                </property>
+                <property name="rowCount">
+                 <number>25</number>
+                </property>
+                <property name="columnCount">
+                 <number>2</number>
+                </property>
+                <attribute name="horizontalHeaderVisible">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="horizontalHeaderMinimumSectionSize">
+                 <number>100</number>
+                </attribute>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>100</number>
+                </attribute>
+                <attribute name="horizontalHeaderHighlightSections">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="horizontalHeaderStretchLastSection">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderMinimumSectionSize">
+                 <number>25</number>
+                </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>25</number>
+                </attribute>
+                <attribute name="verticalHeaderHighlightSections">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderStretchLastSection">
+                 <bool>false</bool>
+                </attribute>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <column>
+                 <property name="text">
+                  <string>Parameter</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Value</string>
+                 </property>
+                </column>
                </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item>
                <widget class="QPushButton" name="import_csv_pushButton">
@@ -655,9 +748,6 @@ Preview</string>
                 </item>
                 <item>
                  <widget class="QSpinBox" name="import_excel_header_row_spinBox">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
                   <property name="wrapping">
                    <bool>false</bool>
                   </property>
@@ -690,9 +780,6 @@ Preview</string>
                <layout class="QHBoxLayout" name="import_excel_units_row_horizontalLayout">
                 <item>
                  <widget class="QCheckBox" name="import_excel_units_row_checkBox">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
                   <property name="text">
                    <string>units row</string>
                   </property>
@@ -747,18 +834,120 @@ Preview</string>
                 <item>
                  <widget class="QLabel" name="label_2">
                   <property name="text">
-                   <string>read_excel freeform options:</string>
+                   <string>read_excel keyword arguments:</string>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
               <item>
-               <widget class="QPlainTextEdit" name="plainTextEdit">
-                <property name="placeholderText">
-                 <string>e.g. decimal=',' etc...</string>
+               <widget class="QTableWidget" name="import_excel_parameter_tableWidget">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>300</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>300</width>
+                  <height>300</height>
+                 </size>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::NoSelection</enum>
+                </property>
+                <property name="wordWrap">
+                 <bool>false</bool>
+                </property>
+                <property name="rowCount">
+                 <number>25</number>
+                </property>
+                <property name="columnCount">
+                 <number>2</number>
+                </property>
+                <attribute name="horizontalHeaderMinimumSectionSize">
+                 <number>100</number>
+                </attribute>
+                <attribute name="horizontalHeaderDefaultSectionSize">
+                 <number>100</number>
+                </attribute>
+                <attribute name="horizontalHeaderHighlightSections">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="horizontalHeaderStretchLastSection">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderMinimumSectionSize">
+                 <number>25</number>
+                </attribute>
+                <attribute name="verticalHeaderDefaultSectionSize">
+                 <number>25</number>
+                </attribute>
+                <attribute name="verticalHeaderHighlightSections">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderStretchLastSection">
+                 <bool>false</bool>
+                </attribute>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <column>
+                 <property name="text">
+                  <string>Parameter</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Value</string>
+                 </property>
+                </column>
                </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item>
                <widget class="QPushButton" name="import_excel_pushButton">
@@ -1620,6 +1809,57 @@ color: black;</string>
          </layout>
         </item>
         <item>
+         <widget class="QTableWidget" name="import_parameter_tableWidget">
+          <property name="rowCount">
+           <number>25</number>
+          </property>
+          <property name="columnCount">
+           <number>2</number>
+          </property>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <row/>
+          <column>
+           <property name="text">
+            <string>Parameter</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Value</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -1644,7 +1884,7 @@ color: black;</string>
      <x>0</x>
      <y>0</y>
      <width>1025</width>
-     <height>24</height>
+     <height>43</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuColliderScope2024">
@@ -1804,22 +2044,6 @@ color: black;</string>
     <hint type="sourcelabel">
      <x>934</x>
      <y>311</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>541</x>
-     <y>361</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>import_csv_freeform_options_plainTextEdit</sender>
-   <signal>textChanged()</signal>
-   <receiver>ColliderScopeUI</receiver>
-   <slot>load_file_preview()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>914</x>
-     <y>477</y>
     </hint>
     <hint type="destinationlabel">
      <x>541</x>
@@ -2179,6 +2403,38 @@ color: black;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>import_csv_parameter_tableWidget</sender>
+   <signal>itemChanged(QTableWidgetItem*)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>import_csv_freeform_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>871</x>
+     <y>509</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>512</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>import_excel_parameter_tableWidget</sender>
+   <signal>itemChanged(QTableWidgetItem*)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>import_excel_freeform_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>862</x>
+     <y>529</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>512</x>
+     <y>383</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
@@ -2200,5 +2456,7 @@ color: black;</string>
   <slot>export_data()</slot>
   <slot>import_excel_header_row_changed()</slot>
   <slot>import_csv_header_row_changed()</slot>
+  <slot>import_csv_freeform_changed()</slot>
+  <slot>import_excel_freeform_changed()</slot>
  </slots>
 </ui>

@@ -33,7 +33,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1025, 768)
+        ColliderScopeUI.resize(1025, 825)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -229,7 +229,6 @@ class Ui_ColliderScopeUI(object):
 
         self.import_csv_header_row_spinBox = QSpinBox(self.import_csv_tab)
         self.import_csv_header_row_spinBox.setObjectName(u"import_csv_header_row_spinBox")
-        self.import_csv_header_row_spinBox.setEnabled(True)
         self.import_csv_header_row_spinBox.setWrapping(False)
         self.import_csv_header_row_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.import_csv_header_row_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
@@ -248,7 +247,6 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_units_row_horizontalLayout.setObjectName(u"import_csv_units_row_horizontalLayout")
         self.import_csv_units_row_checkBox = QCheckBox(self.import_csv_tab)
         self.import_csv_units_row_checkBox.setObjectName(u"import_csv_units_row_checkBox")
-        self.import_csv_units_row_checkBox.setEnabled(True)
 
         self.import_csv_units_row_horizontalLayout.addWidget(self.import_csv_units_row_checkBox)
 
@@ -304,15 +302,37 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_4)
 
-        self.import_csv_freeform_options_plainTextEdit = QPlainTextEdit(self.import_csv_tab)
-        self.import_csv_freeform_options_plainTextEdit.setObjectName(u"import_csv_freeform_options_plainTextEdit")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.MinimumExpanding)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.import_csv_freeform_options_plainTextEdit.sizePolicy().hasHeightForWidth())
-        self.import_csv_freeform_options_plainTextEdit.setSizePolicy(sizePolicy6)
+        self.import_csv_parameter_tableWidget = QTableWidget(self.import_csv_tab)
+        if (self.import_csv_parameter_tableWidget.columnCount() < 2):
+            self.import_csv_parameter_tableWidget.setColumnCount(2)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.import_csv_parameter_tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.import_csv_parameter_tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        if (self.import_csv_parameter_tableWidget.rowCount() < 25):
+            self.import_csv_parameter_tableWidget.setRowCount(25)
+        self.import_csv_parameter_tableWidget.setObjectName(u"import_csv_parameter_tableWidget")
+        sizePolicy4.setHeightForWidth(self.import_csv_parameter_tableWidget.sizePolicy().hasHeightForWidth())
+        self.import_csv_parameter_tableWidget.setSizePolicy(sizePolicy4)
+        self.import_csv_parameter_tableWidget.setMinimumSize(QSize(0, 300))
+        self.import_csv_parameter_tableWidget.setMaximumSize(QSize(300, 300))
+        self.import_csv_parameter_tableWidget.setSelectionMode(QAbstractItemView.NoSelection)
+        self.import_csv_parameter_tableWidget.setWordWrap(False)
+        self.import_csv_parameter_tableWidget.setRowCount(25)
+        self.import_csv_parameter_tableWidget.setColumnCount(2)
+        self.import_csv_parameter_tableWidget.horizontalHeader().setMinimumSectionSize(100)
+        self.import_csv_parameter_tableWidget.horizontalHeader().setDefaultSectionSize(100)
+        self.import_csv_parameter_tableWidget.horizontalHeader().setHighlightSections(False)
+        self.import_csv_parameter_tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.import_csv_parameter_tableWidget.verticalHeader().setVisible(False)
+        self.import_csv_parameter_tableWidget.verticalHeader().setHighlightSections(False)
+        self.import_csv_parameter_tableWidget.verticalHeader().setStretchLastSection(False)
 
-        self.verticalLayout.addWidget(self.import_csv_freeform_options_plainTextEdit)
+        self.verticalLayout.addWidget(self.import_csv_parameter_tableWidget)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout.addItem(self.verticalSpacer_5)
 
         self.import_csv_pushButton = QPushButton(self.import_csv_tab)
         self.import_csv_pushButton.setObjectName(u"import_csv_pushButton")
@@ -372,7 +392,6 @@ class Ui_ColliderScopeUI(object):
 
         self.import_excel_header_row_spinBox = QSpinBox(self.import_excel_tab)
         self.import_excel_header_row_spinBox.setObjectName(u"import_excel_header_row_spinBox")
-        self.import_excel_header_row_spinBox.setEnabled(True)
         self.import_excel_header_row_spinBox.setWrapping(False)
         self.import_excel_header_row_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
         self.import_excel_header_row_spinBox.setButtonSymbols(QAbstractSpinBox.UpDownArrows)
@@ -391,7 +410,6 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_units_row_horizontalLayout.setObjectName(u"import_excel_units_row_horizontalLayout")
         self.import_excel_units_row_checkBox = QCheckBox(self.import_excel_tab)
         self.import_excel_units_row_checkBox.setObjectName(u"import_excel_units_row_checkBox")
-        self.import_excel_units_row_checkBox.setEnabled(True)
 
         self.import_excel_units_row_horizontalLayout.addWidget(self.import_excel_units_row_checkBox)
 
@@ -428,10 +446,39 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_8.addLayout(self.horizontalLayout_7)
 
-        self.plainTextEdit = QPlainTextEdit(self.import_excel_tab)
-        self.plainTextEdit.setObjectName(u"plainTextEdit")
+        self.import_excel_parameter_tableWidget = QTableWidget(self.import_excel_tab)
+        if (self.import_excel_parameter_tableWidget.columnCount() < 2):
+            self.import_excel_parameter_tableWidget.setColumnCount(2)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.import_excel_parameter_tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.import_excel_parameter_tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem3)
+        if (self.import_excel_parameter_tableWidget.rowCount() < 25):
+            self.import_excel_parameter_tableWidget.setRowCount(25)
+        self.import_excel_parameter_tableWidget.setObjectName(u"import_excel_parameter_tableWidget")
+        sizePolicy4.setHeightForWidth(self.import_excel_parameter_tableWidget.sizePolicy().hasHeightForWidth())
+        self.import_excel_parameter_tableWidget.setSizePolicy(sizePolicy4)
+        self.import_excel_parameter_tableWidget.setMinimumSize(QSize(0, 300))
+        self.import_excel_parameter_tableWidget.setMaximumSize(QSize(300, 300))
+        self.import_excel_parameter_tableWidget.setSelectionMode(QAbstractItemView.NoSelection)
+        self.import_excel_parameter_tableWidget.setWordWrap(False)
+        self.import_excel_parameter_tableWidget.setRowCount(25)
+        self.import_excel_parameter_tableWidget.setColumnCount(2)
+        self.import_excel_parameter_tableWidget.horizontalHeader().setMinimumSectionSize(100)
+        self.import_excel_parameter_tableWidget.horizontalHeader().setDefaultSectionSize(100)
+        self.import_excel_parameter_tableWidget.horizontalHeader().setHighlightSections(False)
+        self.import_excel_parameter_tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.import_excel_parameter_tableWidget.verticalHeader().setVisible(False)
+        self.import_excel_parameter_tableWidget.verticalHeader().setMinimumSectionSize(25)
+        self.import_excel_parameter_tableWidget.verticalHeader().setDefaultSectionSize(25)
+        self.import_excel_parameter_tableWidget.verticalHeader().setHighlightSections(False)
+        self.import_excel_parameter_tableWidget.verticalHeader().setStretchLastSection(False)
 
-        self.verticalLayout_8.addWidget(self.plainTextEdit)
+        self.verticalLayout_8.addWidget(self.import_excel_parameter_tableWidget)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_8.addItem(self.verticalSpacer_6)
 
         self.import_excel_pushButton = QPushButton(self.import_excel_tab)
         self.import_excel_pushButton.setObjectName(u"import_excel_pushButton")
@@ -476,11 +523,11 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_filter.setObjectName(u"horizontalLayout_filter")
         self.triage_filter_widget = FilterWidget(self.layoutWidget)
         self.triage_filter_widget.setObjectName(u"triage_filter_widget")
-        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
-        sizePolicy7.setHorizontalStretch(0)
-        sizePolicy7.setVerticalStretch(0)
-        sizePolicy7.setHeightForWidth(self.triage_filter_widget.sizePolicy().hasHeightForWidth())
-        self.triage_filter_widget.setSizePolicy(sizePolicy7)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.triage_filter_widget.sizePolicy().hasHeightForWidth())
+        self.triage_filter_widget.setSizePolicy(sizePolicy6)
         self.triage_filter_widget.setMinimumSize(QSize(300, 0))
         self.triage_filter_widget.setMaximumSize(QSize(300, 25))
 
@@ -509,11 +556,11 @@ class Ui_ColliderScopeUI(object):
 
         self.triage_numeric_listWidget = QListWidget(self.layoutWidget)
         self.triage_numeric_listWidget.setObjectName(u"triage_numeric_listWidget")
-        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy8.setHorizontalStretch(0)
-        sizePolicy8.setVerticalStretch(0)
-        sizePolicy8.setHeightForWidth(self.triage_numeric_listWidget.sizePolicy().hasHeightForWidth())
-        self.triage_numeric_listWidget.setSizePolicy(sizePolicy8)
+        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.triage_numeric_listWidget.sizePolicy().hasHeightForWidth())
+        self.triage_numeric_listWidget.setSizePolicy(sizePolicy7)
         self.triage_numeric_listWidget.setMinimumSize(QSize(296, 202))
         self.triage_numeric_listWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.triage_numeric_listWidget.setStyleSheet(u"background-color: rgb(196, 242, 196);\n"
@@ -540,11 +587,11 @@ class Ui_ColliderScopeUI(object):
 
         self.add_to_script_toolButton = QToolButton(self.layoutWidget)
         self.add_to_script_toolButton.setObjectName(u"add_to_script_toolButton")
-        sizePolicy9 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
-        sizePolicy9.setHorizontalStretch(0)
-        sizePolicy9.setVerticalStretch(0)
-        sizePolicy9.setHeightForWidth(self.add_to_script_toolButton.sizePolicy().hasHeightForWidth())
-        self.add_to_script_toolButton.setSizePolicy(sizePolicy9)
+        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy8.setHorizontalStretch(0)
+        sizePolicy8.setVerticalStretch(0)
+        sizePolicy8.setHeightForWidth(self.add_to_script_toolButton.sizePolicy().hasHeightForWidth())
+        self.add_to_script_toolButton.setSizePolicy(sizePolicy8)
         self.add_to_script_toolButton.setMinimumSize(QSize(40, 0))
         self.add_to_script_toolButton.setMaximumSize(QSize(40, 16777215))
         icon1 = QIcon()
@@ -765,11 +812,11 @@ class Ui_ColliderScopeUI(object):
         self.splitter.addWidget(self.layoutWidget1)
         self.script_preview_consoleWidget = ConsoleWidget(self.splitter)
         self.script_preview_consoleWidget.setObjectName(u"script_preview_consoleWidget")
-        sizePolicy10 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Preferred)
-        sizePolicy10.setHorizontalStretch(0)
-        sizePolicy10.setVerticalStretch(0)
-        sizePolicy10.setHeightForWidth(self.script_preview_consoleWidget.sizePolicy().hasHeightForWidth())
-        self.script_preview_consoleWidget.setSizePolicy(sizePolicy10)
+        sizePolicy9 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Preferred)
+        sizePolicy9.setHorizontalStretch(0)
+        sizePolicy9.setVerticalStretch(0)
+        sizePolicy9.setHeightForWidth(self.script_preview_consoleWidget.sizePolicy().hasHeightForWidth())
+        self.script_preview_consoleWidget.setSizePolicy(sizePolicy9)
         self.splitter.addWidget(self.script_preview_consoleWidget)
 
         self.verticalLayout_7.addWidget(self.splitter)
@@ -827,6 +874,23 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_14.addLayout(self.horizontalLayout_8)
 
+        self.import_parameter_tableWidget = QTableWidget(self.export_tab)
+        if (self.import_parameter_tableWidget.columnCount() < 2):
+            self.import_parameter_tableWidget.setColumnCount(2)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.import_parameter_tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.import_parameter_tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem5)
+        if (self.import_parameter_tableWidget.rowCount() < 25):
+            self.import_parameter_tableWidget.setRowCount(25)
+        self.import_parameter_tableWidget.setObjectName(u"import_parameter_tableWidget")
+        self.import_parameter_tableWidget.setRowCount(25)
+        self.import_parameter_tableWidget.setColumnCount(2)
+        self.import_parameter_tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.import_parameter_tableWidget.verticalHeader().setStretchLastSection(False)
+
+        self.verticalLayout_14.addWidget(self.import_parameter_tableWidget)
+
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_14.addItem(self.verticalSpacer_2)
@@ -838,7 +902,7 @@ class Ui_ColliderScopeUI(object):
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1025, 24))
+        self.menubar.setGeometry(QRect(0, 0, 1025, 43))
         self.menuColliderScope2024 = QMenu(self.menubar)
         self.menuColliderScope2024.setObjectName(u"menuColliderScope2024")
         ColliderScopeUI.setMenuBar(self.menubar)
@@ -858,7 +922,6 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_delimiter_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_encoding_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_csv_skip_blank_lines_comboBox.currentTextChanged.connect(ColliderScopeUI.load_file_preview)
-        self.import_csv_freeform_options_plainTextEdit.textChanged.connect(ColliderScopeUI.load_file_preview)
         self.triage_string_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_string_preview)
         self.triage_numeric_listWidget.itemSelectionChanged.connect(ColliderScopeUI.update_numeric_preview)
         self.script_run_toolButton.clicked.connect(ColliderScopeUI.script_run)
@@ -881,6 +944,8 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_header_row_spinBox.editingFinished.connect(ColliderScopeUI.import_excel_header_row_changed)
         self.import_excel_units_row_checkBox.stateChanged.connect(ColliderScopeUI.load_file_preview)
         self.import_excel_units_row_spinBox.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.import_csv_parameter_tableWidget.itemChanged.connect(ColliderScopeUI.import_csv_freeform_changed)
+        self.import_excel_parameter_tableWidget.itemChanged.connect(ColliderScopeUI.import_excel_freeform_changed)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -918,8 +983,11 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_skip_blank_lines_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
 
         self.import_csv_help_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
-        self.import_csv_freeform_label.setText(QCoreApplication.translate("ColliderScopeUI", u"read_csv freeform options:", None))
-        self.import_csv_freeform_options_plainTextEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"e.g. nrows=100, engine=python, etc...", None))
+        self.import_csv_freeform_label.setText(QCoreApplication.translate("ColliderScopeUI", u"read_csv keyword arguments:", None))
+        ___qtablewidgetitem = self.import_csv_parameter_tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("ColliderScopeUI", u"Parameter", None));
+        ___qtablewidgetitem1 = self.import_csv_parameter_tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("ColliderScopeUI", u"Value", None));
         self.import_csv_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_csv_tab), QCoreApplication.translate("ColliderScopeUI", u"CSV", None))
         self.import_excel_skip_rows_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skiprows", None))
@@ -928,8 +996,11 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_header_row_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header row", None))
         self.import_excel_units_row_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"units row", None))
         self.import_excel_help_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
-        self.label_2.setText(QCoreApplication.translate("ColliderScopeUI", u"read_excel freeform options:", None))
-        self.plainTextEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"e.g. decimal=',' etc...", None))
+        self.label_2.setText(QCoreApplication.translate("ColliderScopeUI", u"read_excel keyword arguments:", None))
+        ___qtablewidgetitem2 = self.import_excel_parameter_tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("ColliderScopeUI", u"Parameter", None));
+        ___qtablewidgetitem3 = self.import_excel_parameter_tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("ColliderScopeUI", u"Value", None));
         self.import_excel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_excel_tab), QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.import_tab), QCoreApplication.translate("ColliderScopeUI", u"Import", None))
@@ -964,6 +1035,10 @@ class Ui_ColliderScopeUI(object):
         self.export_data_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
 
         self.export_data_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export", None))
+        ___qtablewidgetitem4 = self.import_parameter_tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("ColliderScopeUI", u"Parameter", None));
+        ___qtablewidgetitem5 = self.import_parameter_tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("ColliderScopeUI", u"Value", None));
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.export_tab), QCoreApplication.translate("ColliderScopeUI", u"Export", None))
         self.menuColliderScope2024.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Menu", None))
     # retranslateUi

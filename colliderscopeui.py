@@ -85,6 +85,42 @@ def file_dialog(file_pathname, file_type_filter, file_dialog_title):
         return file_pathname
 
 
+def two_column_tableWidget_to_dict(table_widget):
+    """
+    Convert a QTableWidget (instance of a table widget in PyQt) to a dictionary using data from its first
+    two columns.
+
+    Parameters:
+        table_widget (QTableWidget): The instance of the table widget.
+
+    Returns:
+        dict: A dictionary where keys and values are textual data from the first and second
+              columns of each row in the table_widget. If a row doesn't have items in both columns,
+              it will be ignored.
+
+    """
+    options_dict = dict()
+
+    for r in range(table_widget.rowCount()):
+        parameter = table_widget.item(r, 0)
+        parameter_value = table_widget.item(r, 1)
+
+        if (parameter is not None and parameter != ''
+                and parameter_value is not None):
+            if parameter_value.text().lower() == 'none':
+                options_dict[parameter.text()] = None
+            elif parameter_value.text() == "''":
+                options_dict[parameter.text()] = ''
+            elif parameter_value.text().lower() == 'false':
+                options_dict[parameter.text()] = False
+            elif parameter_value.text().lower() == 'true':
+                options_dict[parameter.text()] = True
+            else:
+                options_dict[parameter.text()] = eval(parameter_value.text())
+
+    return options_dict
+
+
 def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='utf-8', header_row=0, units_row=None):
     """
     Combine column labels and units row into a single combined string to identify the column.
@@ -183,6 +219,9 @@ class ColliderScopeUI(QMainWindow):
         self.ui.plot_graphicsView.showGrid(x=True, y=True)
 
         self.ui.file_import_browse_pushButton.setFocus()
+
+        self.import_csv_options_dict = dict()
+        self.import_excel_options_dict = dict()
 
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
 
@@ -451,6 +490,8 @@ class ColliderScopeUI(QMainWindow):
                                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                                         header_row=header_row, units_row=units_row)
 
+                keyword_args = self.import_csv_options_dict
+
                 if preview:
                     try:
                         df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns,
@@ -459,6 +500,7 @@ class ColliderScopeUI(QMainWindow):
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
                                          skiprows=skiprows,
                                          nrows=nrows,
+                                         **keyword_args,
                                          )
                     except:
                         df = pd.read_csv(self.ui.filepathname_lineEdit.text(), header=header_row,
@@ -467,6 +509,7 @@ class ColliderScopeUI(QMainWindow):
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
                                          skiprows=skiprows,
                                          nrows=nrows,
+                                         **keyword_args,
                                          )
                 else:
                     df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=header_row,
@@ -474,6 +517,7 @@ class ColliderScopeUI(QMainWindow):
                                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                      skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
                                      skiprows=skiprows,
+                                     **keyword_args,
                                      )
                     data = df
                     self.setup_initial_triage_lists()
@@ -526,11 +570,13 @@ class ColliderScopeUI(QMainWindow):
                 unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(), sheet_name=sheet_name,
                                                         header_row=header_row, units_row=units_row)
 
+                keyword_args = self.import_excel_options_dict
+
                 engine_kwargs = {'read_only': preview is True}
 
                 df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
-                                     skiprows=skiprows, header=header_row, nrows=nrows, engine_kwargs=engine_kwargs,
-                                     )
+                                   skiprows=skiprows, header=header_row, nrows=nrows, engine_kwargs=engine_kwargs,
+                                   **keyword_args)
 
                 self.ui.statusbar.showMessage('imported %d rows of df, %d columns' %
                                               (len(df), len(df.columns)), 10000)
@@ -585,6 +631,23 @@ class ColliderScopeUI(QMainWindow):
             self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']" % latest_item)
 
         self.ui.preview_tabWidget.setCurrentIndex(2)
+
+    def import_csv_freeform_changed(self):
+        self.ui.import_csv_parameter_tableWidget.resizeColumnsToContents()
+
+        self.import_csv_options_dict = (
+            two_column_tableWidget_to_dict(self.ui.import_csv_parameter_tableWidget))
+
+        self.load_file_preview()
+
+    def import_excel_freeform_changed(self):
+        self.ui.import_excel_parameter_tableWidget.resizeColumnsToContents()
+
+        self.import_excel_options_dict = (
+            two_column_tableWidget_to_dict(self.ui.import_excel_parameter_tableWidget))
+
+        self.load_file_preview()
+
 
     def export_data(self):
         # file_pathname = QFileDialog().getSaveFileName(self, 'Export Data', os.getcwd(), '*.*', '*.*')[0]
