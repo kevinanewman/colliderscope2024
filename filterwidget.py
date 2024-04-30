@@ -54,10 +54,12 @@ class FilterWidget(QWidget):
 
                 if string_fun:
                     fields = eval(
-                        f'[f for f in lw.source_data if {invert} f{case_modifier}{string_fun}(self.ui.lineEdit.text(){case_modifier})]'.format(), locals())
+                        f'[f for f in lw.source_data if {invert} '
+                        f'f{case_modifier}{string_fun}(self.ui.lineEdit.text(){case_modifier})]'.format(), locals())
                 else:
                     fields = eval(
-                        f'[f for f in lw.source_data if {invert} (self.ui.lineEdit.text(){case_modifier} {compare} f{case_modifier})]'.format(), locals())
+                        f'[f for f in lw.source_data if {invert} '
+                        f'(self.ui.lineEdit.text(){case_modifier} {compare} f{case_modifier})]'.format(), locals())
 
                 lw.addItems(fields)
 
