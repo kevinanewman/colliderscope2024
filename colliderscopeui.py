@@ -103,7 +103,6 @@ def two_column_tableWidget_to_dict(table_widget):
     options_dict = dict()
 
     for r in range(table_widget.rowCount()):
-        print(r)
         parameter = table_widget.item(r, 0)
         parameter_value = table_widget.item(r, 1)
 
