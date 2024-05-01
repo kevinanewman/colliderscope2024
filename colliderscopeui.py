@@ -103,11 +103,14 @@ def two_column_tableWidget_to_dict(table_widget):
     options_dict = dict()
 
     for r in range(table_widget.rowCount()):
+        print(r)
         parameter = table_widget.item(r, 0)
         parameter_value = table_widget.item(r, 1)
 
-        if (parameter is not None and parameter != ''
-                and parameter_value is not None):
+        if (parameter is not None and
+                parameter.text() != '' and
+                parameter_value is not None and
+                parameter_value.text() != ''):
             if parameter_value.text().lower() == 'none':
                 options_dict[parameter.text()] = None
             elif parameter_value.text() == "''":
@@ -117,7 +120,10 @@ def two_column_tableWidget_to_dict(table_widget):
             elif parameter_value.text().lower() == 'true':
                 options_dict[parameter.text()] = True
             else:
-                options_dict[parameter.text()] = eval(parameter_value.text())
+                try:
+                    options_dict[parameter.text()] = eval(parameter_value.text())
+                except:
+                    options_dict[parameter.text()] = parameter_value.text()
 
     return options_dict
 
@@ -643,7 +649,8 @@ class ColliderScopeUI(QMainWindow):
 
                 keyword_args = self.import_excel_options_dict
 
-                engine_kwargs = {'read_only': preview is True}
+                # engine_kwargs = {'read_only': preview is True}
+                engine_kwargs = {'read_only': True}
 
                 df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
                                    skiprows=skiprows, header=header_row, nrows=nrows, engine_kwargs=engine_kwargs,
