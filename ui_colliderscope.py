@@ -17,13 +17,13 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QCheckBox,
-    QComboBox, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QLayout, QLineEdit, QListWidget,
-    QListWidgetItem, QMainWindow, QMenu, QMenuBar,
-    QPlainTextEdit, QPushButton, QSizePolicy, QSpacerItem,
-    QSpinBox, QSplitter, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QToolButton, QVBoxLayout,
-    QWidget)
+    QComboBox, QFrame, QGroupBox, QHBoxLayout,
+    QHeaderView, QLabel, QLayout, QLineEdit,
+    QListWidget, QListWidgetItem, QMainWindow, QMenu,
+    QMenuBar, QPlainTextEdit, QPushButton, QRadioButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
+    QSplitter, QStatusBar, QTabWidget, QTableWidget,
+    QTableWidgetItem, QToolButton, QVBoxLayout, QWidget)
 
 from filterwidget import FilterWidget
 from pyqtgraph import PlotWidget
@@ -33,7 +33,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1055, 825)
+        ColliderScopeUI.resize(1055, 837)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -62,9 +62,12 @@ class Ui_ColliderScopeUI(object):
         self.tabWidget_main.setDocumentMode(True)
         self.import_tab = QWidget()
         self.import_tab.setObjectName(u"import_tab")
-        self.verticalLayout_6 = QVBoxLayout(self.import_tab)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.verticalLayout_6.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_21 = QVBoxLayout(self.import_tab)
+        self.verticalLayout_21.setObjectName(u"verticalLayout_21")
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.verticalLayout_13 = QVBoxLayout()
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
         self.file_import_browse_horizontalLayout = QHBoxLayout()
         self.file_import_browse_horizontalLayout.setObjectName(u"file_import_browse_horizontalLayout")
         self.filepathname_label = QLabel(self.import_tab)
@@ -91,23 +94,23 @@ class Ui_ColliderScopeUI(object):
         self.file_import_browse_horizontalLayout.addWidget(self.file_import_browse_pushButton)
 
 
-        self.verticalLayout_6.addLayout(self.file_import_browse_horizontalLayout)
+        self.verticalLayout_13.addLayout(self.file_import_browse_horizontalLayout)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.verticalLayout_13 = QVBoxLayout()
-        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
+        self.preview_verticalLayout = QVBoxLayout()
+        self.preview_verticalLayout.setObjectName(u"preview_verticalLayout")
         self.file_preview_label = QLabel(self.import_tab)
         self.file_preview_label.setObjectName(u"file_preview_label")
         self.file_preview_label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
 
-        self.verticalLayout_13.addWidget(self.file_preview_label)
+        self.preview_verticalLayout.addWidget(self.file_preview_label)
 
         self.preview_size_checkBox = QCheckBox(self.import_tab)
         self.preview_size_checkBox.setObjectName(u"preview_size_checkBox")
         self.preview_size_checkBox.setChecked(True)
 
-        self.verticalLayout_13.addWidget(self.preview_size_checkBox)
+        self.preview_verticalLayout.addWidget(self.preview_size_checkBox)
 
         self.preview_size_spinBox = QSpinBox(self.import_tab)
         self.preview_size_spinBox.setObjectName(u"preview_size_spinBox")
@@ -120,14 +123,14 @@ class Ui_ColliderScopeUI(object):
         self.preview_size_spinBox.setSingleStep(100)
         self.preview_size_spinBox.setValue(100)
 
-        self.verticalLayout_13.addWidget(self.preview_size_spinBox)
+        self.preview_verticalLayout.addWidget(self.preview_size_spinBox)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_13.addItem(self.verticalSpacer_4)
+        self.preview_verticalLayout.addItem(self.verticalSpacer_4)
 
 
-        self.horizontalLayout_3.addLayout(self.verticalLayout_13)
+        self.horizontalLayout_3.addLayout(self.preview_verticalLayout)
 
         self.file_preview_tableWidget = QTableWidget(self.import_tab)
         if (self.file_preview_tableWidget.columnCount() < 1):
@@ -157,6 +160,14 @@ class Ui_ColliderScopeUI(object):
 
         self.horizontalLayout_3.addWidget(self.file_preview_tableWidget)
 
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_3)
+
+
+        self.horizontalLayout_9.addLayout(self.verticalLayout_13)
+
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.file_import_tabWidget = QTabWidget(self.import_tab)
         self.file_import_tabWidget.setObjectName(u"file_import_tabWidget")
         self.file_import_tabWidget.setEnabled(False)
@@ -165,51 +176,38 @@ class Ui_ColliderScopeUI(object):
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.file_import_tabWidget.sizePolicy().hasHeightForWidth())
         self.file_import_tabWidget.setSizePolicy(sizePolicy4)
-        self.file_import_tabWidget.setMinimumSize(QSize(250, 0))
+        self.file_import_tabWidget.setMinimumSize(QSize(275, 0))
+        self.file_import_tabWidget.setMaximumSize(QSize(16777215, 500))
         self.file_import_tabWidget.setDocumentMode(True)
         self.import_csv_tab = QWidget()
         self.import_csv_tab.setObjectName(u"import_csv_tab")
         self.verticalLayout = QVBoxLayout(self.import_csv_tab)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(5, 5, 5, 5)
-        self.import_csv_delimiter_horizontalLayout = QHBoxLayout()
-        self.import_csv_delimiter_horizontalLayout.setObjectName(u"import_csv_delimiter_horizontalLayout")
-        self.import_csv_delimiter_label = QLabel(self.import_csv_tab)
-        self.import_csv_delimiter_label.setObjectName(u"import_csv_delimiter_label")
-        self.import_csv_delimiter_label.setMinimumSize(QSize(70, 0))
-
-        self.import_csv_delimiter_horizontalLayout.addWidget(self.import_csv_delimiter_label)
-
-        self.import_csv_delimiter_comboBox = QComboBox(self.import_csv_tab)
-        self.import_csv_delimiter_comboBox.addItem("")
-        self.import_csv_delimiter_comboBox.addItem("")
-        self.import_csv_delimiter_comboBox.addItem("")
-        self.import_csv_delimiter_comboBox.addItem("")
-        self.import_csv_delimiter_comboBox.setObjectName(u"import_csv_delimiter_comboBox")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Fixed)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.import_csv_delimiter_comboBox.sizePolicy().hasHeightForWidth())
-        self.import_csv_delimiter_comboBox.setSizePolicy(sizePolicy5)
-        self.import_csv_delimiter_comboBox.setMaximumSize(QSize(16777215, 16777215))
-
-        self.import_csv_delimiter_horizontalLayout.addWidget(self.import_csv_delimiter_comboBox)
-
-
-        self.verticalLayout.addLayout(self.import_csv_delimiter_horizontalLayout)
-
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.scrollArea = QScrollArea(self.import_csv_tab)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 273, 432))
+        self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_20.setObjectName(u"verticalLayout_20")
+        self.verticalLayout_20.setContentsMargins(0, 0, 0, 0)
         self.import_csv_encoding_horizontalLayout = QHBoxLayout()
         self.import_csv_encoding_horizontalLayout.setObjectName(u"import_csv_encoding_horizontalLayout")
-        self.import_csv_encoding_label = QLabel(self.import_csv_tab)
+        self.import_csv_encoding_label = QLabel(self.scrollAreaWidgetContents)
         self.import_csv_encoding_label.setObjectName(u"import_csv_encoding_label")
         self.import_csv_encoding_label.setMinimumSize(QSize(70, 0))
 
         self.import_csv_encoding_horizontalLayout.addWidget(self.import_csv_encoding_label)
 
-        self.import_csv_encoding_comboBox = QComboBox(self.import_csv_tab)
+        self.import_csv_encoding_comboBox = QComboBox(self.scrollAreaWidgetContents)
         self.import_csv_encoding_comboBox.addItem(u"utf_8")
         self.import_csv_encoding_comboBox.addItem(u"cp1253")
         self.import_csv_encoding_comboBox.setObjectName(u"import_csv_encoding_comboBox")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Fixed)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
         sizePolicy5.setHeightForWidth(self.import_csv_encoding_comboBox.sizePolicy().hasHeightForWidth())
         self.import_csv_encoding_comboBox.setSizePolicy(sizePolicy5)
         self.import_csv_encoding_comboBox.setMaximumSize(QSize(16777215, 16777215))
@@ -217,17 +215,17 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_encoding_horizontalLayout.addWidget(self.import_csv_encoding_comboBox)
 
 
-        self.verticalLayout.addLayout(self.import_csv_encoding_horizontalLayout)
+        self.verticalLayout_20.addLayout(self.import_csv_encoding_horizontalLayout)
 
         self.import_csv_header_row_horizontalLayout = QHBoxLayout()
         self.import_csv_header_row_horizontalLayout.setObjectName(u"import_csv_header_row_horizontalLayout")
-        self.import_csv_header_row_label = QLabel(self.import_csv_tab)
+        self.import_csv_header_row_label = QLabel(self.scrollAreaWidgetContents)
         self.import_csv_header_row_label.setObjectName(u"import_csv_header_row_label")
         self.import_csv_header_row_label.setMinimumSize(QSize(70, 0))
 
         self.import_csv_header_row_horizontalLayout.addWidget(self.import_csv_header_row_label)
 
-        self.import_csv_header_row_spinBox = QSpinBox(self.import_csv_tab)
+        self.import_csv_header_row_spinBox = QSpinBox(self.scrollAreaWidgetContents)
         self.import_csv_header_row_spinBox.setObjectName(u"import_csv_header_row_spinBox")
         self.import_csv_header_row_spinBox.setWrapping(False)
         self.import_csv_header_row_spinBox.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
@@ -241,16 +239,16 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_header_row_horizontalLayout.addWidget(self.import_csv_header_row_spinBox)
 
 
-        self.verticalLayout.addLayout(self.import_csv_header_row_horizontalLayout)
+        self.verticalLayout_20.addLayout(self.import_csv_header_row_horizontalLayout)
 
         self.import_csv_units_row_horizontalLayout = QHBoxLayout()
         self.import_csv_units_row_horizontalLayout.setObjectName(u"import_csv_units_row_horizontalLayout")
-        self.import_csv_units_row_checkBox = QCheckBox(self.import_csv_tab)
+        self.import_csv_units_row_checkBox = QCheckBox(self.scrollAreaWidgetContents)
         self.import_csv_units_row_checkBox.setObjectName(u"import_csv_units_row_checkBox")
 
         self.import_csv_units_row_horizontalLayout.addWidget(self.import_csv_units_row_checkBox)
 
-        self.import_csv_units_row_spinBox = QSpinBox(self.import_csv_tab)
+        self.import_csv_units_row_spinBox = QSpinBox(self.scrollAreaWidgetContents)
         self.import_csv_units_row_spinBox.setObjectName(u"import_csv_units_row_spinBox")
         self.import_csv_units_row_spinBox.setEnabled(False)
         self.import_csv_units_row_spinBox.setWrapping(False)
@@ -265,16 +263,39 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_units_row_horizontalLayout.addWidget(self.import_csv_units_row_spinBox)
 
 
-        self.verticalLayout.addLayout(self.import_csv_units_row_horizontalLayout)
+        self.verticalLayout_20.addLayout(self.import_csv_units_row_horizontalLayout)
+
+        self.import_csv_delimiter_horizontalLayout = QHBoxLayout()
+        self.import_csv_delimiter_horizontalLayout.setObjectName(u"import_csv_delimiter_horizontalLayout")
+        self.import_csv_delimiter_label = QLabel(self.scrollAreaWidgetContents)
+        self.import_csv_delimiter_label.setObjectName(u"import_csv_delimiter_label")
+        self.import_csv_delimiter_label.setMinimumSize(QSize(70, 0))
+
+        self.import_csv_delimiter_horizontalLayout.addWidget(self.import_csv_delimiter_label)
+
+        self.import_csv_delimiter_comboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.import_csv_delimiter_comboBox.addItem("")
+        self.import_csv_delimiter_comboBox.addItem("")
+        self.import_csv_delimiter_comboBox.addItem("")
+        self.import_csv_delimiter_comboBox.addItem("")
+        self.import_csv_delimiter_comboBox.setObjectName(u"import_csv_delimiter_comboBox")
+        sizePolicy5.setHeightForWidth(self.import_csv_delimiter_comboBox.sizePolicy().hasHeightForWidth())
+        self.import_csv_delimiter_comboBox.setSizePolicy(sizePolicy5)
+        self.import_csv_delimiter_comboBox.setMaximumSize(QSize(16777215, 16777215))
+
+        self.import_csv_delimiter_horizontalLayout.addWidget(self.import_csv_delimiter_comboBox)
+
+
+        self.verticalLayout_20.addLayout(self.import_csv_delimiter_horizontalLayout)
 
         self.import_csv_skip_blank_lines_horizontalLayout = QHBoxLayout()
         self.import_csv_skip_blank_lines_horizontalLayout.setObjectName(u"import_csv_skip_blank_lines_horizontalLayout")
-        self.import_csv_skip_blank_lines_label = QLabel(self.import_csv_tab)
+        self.import_csv_skip_blank_lines_label = QLabel(self.scrollAreaWidgetContents)
         self.import_csv_skip_blank_lines_label.setObjectName(u"import_csv_skip_blank_lines_label")
 
         self.import_csv_skip_blank_lines_horizontalLayout.addWidget(self.import_csv_skip_blank_lines_label)
 
-        self.import_csv_skip_blank_lines_comboBox = QComboBox(self.import_csv_tab)
+        self.import_csv_skip_blank_lines_comboBox = QComboBox(self.scrollAreaWidgetContents)
         self.import_csv_skip_blank_lines_comboBox.addItem("")
         self.import_csv_skip_blank_lines_comboBox.addItem("")
         self.import_csv_skip_blank_lines_comboBox.setObjectName(u"import_csv_skip_blank_lines_comboBox")
@@ -282,11 +303,13 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_skip_blank_lines_horizontalLayout.addWidget(self.import_csv_skip_blank_lines_comboBox)
 
 
-        self.verticalLayout.addLayout(self.import_csv_skip_blank_lines_horizontalLayout)
+        self.verticalLayout_20.addLayout(self.import_csv_skip_blank_lines_horizontalLayout)
 
+        self.verticalLayout_19 = QVBoxLayout()
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.import_csv_help_toolButton = QToolButton(self.import_csv_tab)
+        self.import_csv_help_toolButton = QToolButton(self.scrollAreaWidgetContents)
         self.import_csv_help_toolButton.setObjectName(u"import_csv_help_toolButton")
         icon = QIcon()
         icon.addFile(u"assets/info.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -294,15 +317,15 @@ class Ui_ColliderScopeUI(object):
 
         self.horizontalLayout_4.addWidget(self.import_csv_help_toolButton)
 
-        self.import_csv_freeform_label = QLabel(self.import_csv_tab)
+        self.import_csv_freeform_label = QLabel(self.scrollAreaWidgetContents)
         self.import_csv_freeform_label.setObjectName(u"import_csv_freeform_label")
 
         self.horizontalLayout_4.addWidget(self.import_csv_freeform_label)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
+        self.verticalLayout_19.addLayout(self.horizontalLayout_4)
 
-        self.import_csv_parameter_tableWidget = QTableWidget(self.import_csv_tab)
+        self.import_csv_parameter_tableWidget = QTableWidget(self.scrollAreaWidgetContents)
         if (self.import_csv_parameter_tableWidget.columnCount() < 2):
             self.import_csv_parameter_tableWidget.setColumnCount(2)
         __qtablewidgetitem = QTableWidgetItem()
@@ -314,7 +337,7 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_parameter_tableWidget.setObjectName(u"import_csv_parameter_tableWidget")
         sizePolicy4.setHeightForWidth(self.import_csv_parameter_tableWidget.sizePolicy().hasHeightForWidth())
         self.import_csv_parameter_tableWidget.setSizePolicy(sizePolicy4)
-        self.import_csv_parameter_tableWidget.setMinimumSize(QSize(0, 300))
+        self.import_csv_parameter_tableWidget.setMinimumSize(QSize(0, 190))
         self.import_csv_parameter_tableWidget.setMaximumSize(QSize(300, 300))
         self.import_csv_parameter_tableWidget.setSelectionMode(QAbstractItemView.NoSelection)
         self.import_csv_parameter_tableWidget.setWordWrap(False)
@@ -331,11 +354,14 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_parameter_tableWidget.verticalHeader().setHighlightSections(False)
         self.import_csv_parameter_tableWidget.verticalHeader().setStretchLastSection(False)
 
-        self.verticalLayout.addWidget(self.import_csv_parameter_tableWidget)
+        self.verticalLayout_19.addWidget(self.import_csv_parameter_tableWidget)
 
-        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout.addItem(self.verticalSpacer_5)
+        self.verticalLayout_20.addLayout(self.verticalLayout_19)
+
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+
+        self.verticalLayout.addWidget(self.scrollArea)
 
         self.import_csv_pushButton = QPushButton(self.import_csv_tab)
         self.import_csv_pushButton.setObjectName(u"import_csv_pushButton")
@@ -350,7 +376,7 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_tab.setObjectName(u"import_excel_tab")
         self.verticalLayout_8 = QVBoxLayout(self.import_excel_tab)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.verticalLayout_8.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.import_excel_skip_rows_horizontalLayout = QHBoxLayout()
         self.import_excel_skip_rows_horizontalLayout.setObjectName(u"import_excel_skip_rows_horizontalLayout")
         self.import_excel_skip_rows_label = QLabel(self.import_excel_tab)
@@ -461,8 +487,8 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_parameter_tableWidget.setObjectName(u"import_excel_parameter_tableWidget")
         sizePolicy4.setHeightForWidth(self.import_excel_parameter_tableWidget.sizePolicy().hasHeightForWidth())
         self.import_excel_parameter_tableWidget.setSizePolicy(sizePolicy4)
-        self.import_excel_parameter_tableWidget.setMinimumSize(QSize(0, 300))
-        self.import_excel_parameter_tableWidget.setMaximumSize(QSize(300, 300))
+        self.import_excel_parameter_tableWidget.setMinimumSize(QSize(0, 190))
+        self.import_excel_parameter_tableWidget.setMaximumSize(QSize(300, 190))
         self.import_excel_parameter_tableWidget.setSelectionMode(QAbstractItemView.NoSelection)
         self.import_excel_parameter_tableWidget.setWordWrap(False)
         self.import_excel_parameter_tableWidget.setRowCount(25)
@@ -479,9 +505,9 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_8.addWidget(self.import_excel_parameter_tableWidget)
 
-        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_8.addItem(self.verticalSpacer_6)
+        self.verticalLayout_8.addItem(self.verticalSpacer_5)
 
         self.import_excel_pushButton = QPushButton(self.import_excel_tab)
         self.import_excel_pushButton.setObjectName(u"import_excel_pushButton")
@@ -495,10 +521,82 @@ class Ui_ColliderScopeUI(object):
 
         self.file_import_tabWidget.addTab(self.import_excel_tab, "")
 
-        self.horizontalLayout_3.addWidget(self.file_import_tabWidget)
+        self.verticalLayout_6.addWidget(self.file_import_tabWidget)
+
+        self.row_groupBox = QGroupBox(self.import_tab)
+        self.row_groupBox.setObjectName(u"row_groupBox")
+        self.row_groupBox.setMaximumSize(QSize(16777215, 86))
+        self.verticalLayout_15 = QVBoxLayout(self.row_groupBox)
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_16 = QVBoxLayout()
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.row_allow_nans = QRadioButton(self.row_groupBox)
+        self.row_allow_nans.setObjectName(u"row_allow_nans")
+        self.row_allow_nans.setChecked(True)
+
+        self.verticalLayout_16.addWidget(self.row_allow_nans)
+
+        self.row_drop_if_all_nans_radioButton = QRadioButton(self.row_groupBox)
+        self.row_drop_if_all_nans_radioButton.setObjectName(u"row_drop_if_all_nans_radioButton")
+
+        self.verticalLayout_16.addWidget(self.row_drop_if_all_nans_radioButton)
+
+        self.row_drop_if_any_nans_radioButton = QRadioButton(self.row_groupBox)
+        self.row_drop_if_any_nans_radioButton.setObjectName(u"row_drop_if_any_nans_radioButton")
+
+        self.verticalLayout_16.addWidget(self.row_drop_if_any_nans_radioButton)
 
 
-        self.verticalLayout_6.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_15.addLayout(self.verticalLayout_16)
+
+
+        self.verticalLayout_6.addWidget(self.row_groupBox)
+
+        self.column_groupBox = QGroupBox(self.import_tab)
+        self.column_groupBox.setObjectName(u"column_groupBox")
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.column_groupBox.sizePolicy().hasHeightForWidth())
+        self.column_groupBox.setSizePolicy(sizePolicy6)
+        self.column_groupBox.setMaximumSize(QSize(16777215, 86))
+        self.verticalLayout_17 = QVBoxLayout(self.column_groupBox)
+        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
+        self.verticalLayout_17.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_18 = QVBoxLayout()
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.column_allow_nans = QRadioButton(self.column_groupBox)
+        self.column_allow_nans.setObjectName(u"column_allow_nans")
+        self.column_allow_nans.setChecked(True)
+
+        self.verticalLayout_18.addWidget(self.column_allow_nans)
+
+        self.column_drop_if_all_nans_radioButton = QRadioButton(self.column_groupBox)
+        self.column_drop_if_all_nans_radioButton.setObjectName(u"column_drop_if_all_nans_radioButton")
+
+        self.verticalLayout_18.addWidget(self.column_drop_if_all_nans_radioButton)
+
+        self.column_drop_if_any_nans_radioButton = QRadioButton(self.column_groupBox)
+        self.column_drop_if_any_nans_radioButton.setObjectName(u"column_drop_if_any_nans_radioButton")
+
+        self.verticalLayout_18.addWidget(self.column_drop_if_any_nans_radioButton)
+
+
+        self.verticalLayout_17.addLayout(self.verticalLayout_18)
+
+
+        self.verticalLayout_6.addWidget(self.column_groupBox)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_6.addItem(self.verticalSpacer_6)
+
+
+        self.horizontalLayout_9.addLayout(self.verticalLayout_6)
+
+
+        self.verticalLayout_21.addLayout(self.horizontalLayout_9)
 
         self.tabWidget_main.addTab(self.import_tab, "")
         self.triage_tab = QWidget()
@@ -515,11 +613,11 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_filter.setObjectName(u"horizontalLayout_filter")
         self.triage_filter_widget = FilterWidget(self.triage_tab)
         self.triage_filter_widget.setObjectName(u"triage_filter_widget")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.triage_filter_widget.sizePolicy().hasHeightForWidth())
-        self.triage_filter_widget.setSizePolicy(sizePolicy6)
+        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.triage_filter_widget.sizePolicy().hasHeightForWidth())
+        self.triage_filter_widget.setSizePolicy(sizePolicy7)
         self.triage_filter_widget.setMinimumSize(QSize(300, 0))
         self.triage_filter_widget.setMaximumSize(QSize(300, 25))
 
@@ -548,11 +646,11 @@ class Ui_ColliderScopeUI(object):
 
         self.triage_numeric_listWidget = QListWidget(self.triage_tab)
         self.triage_numeric_listWidget.setObjectName(u"triage_numeric_listWidget")
-        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy7.setHorizontalStretch(0)
-        sizePolicy7.setVerticalStretch(0)
-        sizePolicy7.setHeightForWidth(self.triage_numeric_listWidget.sizePolicy().hasHeightForWidth())
-        self.triage_numeric_listWidget.setSizePolicy(sizePolicy7)
+        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy8.setHorizontalStretch(0)
+        sizePolicy8.setVerticalStretch(0)
+        sizePolicy8.setHeightForWidth(self.triage_numeric_listWidget.sizePolicy().hasHeightForWidth())
+        self.triage_numeric_listWidget.setSizePolicy(sizePolicy8)
         self.triage_numeric_listWidget.setMinimumSize(QSize(296, 202))
         self.triage_numeric_listWidget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.triage_numeric_listWidget.setStyleSheet(u"background-color: rgb(196, 242, 196);\n"
@@ -579,11 +677,11 @@ class Ui_ColliderScopeUI(object):
 
         self.add_to_script_toolButton = QToolButton(self.triage_tab)
         self.add_to_script_toolButton.setObjectName(u"add_to_script_toolButton")
-        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
-        sizePolicy8.setHorizontalStretch(0)
-        sizePolicy8.setVerticalStretch(0)
-        sizePolicy8.setHeightForWidth(self.add_to_script_toolButton.sizePolicy().hasHeightForWidth())
-        self.add_to_script_toolButton.setSizePolicy(sizePolicy8)
+        sizePolicy9 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy9.setHorizontalStretch(0)
+        sizePolicy9.setVerticalStretch(0)
+        sizePolicy9.setHeightForWidth(self.add_to_script_toolButton.sizePolicy().hasHeightForWidth())
+        self.add_to_script_toolButton.setSizePolicy(sizePolicy9)
         self.add_to_script_toolButton.setMinimumSize(QSize(40, 0))
         self.add_to_script_toolButton.setMaximumSize(QSize(40, 16777215))
         icon1 = QIcon()
@@ -824,11 +922,11 @@ class Ui_ColliderScopeUI(object):
         self.splitter.addWidget(self.layoutWidget)
         self.script_preview_consoleWidget = ConsoleWidget(self.splitter)
         self.script_preview_consoleWidget.setObjectName(u"script_preview_consoleWidget")
-        sizePolicy9 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Preferred)
-        sizePolicy9.setHorizontalStretch(0)
-        sizePolicy9.setVerticalStretch(0)
-        sizePolicy9.setHeightForWidth(self.script_preview_consoleWidget.sizePolicy().hasHeightForWidth())
-        self.script_preview_consoleWidget.setSizePolicy(sizePolicy9)
+        sizePolicy10 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Preferred)
+        sizePolicy10.setHorizontalStretch(0)
+        sizePolicy10.setVerticalStretch(0)
+        sizePolicy10.setHeightForWidth(self.script_preview_consoleWidget.sizePolicy().hasHeightForWidth())
+        self.script_preview_consoleWidget.setSizePolicy(sizePolicy10)
         self.splitter.addWidget(self.script_preview_consoleWidget)
 
         self.verticalLayout_7.addWidget(self.splitter)
@@ -896,7 +994,7 @@ class Ui_ColliderScopeUI(object):
         ColliderScopeUI.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(ColliderScopeUI)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1025, 24))
+        self.menubar.setGeometry(QRect(0, 0, 1055, 24))
         self.menuColliderScope2024 = QMenu(self.menubar)
         self.menuColliderScope2024.setObjectName(u"menuColliderScope2024")
         ColliderScopeUI.setMenuBar(self.menubar)
@@ -941,6 +1039,12 @@ class Ui_ColliderScopeUI(object):
         self.import_excel_parameter_tableWidget.itemChanged.connect(ColliderScopeUI.import_excel_freeform_changed)
         self.ignore_pushButton.clicked.connect(ColliderScopeUI.send_right_pushbutton)
         self.unignore_pushButton.clicked.connect(ColliderScopeUI.send_left_pushbutton)
+        self.column_drop_if_any_nans_radioButton.clicked.connect(ColliderScopeUI.load_file_preview)
+        self.row_drop_if_all_nans_radioButton.clicked.connect(ColliderScopeUI.load_file_preview)
+        self.column_allow_nans.clicked.connect(ColliderScopeUI.load_file_preview)
+        self.column_drop_if_all_nans_radioButton.clicked.connect(ColliderScopeUI.load_file_preview)
+        self.row_allow_nans.clicked.connect(ColliderScopeUI.load_file_preview)
+        self.row_drop_if_any_nans_radioButton.clicked.connect(ColliderScopeUI.load_file_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -964,16 +1068,16 @@ class Ui_ColliderScopeUI(object):
         self.file_preview_label.setText(QCoreApplication.translate("ColliderScopeUI", u"File\n"
 "Preview", None))
         self.preview_size_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Limit", None))
+        self.import_csv_encoding_label.setText(QCoreApplication.translate("ColliderScopeUI", u"encoding", None))
+
+        self.import_csv_header_row_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header row", None))
+        self.import_csv_units_row_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"units row", None))
         self.import_csv_delimiter_label.setText(QCoreApplication.translate("ColliderScopeUI", u"delimiter", None))
         self.import_csv_delimiter_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"Auto", None))
         self.import_csv_delimiter_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u",", None))
         self.import_csv_delimiter_comboBox.setItemText(2, QCoreApplication.translate("ColliderScopeUI", u";", None))
         self.import_csv_delimiter_comboBox.setItemText(3, QCoreApplication.translate("ColliderScopeUI", u"\\t", None))
 
-        self.import_csv_encoding_label.setText(QCoreApplication.translate("ColliderScopeUI", u"encoding", None))
-
-        self.import_csv_header_row_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header row", None))
-        self.import_csv_units_row_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"units row", None))
         self.import_csv_skip_blank_lines_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skip_blank_lines", None))
         self.import_csv_skip_blank_lines_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
         self.import_csv_skip_blank_lines_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
@@ -999,6 +1103,14 @@ class Ui_ColliderScopeUI(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("ColliderScopeUI", u"Value", None));
         self.import_excel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_excel_tab), QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
+        self.row_groupBox.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Rows", None))
+        self.row_allow_nans.setText(QCoreApplication.translate("ColliderScopeUI", u"Allow NANs", None))
+        self.row_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if all NANs", None))
+        self.row_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if any NANs", None))
+        self.column_groupBox.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Columns", None))
+        self.column_allow_nans.setText(QCoreApplication.translate("ColliderScopeUI", u"Allow NANs", None))
+        self.column_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if all NANs", None))
+        self.column_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if any NANs", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.import_tab), QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.label.setText(QCoreApplication.translate("ColliderScopeUI", u"Data Preview and Triage", None))
         self.label_numeric.setText(QCoreApplication.translate("ColliderScopeUI", u"Numeric (Plot Sources)", None))

@@ -21,9 +21,9 @@ from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
 
 import PySide6
-from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QFileDialog, QTableWidget, QTableWidgetItem, QLabel,
-                               QMessageBox, QGraphicsScene, QGraphicsWidget, QGraphicsProxyWidget, QSizePolicy,
-                               QVBoxLayout, QHBoxLayout)
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QFileDialog, QTableWidget,
+                               QTableWidgetItem, QLabel, QMessageBox, QGraphicsScene, QGraphicsWidget,
+                               QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout)
 
 from PySide6.QtGui import QStandardItemModel
 
@@ -52,9 +52,14 @@ active_string_fields = []
 ignore_fields = []
 favorite_fields = []
 
+import_nan_handling = None
+export_nan_handling = None
+
 pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
 # pg.setConfigOption('foreground', 'b')
+
+from ui_nan_handler_dialog import Ui_NanHandlerDialog
 
 
 def file_dialog(file_pathname, file_type_filter, file_dialog_title):
@@ -84,6 +89,22 @@ def file_dialog(file_pathname, file_type_filter, file_dialog_title):
     else:
         file_pathname = ""
         return file_pathname
+
+
+def nan_handler_dialog():
+    dialog = QDialog()
+    nan_dialog = Ui_NanHandlerDialog()
+    nan_dialog.setupUi(dialog)
+    dialog.exec()
+
+    nan_handling = {0: dict(), 1: dict()}  # 0 = rows, 1 = columns
+
+    nan_handling[0]['drop_if_all_nans'] = nan_dialog.row_drop_if_all_nans_radioButton.isChecked()
+    nan_handling[0]['drop_if_any_nans'] = nan_dialog.row_drop_if_any_nans_radioButton.isChecked()
+    nan_handling[1]['drop_if_all_nans'] = nan_dialog.column_drop_if_all_nans_radioButton.isChecked()
+    nan_handling[1]['drop_if_any_nans'] = nan_dialog.column_drop_if_any_nans_radioButton.isChecked()
+
+    return nan_handling
 
 
 def two_column_tableWidget_to_dict(table_widget):
@@ -266,6 +287,10 @@ class ColliderScopeUI(QMainWindow):
         # timer.start()
 
     def generic_slot(self):
+        global import_nan_handling
+
+        import_nan_handling = nan_handler_dialog()
+
         print('generic slot...')
 
     def send_right_pushbutton(self):
@@ -324,6 +349,8 @@ class ColliderScopeUI(QMainWindow):
         self.ui.graphic_preview_plot_widget.new = True
 
     def load_file_preview(self, qstring='', file_pathname=None):
+        print('load_file_preview')
+
         self.ui.file_import_browse_pushButton.clearFocus()
 
         if self.ui.preview_size_checkBox.isChecked():
@@ -578,6 +605,8 @@ class ColliderScopeUI(QMainWindow):
                                          nrows=nrows,
                                          **keyword_args,
                                          )
+
+                        df = self.handle_import_nans(df)
                     except:
                         df = pd.read_csv(self.ui.filepathname_lineEdit.text(), header=header_row,
                                          delimiter=delimiter,
@@ -587,7 +616,10 @@ class ColliderScopeUI(QMainWindow):
                                          nrows=nrows,
                                          **keyword_args,
                                          )
-                else:
+
+                        df = self.handle_import_nans(df)
+
+                else:  # read in actual file
                     df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=header_row,
                                      delimiter=delimiter,
                                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
@@ -595,6 +627,9 @@ class ColliderScopeUI(QMainWindow):
                                      skiprows=skiprows,
                                      **keyword_args,
                                      )
+
+                    df = self.handle_import_nans(df)
+
                     data = df
                     self.setup_initial_triage_lists()
 
@@ -610,6 +645,18 @@ class ColliderScopeUI(QMainWindow):
                 QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
                             (file_pathname, str(e))).exec()
                 return None
+
+    def handle_import_nans(self, df):
+        if self.ui.row_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='all')
+        elif self.ui.row_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='any')
+        if self.ui.column_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=1, how='all')
+        elif self.ui.column_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=1, how='any')
+
+        return df
 
     def import_excel_file(self, preview=False, nrows=False):
         global status_bar_message, data, source_file_pathname
@@ -654,6 +701,8 @@ class ColliderScopeUI(QMainWindow):
                 df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
                                    skiprows=skiprows, header=header_row, nrows=nrows, engine_kwargs=engine_kwargs,
                                    **keyword_args)
+
+                df = self.handle_import_nans(df)
 
                 self.ui.statusbar.showMessage('imported %d rows of df, %d columns' %
                                               (len(df), len(df.columns)), 10000)
