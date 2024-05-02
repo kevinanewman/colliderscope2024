@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>837</height>
+    <height>829</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1009,6 +1009,9 @@ Preview</string>
             </item>
             <item>
              <widget class="QGroupBox" name="row_groupBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -1064,6 +1067,9 @@ Preview</string>
             </item>
             <item>
              <widget class="QGroupBox" name="column_groupBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1149,7 +1155,19 @@ Preview</string>
        <attribute name="title">
         <string>Data Triage</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_12">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
@@ -1197,27 +1215,45 @@ Preview</string>
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="triage_lists_horizontalLayout">
+          <property name="spacing">
+           <number>7</number>
+          </property>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_numeric">
-            <property name="spacing">
-             <number>-1</number>
-            </property>
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
+           <layout class="QVBoxLayout" name="numeric_verticalLayout">
             <item>
-             <widget class="QLabel" name="label_numeric">
-              <property name="text">
-               <string>Numeric (Plot Sources)</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="active_numeric_list_label">
+                <property name="text">
+                 <string>Numeric (Plot Sources)</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="active_numeric_count_label">
+                <property name="text">
+                 <string>[0]</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QListWidget" name="triage_numeric_listWidget">
@@ -1267,7 +1303,22 @@ color: black
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <layout class="QVBoxLayout" name="add_to_script_verticalLayout">
+            <item>
+             <widget class="QToolButton" name="ignore_deadvars_toolButton">
+              <property name="text">
+               <string>Ignore
+Deadvars</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>assets/toolbarSkipped.svg</normaloff>assets/toolbarSkipped.svg</iconset>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextUnderIcon</enum>
+              </property>
+             </widget>
+            </item>
             <item>
              <spacer name="verticalSpacer_3">
               <property name="orientation">
@@ -1291,7 +1342,7 @@ color: black
               </property>
               <property name="minimumSize">
                <size>
-                <width>40</width>
+                <width>63</width>
                 <height>0</height>
                </size>
               </property>
@@ -1318,16 +1369,40 @@ Script</string>
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_string">
+           <layout class="QVBoxLayout" name="string_verticalLayout">
             <item>
-             <widget class="QLabel" name="label_string">
-              <property name="text">
-               <string>Strings</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QLabel" name="label_active_string_list">
+                <property name="text">
+                 <string>Strings</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="active_string_count_label">
+                <property name="text">
+                 <string>[0]</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QListWidget" name="triage_string_listWidget">
@@ -1567,7 +1642,7 @@ color: black;
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="send_buttons_verticalLayout">
             <property name="sizeConstraint">
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
@@ -1651,19 +1726,50 @@ color: black;
              <attribute name="title">
               <string>Ignore</string>
              </attribute>
-             <layout class="QVBoxLayout" name="verticalLayout_9">
+             <layout class="QVBoxLayout" name="verticalLayout_3">
               <property name="leftMargin">
-               <number>5</number>
+               <number>0</number>
               </property>
               <property name="topMargin">
-               <number>5</number>
+               <number>0</number>
               </property>
               <property name="rightMargin">
-               <number>5</number>
+               <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>5</number>
+               <number>0</number>
               </property>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_12">
+                <item>
+                 <widget class="QLabel" name="ignore_count_label">
+                  <property name="text">
+                   <string>[0]</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="ignore_delete_pushButton">
+                  <property name="text">
+                   <string>Delete</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
               <item>
                <widget class="QListWidget" name="triage_ignore_listWidget">
                 <property name="styleSheet">
@@ -1690,18 +1796,18 @@ color: black;</string>
              <attribute name="title">
               <string>Favorites</string>
              </attribute>
-             <layout class="QVBoxLayout" name="verticalLayout_10">
+             <layout class="QVBoxLayout" name="verticalLayout_9">
               <property name="leftMargin">
-               <number>5</number>
+               <number>0</number>
               </property>
               <property name="topMargin">
-               <number>5</number>
+               <number>15</number>
               </property>
               <property name="rightMargin">
-               <number>5</number>
+               <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>5</number>
+               <number>0</number>
               </property>
               <item>
                <widget class="QListWidget" name="triage_favorites_listWidget">
@@ -2715,6 +2821,38 @@ color: black;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>ignore_deadvars_toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>ignore_deadvars()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>340</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>418</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ignore_delete_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>delete_ignores()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1008</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>414</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
@@ -2741,5 +2879,7 @@ color: black;</string>
   <slot>send_left_pushbutton()</slot>
   <slot>send_right_pushbutton()</slot>
   <slot>handle_nans_on_import()</slot>
+  <slot>ignore_deadvars()</slot>
+  <slot>delete_ignores()</slot>
  </slots>
 </ui>

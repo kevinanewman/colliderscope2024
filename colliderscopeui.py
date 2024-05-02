@@ -271,9 +271,16 @@ class ColliderScopeUI(QMainWindow):
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
 
         self.ui.triage_numeric_listWidget.source_data = active_numeric_fields
+        self.ui.triage_numeric_listWidget.count_label = self.ui.active_numeric_count_label
+
         self.ui.triage_string_listWidget.source_data = active_string_fields
+        self.ui.triage_string_listWidget.count_label = self.ui.active_string_count_label
+
         self.ui.triage_ignore_listWidget.source_data = ignore_fields
+        self.ui.triage_ignore_listWidget.count_label = self.ui.ignore_count_label
+
         self.ui.triage_favorites_listWidget.source_data = favorite_fields
+        self.ui.triage_favorites_listWidget.count_label = None
 
         self.ui.triage_filter_widget.widget_list = \
             [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget,
@@ -432,8 +439,12 @@ class ColliderScopeUI(QMainWindow):
     def handle_import_button_enables(self):
         if self.ui.filepathname_lineEdit.text():
             self.ui.file_import_tabWidget.setEnabled(True)
+            self.ui.row_groupBox.setEnabled(True)
+            self.ui.column_groupBox.setEnabled(True)
         else:
             self.ui.file_import_tabWidget.setEnabled(False)
+            self.ui.row_groupBox.setEnabled(False)
+            self.ui.column_groupBox.setEnabled(False)
 
     def filepathname_changed(self):
         self.load_file_preview('', self.ui.filepathname_lineEdit.text())
@@ -539,7 +550,7 @@ class ColliderScopeUI(QMainWindow):
     def force_numeric_preview(self):
         self.update_numeric_preview(force=True)
 
-    def update_triage_lists(self):
+    def init_triage_lists(self):
         global data
         data = data.convert_dtypes()
         active_numeric_fields.clear()
@@ -550,17 +561,33 @@ class ColliderScopeUI(QMainWindow):
         active_numeric_fields.extend(data.select_dtypes(exclude=['string', 'object']).columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
 
-        self.ui.triage_numeric_listWidget.clear()
-        self.ui.triage_numeric_listWidget.addItems(active_numeric_fields)
-        self.ui.triage_string_listWidget.clear()
-        self.ui.triage_string_listWidget.addItems(active_string_fields)
-        self.ui.triage_ignore_listWidget.clear()
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
+    def ignore_deadvars(self):
+        global ignore_fields
+
+        for c in data.columns:
+            if data[c].min() == data[c].max():
+                ignore_fields.append(c)
+
+        ignore_fields = list(np.unique(ignore_fields))
+        self.ui.triage_ignore_listWidget.source_data = ignore_fields
+
+        for ignore_field in ignore_fields:
+            if ignore_field in active_numeric_fields:
+                active_numeric_fields.remove(ignore_field)
+            if ignore_field in active_string_fields:
+                active_string_fields.remove(ignore_field)
+
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
+        print('clear_deadvars!')
 
     def setup_initial_triage_lists(self):
         global data
         self.ui.triage_tab.setEnabled(True)
         self.ui.tabWidget_main.setCurrentIndex(1)
-        self.update_triage_lists()
+        self.init_triage_lists()
         # grab non-filtered original fields for later reference:
         original_numeric_fields.extend(active_numeric_fields)
         original_string_fields.extend(active_string_fields)
@@ -731,11 +758,45 @@ class ColliderScopeUI(QMainWindow):
         self.init_graphic_preview_plot_widget()
 
     def script_run(self):
+        global original_numeric_fields, original_string_fields, active_numeric_fields, active_string_fields, \
+            ignore_fields
+
         self.ui.script_preview_consoleWidget.repl.runCmd('run()')
         # update consoleWidget namespace in case new vars created:
         self.ui.script_preview_consoleWidget.locals().update(globals())
         # update triage lists in case new fields created:
-        self.update_triage_lists()
+
+        original_numeric_fields = [c for c in data.select_dtypes(exclude=['string', 'object']).columns]
+        original_string_fields = [c for c in data.select_dtypes(include='string').columns]
+
+        non_ignored_numeric_fields = [f for f in original_numeric_fields if f not in ignore_fields]
+        non_ignored_string_fields = [f for f in original_string_fields if f not in ignore_fields]
+
+        active_numeric_fields.extend(non_ignored_numeric_fields)
+        active_string_fields.extend(non_ignored_string_fields)
+
+        active_numeric_fields = list(np.unique(active_numeric_fields))
+        self.ui.triage_numeric_listWidget.source_data = active_numeric_fields
+
+        active_string_fields = list(np.unique(active_string_fields))
+        self.ui.triage_string_listWidget.source_data = active_string_fields
+
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
+    def delete_ignores(self):
+        global data
+
+        qb = QMessageBox()
+        qb.setText('This action will permanently delete the data associated with these fields.')
+        qb.setInformativeText('Data will have to be re-imported to recover after deletion.')
+        qb.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        response = qb.exec()
+
+        if response == QMessageBox.Ok:
+            data.drop(columns=ignore_fields, inplace=True)
+            ignore_fields.clear()
+
+            self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
     def script_open(self):
         file_pathname = file_dialog('', '*.py', 'Load triage script')

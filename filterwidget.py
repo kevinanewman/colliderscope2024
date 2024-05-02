@@ -67,6 +67,8 @@ class FilterWidget(QWidget):
                 lw.clear()
                 fields = [f for f in lw.source_data]
                 lw.addItems(fields)
+                if lw.count_label is not None:
+                    lw.count_label.setText('[%d]' % len(fields))
 
     def goto_settings(self):
         self.ui.stackedWidget.setCurrentIndex(1)

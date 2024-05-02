@@ -33,7 +33,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1055, 837)
+        ColliderScopeUI.resize(1055, 829)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -525,6 +525,7 @@ class Ui_ColliderScopeUI(object):
 
         self.row_groupBox = QGroupBox(self.import_tab)
         self.row_groupBox.setObjectName(u"row_groupBox")
+        self.row_groupBox.setEnabled(False)
         self.row_groupBox.setMaximumSize(QSize(16777215, 86))
         self.verticalLayout_15 = QVBoxLayout(self.row_groupBox)
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
@@ -555,6 +556,7 @@ class Ui_ColliderScopeUI(object):
 
         self.column_groupBox = QGroupBox(self.import_tab)
         self.column_groupBox.setObjectName(u"column_groupBox")
+        self.column_groupBox.setEnabled(False)
         sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
         sizePolicy6.setHorizontalStretch(0)
         sizePolicy6.setVerticalStretch(0)
@@ -602,12 +604,13 @@ class Ui_ColliderScopeUI(object):
         self.triage_tab = QWidget()
         self.triage_tab.setObjectName(u"triage_tab")
         self.triage_tab.setEnabled(False)
-        self.verticalLayout_12 = QVBoxLayout(self.triage_tab)
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.verticalLayout_2 = QVBoxLayout(self.triage_tab)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(5, 5, 5, 5)
         self.label = QLabel(self.triage_tab)
         self.label.setObjectName(u"label")
 
-        self.verticalLayout_12.addWidget(self.label)
+        self.verticalLayout_2.addWidget(self.label)
 
         self.horizontalLayout_filter = QHBoxLayout()
         self.horizontalLayout_filter.setObjectName(u"horizontalLayout_filter")
@@ -628,21 +631,32 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_filter.addItem(self.horizontalSpacer)
 
 
-        self.verticalLayout_12.addLayout(self.horizontalLayout_filter)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_filter)
 
+        self.triage_lists_horizontalLayout = QHBoxLayout()
+        self.triage_lists_horizontalLayout.setSpacing(7)
+        self.triage_lists_horizontalLayout.setObjectName(u"triage_lists_horizontalLayout")
+        self.numeric_verticalLayout = QVBoxLayout()
+        self.numeric_verticalLayout.setObjectName(u"numeric_verticalLayout")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.verticalLayout_numeric = QVBoxLayout()
-#ifndef Q_OS_MAC
-        self.verticalLayout_numeric.setSpacing(-1)
-#endif
-        self.verticalLayout_numeric.setObjectName(u"verticalLayout_numeric")
-        self.verticalLayout_numeric.setContentsMargins(0, -1, -1, 0)
-        self.label_numeric = QLabel(self.triage_tab)
-        self.label_numeric.setObjectName(u"label_numeric")
-        self.label_numeric.setAlignment(Qt.AlignCenter)
+        self.active_numeric_list_label = QLabel(self.triage_tab)
+        self.active_numeric_list_label.setObjectName(u"active_numeric_list_label")
+        self.active_numeric_list_label.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_numeric.addWidget(self.label_numeric)
+        self.horizontalLayout_2.addWidget(self.active_numeric_list_label)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
+
+        self.active_numeric_count_label = QLabel(self.triage_tab)
+        self.active_numeric_count_label.setObjectName(u"active_numeric_count_label")
+
+        self.horizontalLayout_2.addWidget(self.active_numeric_count_label)
+
+
+        self.numeric_verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.triage_numeric_listWidget = QListWidget(self.triage_tab)
         self.triage_numeric_listWidget.setObjectName(u"triage_numeric_listWidget")
@@ -664,16 +678,25 @@ class Ui_ColliderScopeUI(object):
         self.triage_numeric_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_numeric_listWidget.setSortingEnabled(True)
 
-        self.verticalLayout_numeric.addWidget(self.triage_numeric_listWidget)
+        self.numeric_verticalLayout.addWidget(self.triage_numeric_listWidget)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_numeric)
+        self.triage_lists_horizontalLayout.addLayout(self.numeric_verticalLayout)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.add_to_script_verticalLayout = QVBoxLayout()
+        self.add_to_script_verticalLayout.setObjectName(u"add_to_script_verticalLayout")
+        self.ignore_deadvars_toolButton = QToolButton(self.triage_tab)
+        self.ignore_deadvars_toolButton.setObjectName(u"ignore_deadvars_toolButton")
+        icon1 = QIcon()
+        icon1.addFile(u"assets/toolbarSkipped.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ignore_deadvars_toolButton.setIcon(icon1)
+        self.ignore_deadvars_toolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.add_to_script_verticalLayout.addWidget(self.ignore_deadvars_toolButton)
+
         self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_3.addItem(self.verticalSpacer_3)
+        self.add_to_script_verticalLayout.addItem(self.verticalSpacer_3)
 
         self.add_to_script_toolButton = QToolButton(self.triage_tab)
         self.add_to_script_toolButton.setObjectName(u"add_to_script_toolButton")
@@ -682,25 +705,39 @@ class Ui_ColliderScopeUI(object):
         sizePolicy9.setVerticalStretch(0)
         sizePolicy9.setHeightForWidth(self.add_to_script_toolButton.sizePolicy().hasHeightForWidth())
         self.add_to_script_toolButton.setSizePolicy(sizePolicy9)
-        self.add_to_script_toolButton.setMinimumSize(QSize(40, 0))
+        self.add_to_script_toolButton.setMinimumSize(QSize(63, 0))
         self.add_to_script_toolButton.setMaximumSize(QSize(40, 16777215))
-        icon1 = QIcon()
-        icon1.addFile(u"assets/addList.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.add_to_script_toolButton.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u"assets/addList.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.add_to_script_toolButton.setIcon(icon2)
         self.add_to_script_toolButton.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.verticalLayout_3.addWidget(self.add_to_script_toolButton)
+        self.add_to_script_verticalLayout.addWidget(self.add_to_script_toolButton)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_3)
+        self.triage_lists_horizontalLayout.addLayout(self.add_to_script_verticalLayout)
 
-        self.verticalLayout_string = QVBoxLayout()
-        self.verticalLayout_string.setObjectName(u"verticalLayout_string")
-        self.label_string = QLabel(self.triage_tab)
-        self.label_string.setObjectName(u"label_string")
-        self.label_string.setAlignment(Qt.AlignCenter)
+        self.string_verticalLayout = QVBoxLayout()
+        self.string_verticalLayout.setObjectName(u"string_verticalLayout")
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.label_active_string_list = QLabel(self.triage_tab)
+        self.label_active_string_list.setObjectName(u"label_active_string_list")
+        self.label_active_string_list.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_string.addWidget(self.label_string)
+        self.horizontalLayout_10.addWidget(self.label_active_string_list)
+
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_10.addItem(self.horizontalSpacer_5)
+
+        self.active_string_count_label = QLabel(self.triage_tab)
+        self.active_string_count_label.setObjectName(u"active_string_count_label")
+
+        self.horizontalLayout_10.addWidget(self.active_string_count_label)
+
+
+        self.string_verticalLayout.addLayout(self.horizontalLayout_10)
 
         self.triage_string_listWidget = QListWidget(self.triage_tab)
         self.triage_string_listWidget.setObjectName(u"triage_string_listWidget")
@@ -751,14 +788,14 @@ class Ui_ColliderScopeUI(object):
         self.triage_string_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_string_listWidget.setSortingEnabled(True)
 
-        self.verticalLayout_string.addWidget(self.triage_string_listWidget)
+        self.string_verticalLayout.addWidget(self.triage_string_listWidget)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_string)
+        self.triage_lists_horizontalLayout.addLayout(self.string_verticalLayout)
 
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.send_buttons_verticalLayout = QVBoxLayout()
+        self.send_buttons_verticalLayout.setObjectName(u"send_buttons_verticalLayout")
+        self.send_buttons_verticalLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.ignore_pushButton = QPushButton(self.triage_tab)
         self.ignore_pushButton.setObjectName(u"ignore_pushButton")
         sizePolicy.setHeightForWidth(self.ignore_pushButton.sizePolicy().hasHeightForWidth())
@@ -767,7 +804,7 @@ class Ui_ColliderScopeUI(object):
         self.ignore_pushButton.setAutoFillBackground(False)
         self.ignore_pushButton.setFlat(False)
 
-        self.verticalLayout_2.addWidget(self.ignore_pushButton)
+        self.send_buttons_verticalLayout.addWidget(self.ignore_pushButton)
 
         self.unignore_pushButton = QPushButton(self.triage_tab)
         self.unignore_pushButton.setObjectName(u"unignore_pushButton")
@@ -775,23 +812,42 @@ class Ui_ColliderScopeUI(object):
         self.unignore_pushButton.setSizePolicy(sizePolicy)
         self.unignore_pushButton.setMaximumSize(QSize(44, 32))
 
-        self.verticalLayout_2.addWidget(self.unignore_pushButton)
+        self.send_buttons_verticalLayout.addWidget(self.unignore_pushButton)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_2.addItem(self.verticalSpacer)
+        self.send_buttons_verticalLayout.addItem(self.verticalSpacer)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
+        self.triage_lists_horizontalLayout.addLayout(self.send_buttons_verticalLayout)
 
         self.ignore_favorites_tabWidget = QTabWidget(self.triage_tab)
         self.ignore_favorites_tabWidget.setObjectName(u"ignore_favorites_tabWidget")
         self.ignore_favorites_tabWidget.setDocumentMode(True)
         self.ignore_tab = QWidget()
         self.ignore_tab.setObjectName(u"ignore_tab")
-        self.verticalLayout_9 = QVBoxLayout(self.ignore_tab)
-        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.verticalLayout_9.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_3 = QVBoxLayout(self.ignore_tab)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.ignore_count_label = QLabel(self.ignore_tab)
+        self.ignore_count_label.setObjectName(u"ignore_count_label")
+
+        self.horizontalLayout_12.addWidget(self.ignore_count_label)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_12.addItem(self.horizontalSpacer_6)
+
+        self.ignore_delete_pushButton = QPushButton(self.ignore_tab)
+        self.ignore_delete_pushButton.setObjectName(u"ignore_delete_pushButton")
+
+        self.horizontalLayout_12.addWidget(self.ignore_delete_pushButton)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_12)
+
         self.triage_ignore_listWidget = QListWidget(self.ignore_tab)
         self.triage_ignore_listWidget.setObjectName(u"triage_ignore_listWidget")
         self.triage_ignore_listWidget.setStyleSheet(u"background-color: rgb(253, 223, 223);\n"
@@ -801,14 +857,14 @@ class Ui_ColliderScopeUI(object):
         self.triage_ignore_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_ignore_listWidget.setSortingEnabled(True)
 
-        self.verticalLayout_9.addWidget(self.triage_ignore_listWidget)
+        self.verticalLayout_3.addWidget(self.triage_ignore_listWidget)
 
         self.ignore_favorites_tabWidget.addTab(self.ignore_tab, "")
         self.favorites_tab = QWidget()
         self.favorites_tab.setObjectName(u"favorites_tab")
-        self.verticalLayout_10 = QVBoxLayout(self.favorites_tab)
-        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.verticalLayout_10.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_9 = QVBoxLayout(self.favorites_tab)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(0, 15, 0, 0)
         self.triage_favorites_listWidget = QListWidget(self.favorites_tab)
         self.triage_favorites_listWidget.setObjectName(u"triage_favorites_listWidget")
         self.triage_favorites_listWidget.setStyleSheet(u"background-color: rgb(233, 255, 255);\n"
@@ -818,14 +874,14 @@ class Ui_ColliderScopeUI(object):
         self.triage_favorites_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.triage_favorites_listWidget.setSortingEnabled(True)
 
-        self.verticalLayout_10.addWidget(self.triage_favorites_listWidget)
+        self.verticalLayout_9.addWidget(self.triage_favorites_listWidget)
 
         self.ignore_favorites_tabWidget.addTab(self.favorites_tab, "")
 
-        self.horizontalLayout_2.addWidget(self.ignore_favorites_tabWidget)
+        self.triage_lists_horizontalLayout.addWidget(self.ignore_favorites_tabWidget)
 
 
-        self.verticalLayout_12.addLayout(self.horizontalLayout_2)
+        self.verticalLayout_2.addLayout(self.triage_lists_horizontalLayout)
 
         self.preview_tabWidget = QTabWidget(self.triage_tab)
         self.preview_tabWidget.setObjectName(u"preview_tabWidget")
@@ -876,18 +932,18 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.script_load_toolButton = QToolButton(self.layoutWidget)
         self.script_load_toolButton.setObjectName(u"script_load_toolButton")
-        icon2 = QIcon()
-        icon2.addFile(u"assets/open_line.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_load_toolButton.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u"assets/open_line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_load_toolButton.setIcon(icon3)
         self.script_load_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_6.addWidget(self.script_load_toolButton)
 
         self.script_save_toolButton = QToolButton(self.layoutWidget)
         self.script_save_toolButton.setObjectName(u"script_save_toolButton")
-        icon3 = QIcon()
-        icon3.addFile(u"assets/save.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_save_toolButton.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"assets/save.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_save_toolButton.setIcon(icon4)
         self.script_save_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         self.script_save_toolButton.setArrowType(Qt.NoArrow)
 
@@ -899,9 +955,9 @@ class Ui_ColliderScopeUI(object):
 
         self.script_run_toolButton = QToolButton(self.layoutWidget)
         self.script_run_toolButton.setObjectName(u"script_run_toolButton")
-        icon4 = QIcon()
-        icon4.addFile(u"assets/run.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_run_toolButton.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u"assets/run.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_run_toolButton.setIcon(icon5)
         self.script_run_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_6.addWidget(self.script_run_toolButton)
@@ -933,7 +989,7 @@ class Ui_ColliderScopeUI(object):
 
         self.preview_tabWidget.addTab(self.script_preview_tab, "")
 
-        self.verticalLayout_12.addWidget(self.preview_tabWidget)
+        self.verticalLayout_2.addWidget(self.preview_tabWidget)
 
         self.tabWidget_main.addTab(self.triage_tab, "")
         self.plot_tab = QWidget()
@@ -1045,6 +1101,8 @@ class Ui_ColliderScopeUI(object):
         self.column_drop_if_all_nans_radioButton.clicked.connect(ColliderScopeUI.load_file_preview)
         self.row_allow_nans.clicked.connect(ColliderScopeUI.load_file_preview)
         self.row_drop_if_any_nans_radioButton.clicked.connect(ColliderScopeUI.load_file_preview)
+        self.ignore_deadvars_toolButton.clicked.connect(ColliderScopeUI.ignore_deadvars)
+        self.ignore_delete_pushButton.clicked.connect(ColliderScopeUI.delete_ignores)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -1113,11 +1171,15 @@ class Ui_ColliderScopeUI(object):
         self.column_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if any NANs", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.import_tab), QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.label.setText(QCoreApplication.translate("ColliderScopeUI", u"Data Preview and Triage", None))
-        self.label_numeric.setText(QCoreApplication.translate("ColliderScopeUI", u"Numeric (Plot Sources)", None))
+        self.active_numeric_list_label.setText(QCoreApplication.translate("ColliderScopeUI", u"Numeric (Plot Sources)", None))
+        self.active_numeric_count_label.setText(QCoreApplication.translate("ColliderScopeUI", u"[0]", None))
+        self.ignore_deadvars_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Ignore\n"
+"Deadvars", None))
         self.add_to_script_toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Add\n"
 "To\n"
 "Script", None))
-        self.label_string.setText(QCoreApplication.translate("ColliderScopeUI", u"Strings", None))
+        self.label_active_string_list.setText(QCoreApplication.translate("ColliderScopeUI", u"Strings", None))
+        self.active_string_count_label.setText(QCoreApplication.translate("ColliderScopeUI", u"[0]", None))
 #if QT_CONFIG(tooltip)
         self.ignore_pushButton.setToolTip("")
 #endif // QT_CONFIG(tooltip)
@@ -1129,6 +1191,8 @@ class Ui_ColliderScopeUI(object):
 #endif // QT_CONFIG(whatsthis)
         self.ignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"->", None))
         self.unignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"<-", None))
+        self.ignore_count_label.setText(QCoreApplication.translate("ColliderScopeUI", u"[0]", None))
+        self.ignore_delete_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Delete", None))
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.ignore_tab), QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.favorites_tab), QCoreApplication.translate("ColliderScopeUI", u"Favorites", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.text_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Text Preview", None))
