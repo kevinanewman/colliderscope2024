@@ -59,7 +59,7 @@ pg.setConfigOptions(antialias=False)
 # pg.setConfigOption('background', 'w')
 # pg.setConfigOption('foreground', 'b')
 
-from ui_nan_handler_dialog import Ui_NanHandlerDialog
+# from ui_nan_handler_dialog import Ui_NanHandlerDialog
 
 
 def file_dialog(file_pathname, file_type_filter, file_dialog_title):
@@ -223,6 +223,8 @@ def ignore_listWidget_dropEvent(event):
     event.setDropAction(PySide6.QtCore.Qt.DropAction.MoveAction)
     event.accept()
 
+    mainwindow.ui.triage_filter_widget.inputChanged()  # update triage listWidgets
+
 
 def favorites_listWidget_dropEvent(event):
     item_list = [i.text() for i in event.source().selectedItems()]
@@ -266,7 +268,6 @@ class ColliderScopeUI(QMainWindow):
         self.import_excel_options_dict = dict()
         self.ui.import_csv_parameter_tableWidget.horizontalHeader().setMinimumHeight(25)
         self.ui.import_excel_parameter_tableWidget.horizontalHeader().setMinimumHeight(25)
-
 
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
 
