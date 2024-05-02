@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>829</height>
+    <height>833</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -256,6 +256,18 @@ Preview</string>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_6">
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>5</number>
+            </property>
             <item>
              <widget class="QTabWidget" name="file_import_tabWidget">
               <property name="enabled">
@@ -2070,7 +2082,111 @@ color: black;</string>
        <attribute name="title">
         <string>Export</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_14">
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
+         <widget class="QGroupBox" name="export_options_groupBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>Export Options</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QWidget" name="nanhandler_widget" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="export_signal_buttons_layout">
+             <property name="title">
+              <string>Signals</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <property name="spacing">
+               <number>-1</number>
+              </property>
+              <property name="sizeConstraint">
+               <enum>QLayout::SetFixedSize</enum>
+              </property>
+              <item>
+               <widget class="QRadioButton" name="export_all_radioButton">
+                <property name="maximumSize">
+                 <size>
+                  <width>173</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Export all</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">export_options_buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="export_all_but_ignored_radioButton">
+                <property name="maximumSize">
+                 <size>
+                  <width>173</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Export all but Ignored</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">export_options_buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="export_favorites_only_radioButton">
+                <property name="maximumSize">
+                 <size>
+                  <width>173</width>
+                  <height>20</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Export Favorites only</string>
+                </property>
+                <attribute name="buttonGroup">
+                 <string notr="true">export_options_buttonGroup</string>
+                </attribute>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <property name="topMargin">
@@ -2882,4 +2998,7 @@ color: black;</string>
   <slot>ignore_deadvars()</slot>
   <slot>delete_ignores()</slot>
  </slots>
+ <buttongroups>
+  <buttongroup name="export_options_buttonGroup"/>
+ </buttongroups>
 </ui>

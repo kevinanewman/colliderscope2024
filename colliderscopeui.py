@@ -34,6 +34,7 @@ from pythonhighlighter import PythonHighlighter
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_colliderscope import Ui_ColliderScopeUI
+from ui_nanhandler_horizontal import Ui_NanHandlerHorizontal
 
 app = None
 mainwindow = None
@@ -267,7 +268,6 @@ class ColliderScopeUI(QMainWindow):
         self.ui.import_csv_parameter_tableWidget.horizontalHeader().setMinimumHeight(25)
         self.ui.import_excel_parameter_tableWidget.horizontalHeader().setMinimumHeight(25)
 
-
         self.hl = PythonHighlighter(self.ui.script_preview_plainTextEdit.document())
 
         self.ui.triage_numeric_listWidget.source_data = active_numeric_fields
@@ -291,6 +291,7 @@ class ColliderScopeUI(QMainWindow):
 
         self.prior_nan_count = None
 
+        self.ui.nanhandler_widget = Ui_NanHandlerHorizontal().setupUi(self.ui.nanhandler_widget)
         # timer.start()
 
     def generic_slot(self):
@@ -837,6 +838,8 @@ class ColliderScopeUI(QMainWindow):
         self.load_file_preview()
 
     def export_data(self):
+        export_data = data.copy()
+
         # file_pathname = QFileDialog().getSaveFileName(self, 'Export Data', os.getcwd(), '*.*', '*.*')[0]
         folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
 
@@ -849,12 +852,17 @@ class ColliderScopeUI(QMainWindow):
             if file_name_noext == source_file_name_noext:
                 file_name_noext = file_name_noext + '_EXPORT'
 
+            if self.ui.export_all_but_ignored_radioButton.isChecked():
+                export_data = export_data.drop(columns=ignore_fields)
+            elif self.ui.export_favorites_only_radioButton.isChecked():
+                export_data = export_data.loc[:, favorite_fields]
+
             if self.ui.export_data_comboBox.currentText() == 'CSV':
                 save_file_pathname = folder_pathname + os.sep + file_name_noext + '.csv'
-                data.to_csv(save_file_pathname, index=False)
+                export_data.to_csv(save_file_pathname, index=False)
             else:
                 save_file_pathname = folder_pathname + os.sep + file_name_noext + '.xlsx'
-                data.to_excel(save_file_pathname, index=False)
+                export_data.to_excel(save_file_pathname, index=False)
 
             self.statusBar().showMessage('Exported data to "%s"' % save_file_pathname, 10000)
 

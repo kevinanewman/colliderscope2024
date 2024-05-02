@@ -16,14 +16,15 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QCheckBox,
-    QComboBox, QFrame, QGroupBox, QHBoxLayout,
-    QHeaderView, QLabel, QLayout, QLineEdit,
-    QListWidget, QListWidgetItem, QMainWindow, QMenu,
-    QMenuBar, QPlainTextEdit, QPushButton, QRadioButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
-    QSplitter, QStatusBar, QTabWidget, QTableWidget,
-    QTableWidgetItem, QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QButtonGroup,
+    QCheckBox, QComboBox, QFrame, QGroupBox,
+    QHBoxLayout, QHeaderView, QLabel, QLayout,
+    QLineEdit, QListWidget, QListWidgetItem, QMainWindow,
+    QMenu, QMenuBar, QPlainTextEdit, QPushButton,
+    QRadioButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QSpinBox, QSplitter, QStatusBar, QTabWidget,
+    QTableWidget, QTableWidgetItem, QToolButton, QVBoxLayout,
+    QWidget)
 
 from filterwidget import FilterWidget
 from pyqtgraph import PlotWidget
@@ -33,7 +34,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1055, 829)
+        ColliderScopeUI.resize(1055, 833)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -168,6 +169,7 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(5, 5, 0, 5)
         self.file_import_tabWidget = QTabWidget(self.import_tab)
         self.file_import_tabWidget.setObjectName(u"file_import_tabWidget")
         self.file_import_tabWidget.setEnabled(False)
@@ -1007,8 +1009,66 @@ class Ui_ColliderScopeUI(object):
         self.export_tab = QWidget()
         self.export_tab.setObjectName(u"export_tab")
         self.export_tab.setEnabled(True)
-        self.verticalLayout_14 = QVBoxLayout(self.export_tab)
-        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.verticalLayout_12 = QVBoxLayout(self.export_tab)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.export_options_groupBox = QGroupBox(self.export_tab)
+        self.export_options_groupBox.setObjectName(u"export_options_groupBox")
+        sizePolicy5.setHeightForWidth(self.export_options_groupBox.sizePolicy().hasHeightForWidth())
+        self.export_options_groupBox.setSizePolicy(sizePolicy5)
+        self.horizontalLayout_11 = QHBoxLayout(self.export_options_groupBox)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.nanhandler_widget = QWidget(self.export_options_groupBox)
+        self.nanhandler_widget.setObjectName(u"nanhandler_widget")
+        sizePolicy11 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        sizePolicy11.setHorizontalStretch(0)
+        sizePolicy11.setVerticalStretch(0)
+        sizePolicy11.setHeightForWidth(self.nanhandler_widget.sizePolicy().hasHeightForWidth())
+        self.nanhandler_widget.setSizePolicy(sizePolicy11)
+
+        self.horizontalLayout_11.addWidget(self.nanhandler_widget)
+
+        self.export_signal_buttons_layout = QGroupBox(self.export_options_groupBox)
+        self.export_signal_buttons_layout.setObjectName(u"export_signal_buttons_layout")
+        self.verticalLayout_10 = QVBoxLayout(self.export_signal_buttons_layout)
+#ifndef Q_OS_MAC
+        self.verticalLayout_10.setSpacing(-1)
+#endif
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.verticalLayout_10.setSizeConstraint(QLayout.SetFixedSize)
+        self.export_all_radioButton = QRadioButton(self.export_signal_buttons_layout)
+        self.export_options_buttonGroup = QButtonGroup(ColliderScopeUI)
+        self.export_options_buttonGroup.setObjectName(u"export_options_buttonGroup")
+        self.export_options_buttonGroup.addButton(self.export_all_radioButton)
+        self.export_all_radioButton.setObjectName(u"export_all_radioButton")
+        self.export_all_radioButton.setMaximumSize(QSize(173, 20))
+        self.export_all_radioButton.setChecked(True)
+
+        self.verticalLayout_10.addWidget(self.export_all_radioButton)
+
+        self.export_all_but_ignored_radioButton = QRadioButton(self.export_signal_buttons_layout)
+        self.export_options_buttonGroup.addButton(self.export_all_but_ignored_radioButton)
+        self.export_all_but_ignored_radioButton.setObjectName(u"export_all_but_ignored_radioButton")
+        self.export_all_but_ignored_radioButton.setMaximumSize(QSize(173, 20))
+
+        self.verticalLayout_10.addWidget(self.export_all_but_ignored_radioButton)
+
+        self.export_favorites_only_radioButton = QRadioButton(self.export_signal_buttons_layout)
+        self.export_options_buttonGroup.addButton(self.export_favorites_only_radioButton)
+        self.export_favorites_only_radioButton.setObjectName(u"export_favorites_only_radioButton")
+        self.export_favorites_only_radioButton.setMaximumSize(QSize(173, 20))
+
+        self.verticalLayout_10.addWidget(self.export_favorites_only_radioButton)
+
+
+        self.horizontalLayout_11.addWidget(self.export_signal_buttons_layout)
+
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_11.addItem(self.horizontalSpacer_7)
+
+
+        self.verticalLayout_12.addWidget(self.export_options_groupBox)
+
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.horizontalLayout_8.setContentsMargins(-1, 0, -1, -1)
@@ -1037,11 +1097,11 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_8.addItem(self.horizontalSpacer_3)
 
 
-        self.verticalLayout_14.addLayout(self.horizontalLayout_8)
+        self.verticalLayout_12.addLayout(self.horizontalLayout_8)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_14.addItem(self.verticalSpacer_2)
+        self.verticalLayout_12.addItem(self.verticalSpacer_2)
 
         self.tabWidget_main.addTab(self.export_tab, "")
 
@@ -1213,6 +1273,11 @@ class Ui_ColliderScopeUI(object):
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.script_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Preprocess Script", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.triage_tab), QCoreApplication.translate("ColliderScopeUI", u"Data Triage", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.plot_tab), QCoreApplication.translate("ColliderScopeUI", u"Plotting", None))
+        self.export_options_groupBox.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Export Options", None))
+        self.export_signal_buttons_layout.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Signals", None))
+        self.export_all_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export all", None))
+        self.export_all_but_ignored_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export all but Ignored", None))
+        self.export_favorites_only_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export Favorites only", None))
         self.export_data_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"CSV", None))
         self.export_data_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
 
