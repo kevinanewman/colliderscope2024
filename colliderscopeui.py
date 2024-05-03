@@ -194,7 +194,18 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='u
         else:
             unitized_columns.append('%s' % col)
 
-    return unitized_columns
+    # deal with dupicates!
+    sanitized_columns = []
+    raw_columns = []
+
+    for col in unitized_columns:
+        raw_columns.append(col)
+        if col not in sanitized_columns:
+            sanitized_columns.append(col)
+        else:
+            sanitized_columns.append('%s:%d' % (col, raw_columns.count(col)))
+
+    return sanitized_columns
 
 
 def mouseMoved(*args, **kwargs):
