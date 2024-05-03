@@ -292,7 +292,9 @@ class ColliderScopeUI(QMainWindow):
 
         # this is how to instantiate a re-usable widget created in Qt Creator via a .ui file,
         # do NOT "promote" in the Qt Creator, it won't run, the setupUi() will fail since there's no way to pass in
-        # the target widget in the compiled python script
+        # the target widget in the compiled python script. The filter widget has a proper class, and the ui part
+        # gets handled in the __init__, but the nanhandler doesn't have a proper class, just the ui.  The filter
+        # widget was an entire Qt Creator "project", not just an isolated ui file.
         self.ui.nanhandler_widget = Ui_NanHandlerHorizontal().setupUi(self.ui.nanhandler_widget)
 
         self.active_plot = pg.plot()
