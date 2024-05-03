@@ -623,8 +623,11 @@ class ColliderScopeUI(QMainWindow):
         global ignore_fields
 
         for c in data.columns:
-            if data[c].min() == data[c].max():
+            if sum(data[c].notna()) == 0:
                 ignore_fields.append(c)
+            else:
+                if data[c].min() == data[c].max():
+                    ignore_fields.append(c)
 
         ignore_fields = list(np.unique(ignore_fields))
         self.ui.triage_ignore_listWidget.source_data = ignore_fields
