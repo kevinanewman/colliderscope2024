@@ -21,11 +21,12 @@ from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
 
 import PySide6
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QFileDialog, QTableWidget,
                                QTableWidgetItem, QLabel, QMessageBox, QGraphicsScene, QGraphicsWidget,
                                QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout)
 
-from PySide6.QtGui import QStandardItemModel
+from PySide6.QtGui import QStandardItemModel, QBrush, QColor
 
 from pythonhighlighter import PythonHighlighter
 
@@ -248,20 +249,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
 
-        self.init_graphic_preview_plot_widget()
-
-        # set up selection rectangle
-        self.ui.graphic_preview_plot_widget.getViewBox().setMouseMode(pg.ViewBox.RectMode)
-        self.ui.graphic_preview_plot_widget.getViewBox().rbScaleBox.setPen(pg.mkPen((64, 128, 200), width=2))
-        self.ui.graphic_preview_plot_widget.getViewBox().rbScaleBox.setBrush(pg.mkBrush(81,	197, 255, 100))
-
-        # self.ui.graphic_preview_plot_widget.plotItem.ctrlMenu # for future work...
-
-        # self.ui.graphic_preview_plot_widget.scene().sigMouseMoved.connect(mouseMoved)
-        # self.ui.graphic_preview_plot_widget.scene().sigMouseHover.connect(mouseHover)
-        self.ui.graphic_preview_plot_widget.scene().sigMouseClicked.connect(mouseClicked)
-
-        self.ui.plot_graphicsView.showGrid(x=True, y=True)
+        self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
         self.ui.file_import_browse_pushButton.setFocus()
 
@@ -307,6 +295,8 @@ class ColliderScopeUI(QMainWindow):
         # the target widget in the compiled python script
         self.ui.nanhandler_widget = Ui_NanHandlerHorizontal().setupUi(self.ui.nanhandler_widget)
 
+        self.active_plot = pg.plot()
+        self.init_plot_widget(self.active_plot, '')
         # timer.start()
 
     def generic_slot(self, *args, **kwargs):
@@ -361,12 +351,30 @@ class ColliderScopeUI(QMainWindow):
         else:
             os.system('open %s' % doc_link)
 
-    def init_graphic_preview_plot_widget(self):
-        self.ui.graphic_preview_plot_widget.plotItem.clear()
-        self.ui.graphic_preview_plot_widget.showGrid(x=True, y=True)
-        self.ui.graphic_preview_plot_widget.plotItem.setTitle('Graphic Preview')
-        self.ui.graphic_preview_plot_widget.plotItem.showButtons()
-        self.ui.graphic_preview_plot_widget.new = True
+    def init_plot_widget(self, plot_widget, title_str):
+        plot_widget.plotItem.clear()
+        plot_widget.showGrid(x=True, y=True)
+        plot_widget.plotItem.setTitle(title_str)
+        plot_widget.plotItem.showButtons()
+        plot_widget.new = True
+
+        # set up selection rectangle
+        plot_widget.getViewBox().setMouseMode(pg.ViewBox.RectMode)
+        plot_widget.getViewBox().rbScaleBox.setPen(pg.mkPen((64, 128, 200), width=2))
+        plot_widget.getViewBox().rbScaleBox.setBrush(pg.mkBrush(81,	197, 255, 100))
+
+        # plot_widget.plotItem.ctrlMenu # for future work...
+
+        # plot_widget.scene().sigMouseMoved.connect(mouseMoved)
+        # plot_widget.scene().sigMouseHover.connect(mouseHover)
+        plot_widget.scene().sigMouseClicked.connect(mouseClicked)
+
+        backgroundBrush = QBrush(QColor(7, 27, 46, 255))
+        backgroundBrush.setStyle(Qt.SolidPattern)
+        plot_widget.setBackgroundBrush(backgroundBrush)
+
+        # self.ui.plot_graphicsView.showGrid(x=True, y=True)
+
 
     def load_file_preview(self, qstring='', file_pathname=None):
         print('load_file_preview')
@@ -610,8 +618,6 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
-        print('clear_deadvars!')
-
     def setup_initial_triage_lists(self):
         global data
         self.ui.triage_tab.setEnabled(True)
@@ -784,7 +790,7 @@ class ColliderScopeUI(QMainWindow):
         active_string_fields.clear()
         ignore_fields.clear()
         favorite_fields.clear()
-        self.init_graphic_preview_plot_widget()
+        self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
     def script_run(self):
         global original_numeric_fields, original_string_fields, active_numeric_fields, active_string_fields, \
@@ -815,17 +821,18 @@ class ColliderScopeUI(QMainWindow):
     def delete_ignores(self):
         global data
 
-        qb = QMessageBox()
-        qb.setText('This action will permanently delete the data associated with these fields.')
-        qb.setInformativeText('Data will have to be re-imported to recover after deletion.')
-        qb.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        response = qb.exec()
+        if self.ui.triage_ignore_listWidget.source_data:
+            qb = QMessageBox()
+            qb.setText('This action will permanently delete the data associated with these fields.')
+            qb.setInformativeText('Data will have to be re-imported to recover after deletion.')
+            qb.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            response = qb.exec()
 
-        if response == QMessageBox.Ok:
-            data.drop(columns=ignore_fields, inplace=True)
-            ignore_fields.clear()
+            if response == QMessageBox.Ok:
+                data.drop(columns=ignore_fields, inplace=True)
+                ignore_fields.clear()
 
-            self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+                self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
     def script_open(self):
         file_pathname = file_dialog('', '*.py', 'Load triage script')

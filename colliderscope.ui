@@ -1774,9 +1774,13 @@ color: black;
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="ignore_delete_pushButton">
+                 <widget class="QToolButton" name="ignore_delete_toolButton">
                   <property name="text">
-                   <string>Delete</string>
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset>
+                    <normaloff>assets/delete.svg</normaloff>assets/delete.svg</iconset>
                   </property>
                  </widget>
                 </item>
@@ -2957,22 +2961,6 @@ color: black;</string>
    </hints>
   </connection>
   <connection>
-   <sender>ignore_delete_pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>ColliderScopeUI</receiver>
-   <slot>delete_ignores()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1008</x>
-     <y>154</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>527</x>
-     <y>414</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>triage_favorites_listWidget</sender>
    <signal>itemDoubleClicked(QListWidgetItem*)</signal>
    <receiver>ColliderScopeUI</receiver>
@@ -3029,6 +3017,22 @@ color: black;</string>
     <hint type="sourcelabel">
      <x>894</x>
      <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ignore_delete_toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>delete_ignores()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1029</x>
+     <y>146</y>
     </hint>
     <hint type="destinationlabel">
      <x>527</x>

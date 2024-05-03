@@ -842,10 +842,13 @@ class Ui_ColliderScopeUI(object):
 
         self.horizontalLayout_12.addItem(self.horizontalSpacer_6)
 
-        self.ignore_delete_pushButton = QPushButton(self.ignore_tab)
-        self.ignore_delete_pushButton.setObjectName(u"ignore_delete_pushButton")
+        self.ignore_delete_toolButton = QToolButton(self.ignore_tab)
+        self.ignore_delete_toolButton.setObjectName(u"ignore_delete_toolButton")
+        icon3 = QIcon()
+        icon3.addFile(u"assets/delete.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.ignore_delete_toolButton.setIcon(icon3)
 
-        self.horizontalLayout_12.addWidget(self.ignore_delete_pushButton)
+        self.horizontalLayout_12.addWidget(self.ignore_delete_toolButton)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_12)
@@ -935,18 +938,18 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.script_load_toolButton = QToolButton(self.layoutWidget)
         self.script_load_toolButton.setObjectName(u"script_load_toolButton")
-        icon3 = QIcon()
-        icon3.addFile(u"assets/open_line.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_load_toolButton.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"assets/open_line.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_load_toolButton.setIcon(icon4)
         self.script_load_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_6.addWidget(self.script_load_toolButton)
 
         self.script_save_toolButton = QToolButton(self.layoutWidget)
         self.script_save_toolButton.setObjectName(u"script_save_toolButton")
-        icon4 = QIcon()
-        icon4.addFile(u"assets/save.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_save_toolButton.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u"assets/save.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_save_toolButton.setIcon(icon5)
         self.script_save_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         self.script_save_toolButton.setArrowType(Qt.NoArrow)
 
@@ -958,9 +961,9 @@ class Ui_ColliderScopeUI(object):
 
         self.script_run_toolButton = QToolButton(self.layoutWidget)
         self.script_run_toolButton.setObjectName(u"script_run_toolButton")
-        icon5 = QIcon()
-        icon5.addFile(u"assets/run.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.script_run_toolButton.setIcon(icon5)
+        icon6 = QIcon()
+        icon6.addFile(u"assets/run.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.script_run_toolButton.setIcon(icon6)
         self.script_run_toolButton.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_6.addWidget(self.script_run_toolButton)
@@ -1163,11 +1166,11 @@ class Ui_ColliderScopeUI(object):
         self.row_allow_nans.clicked.connect(ColliderScopeUI.load_file_preview)
         self.row_drop_if_any_nans_radioButton.clicked.connect(ColliderScopeUI.load_file_preview)
         self.ignore_deadvars_toolButton.clicked.connect(ColliderScopeUI.ignore_deadvars)
-        self.ignore_delete_pushButton.clicked.connect(ColliderScopeUI.delete_ignores)
         self.triage_favorites_listWidget.itemDoubleClicked.connect(ColliderScopeUI.triage_doubleclick_selection_handler)
         self.triage_favorites_listWidget.itemSelectionChanged.connect(ColliderScopeUI.favorites_listwidget_selection_changed)
         self.triage_ignore_listWidget.itemSelectionChanged.connect(ColliderScopeUI.ignore_listwidget_selection_changed)
         self.triage_ignore_listWidget.itemDoubleClicked.connect(ColliderScopeUI.triage_doubleclick_selection_handler)
+        self.ignore_delete_toolButton.clicked.connect(ColliderScopeUI.delete_ignores)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -1257,7 +1260,7 @@ class Ui_ColliderScopeUI(object):
         self.ignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"->", None))
         self.unignore_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"<-", None))
         self.ignore_count_label.setText(QCoreApplication.translate("ColliderScopeUI", u"[0]", None))
-        self.ignore_delete_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Delete", None))
+        self.ignore_delete_toolButton.setText("")
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.ignore_tab), QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.favorites_tab), QCoreApplication.translate("ColliderScopeUI", u"Favorites", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.text_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Text Preview", None))
