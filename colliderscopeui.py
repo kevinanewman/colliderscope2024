@@ -284,6 +284,15 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_favorites_listWidget.source_data = favorite_fields
         self.ui.triage_favorites_listWidget.count_label = None
 
+        self.triage_listwidgets = [
+            self.ui.triage_numeric_listWidget,
+            self.ui.triage_string_listWidget,
+            self.ui.triage_ignore_listWidget,
+            self.ui.triage_favorites_listWidget
+        ]
+
+        self.active_listwidget = None
+
         self.ui.triage_filter_widget.widget_list = \
             [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget,
              self.ui.triage_ignore_listWidget, self.ui.triage_favorites_listWidget]
@@ -293,15 +302,16 @@ class ColliderScopeUI(QMainWindow):
 
         self.prior_nan_count = None
 
+        # this is how to instantiate a re-usable widget created in Qt Creator via a .ui file,
+        # do NOT "promote" in the Qt Creator, it won't run, the setupUi() will fail since there's no way to pass in
+        # the target widget in the compiled python script
         self.ui.nanhandler_widget = Ui_NanHandlerHorizontal().setupUi(self.ui.nanhandler_widget)
+
         # timer.start()
 
-    def generic_slot(self):
-        global import_nan_handling
-
-        import_nan_handling = nan_handler_dialog()
-
+    def generic_slot(self, *args, **kwargs):
         print('generic slot...')
+        print(self.ui.triage_favorites_listWidget.selectedItems())
 
     def send_right_pushbutton(self):
         if self.ui.ignore_favorites_tabWidget.currentIndex() == 0:
@@ -462,96 +472,112 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview('', file_pathname)
 
-    def update_string_preview(self, force=False):
+    def numeric_listwidget_selection_changed(self):
+        self.active_listwidget = self.ui.triage_numeric_listWidget
+        self.handle_active_listwidget()
+
+    def string_listwidget_selection_changed(self):
+        self.active_listwidget = self.ui.triage_string_listWidget
+        self.handle_active_listwidget()
+
+    def ignore_listwidget_selection_changed(self):
+        self.active_listwidget = self.ui.triage_ignore_listWidget
+        self.handle_active_listwidget()
+
+    def favorites_listwidget_selection_changed(self):
+        self.active_listwidget = self.ui.triage_favorites_listWidget
+        self.handle_active_listwidget()
+
+    def handle_active_listwidget(self, force_native_preview=False):
         global latest_item, latest_items
 
+        for lw in self.triage_listwidgets:
+            if lw is not self.active_listwidget:
+                lw.clearSelection()
+
+        latest_item = self.active_listwidget.currentItem().text()
+        latest_items = [i.text() for i in self.active_listwidget.selectedItems()]
+
+        if latest_item in original_string_fields:
+            self.update_string_preview(force_native_preview)
+        else:
+            self.update_numeric_preview(force_native_preview)
+
+    def triage_doubleclick_selection_handler(self, current_listWidgetItem):
+        self.active_listwidget = current_listWidgetItem.listWidget()
+        self.handle_active_listwidget(force_native_preview=True)
+
+    def update_text_preview(self, latest_item):
+        self.ui.text_preview_listWidget.clear()
+        self.ui.text_preview_listWidget.addItems(['%s:\n' % latest_item])
+        self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
+
+    def update_string_preview(self, force=False):
         if self.ui.preview_tabWidget.currentIndex() != 2 or force:
             self.ui.preview_tabWidget.setCurrentIndex(0)
 
-        self.ui.triage_numeric_listWidget.clearSelection()
-        self.ui.triage_ignore_listWidget.clearSelection()
-
-        if self.ui.triage_string_listWidget.selectedItems():
-            latest_items = [i.text() for i in self.ui.triage_string_listWidget.selectedItems()]
-            latest_item = self.ui.triage_string_listWidget.selectedItems()[-1].text()
-            self.ui.text_preview_listWidget.clear()
-            self.ui.text_preview_listWidget.addItems(data[latest_item].unique())
-
-    def force_string_preview(self):
-        self.update_string_preview(force=True)
+        self.update_text_preview(latest_item)
 
     def update_numeric_preview(self, force=False):
-        global latest_item, latest_items
-
-        self.ui.triage_string_listWidget.clearSelection()
-        self.ui.triage_ignore_listWidget.clearSelection()
-
         if force:
             self.ui.preview_tabWidget.setCurrentIndex(1)
 
-        if self.ui.triage_numeric_listWidget.selectedItems():
-            latest_items = [i.text() for i in self.ui.triage_numeric_listWidget.selectedItems()]
-            latest_item = self.ui.triage_numeric_listWidget.selectedItems()[-1].text()
-            self.ui.text_preview_listWidget.clear()
-            self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
+        self.update_text_preview(latest_item)
 
-            nan_count = sum(data[latest_item].isna())
-            allow_autorange = True
+        nan_count = sum(data[latest_item].isna())
+        allow_autorange = True
 
-            if (self.ui.graphic_preview_plot_widget.new or
-                    nan_count != self.prior_nan_count or
-                    sum(data[latest_item].notna()) == 0):
-                # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
-                #                                      symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
-                #                                      symbolSize=1.5, clear=True)
-                # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
-                #                                      symbolBrush=None, symbolPen=(231, 232, 255), symbol='t1',
-                #                                      symbolSize=4, clear=True)
+        if (self.ui.graphic_preview_plot_widget.new or
+                nan_count != self.prior_nan_count or
+                sum(data[latest_item].notna()) == 0):
+            # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
+            #                                      symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
+            #                                      symbolSize=1.5, clear=True)
+            # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
+            #                                      symbolBrush=None, symbolPen=(231, 232, 255), symbol='t1',
+            #                                      symbolSize=4, clear=True)
 
-                # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
+            # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
 
-                if sum(data[latest_item].isna()) > 0 or len(data[latest_item]) == 1:
-                    if sum(data[latest_item].notna()) == 0:
-                        # data is all nans...
-                        self.ui.graphic_preview_plot_widget.plot([0], [0], clear=True)
-                        self.ui.graphic_preview_plot_widget.setXRange(-0.5, 0.5)
-                        self.ui.graphic_preview_plot_widget.setYRange(-0.5, 0.5)
-                        allow_autorange = False
-                    else:
-                        self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen='#00000000',
-                                                             symbolBrush=None, symbolPen=(231, 232, 255),
-                                                             symbol='t1', symbolSize=4, clear=True)
-
-                    # label nan count, "anchor" is relative to upper left corner of the box
-                    text = pg.TextItem(
-                        html='<div style="text-align: center"><span style="color: #FFF;'
-                             '"<span style="color: #FF0; font-size: 16pt;">%d NaNs</span></div>' % nan_count,
-                        anchor=(-0.03*0, 0.5*0), border='w', fill=(255, 80, 80, 100))
-                    self.ui.graphic_preview_plot_widget.addItem(text)
-
-                    if sum(data[latest_item].notna()) == 0:
-                        # data is all nans...
-                        text.setPos(0, 0)
-                    else:
-                        text.setPos(0, data[latest_item].max())
+            if sum(data[latest_item].isna()) > 0 or len(data[latest_item]) == 1:
+                if sum(data[latest_item].notna()) == 0:
+                    # data is all nans...
+                    self.ui.graphic_preview_plot_widget.plot([0], [0], clear=True)
+                    self.ui.graphic_preview_plot_widget.setXRange(-0.5, 0.5)
+                    self.ui.graphic_preview_plot_widget.setYRange(-0.5, 0.5)
+                    allow_autorange = False
                 else:
-                    self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255),
-                                                             clear=True)
+                    self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen='#00000000',
+                                                         symbolBrush=None, symbolPen=(231, 232, 255),
+                                                         symbol='t1', symbolSize=4, clear=True)
 
-                self.ui.graphic_preview_plot_widget.new = False
-            else:  # re-using plot and no nans, just update data
-                self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
+                # label nan count, "anchor" is relative to upper left corner of the box
+                text = pg.TextItem(
+                    html='<div style="text-align: center"><span style="color: #FFF;'
+                         '"<span style="color: #FF0; font-size: 16pt;">%d NaNs</span></div>' % nan_count,
+                    anchor=(-0.03*0, 0.5*0), border='w', fill=(255, 80, 80, 100))
+                self.ui.graphic_preview_plot_widget.addItem(text)
 
-            self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
-            if allow_autorange:
-                self.ui.graphic_preview_plot_widget.plotItem.autoRange()
-            # maybe do this if len(data) > X?
-            # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
+                if sum(data[latest_item].notna()) == 0:
+                    # data is all nans...
+                    text.setPos(0, 0)
+                else:
+                    text.setPos(0, data[latest_item].max())
+            else:
+                self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255),
+                                                         clear=True)
 
-            self.prior_nan_count = nan_count
+            self.ui.graphic_preview_plot_widget.new = False
+        else:  # re-using plot and no nans, just update data
+            self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
 
-    def force_numeric_preview(self):
-        self.update_numeric_preview(force=True)
+        self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
+        if allow_autorange:
+            self.ui.graphic_preview_plot_widget.plotItem.autoRange()
+        # maybe do this if len(data) > X?
+        # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
+
+        self.prior_nan_count = nan_count
 
     def init_triage_lists(self):
         global data
@@ -819,7 +845,7 @@ class ColliderScopeUI(QMainWindow):
             for i in latest_items:
                 self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']\n" % i)
         elif latest_item:
-            self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']" % latest_item)
+            self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']\n" % latest_item)
 
         self.ui.preview_tabWidget.setCurrentIndex(2)
 
