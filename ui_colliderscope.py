@@ -1174,7 +1174,7 @@ class Ui_ColliderScopeUI(object):
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_csv_encoding_comboBox.setCurrentIndex(0)
         self.import_excel_pushButton.setDefault(False)
-        self.ignore_favorites_tabWidget.setCurrentIndex(1)
+        self.ignore_favorites_tabWidget.setCurrentIndex(0)
         self.preview_tabWidget.setCurrentIndex(1)
         self.export_data_pushButton.setDefault(True)
 
