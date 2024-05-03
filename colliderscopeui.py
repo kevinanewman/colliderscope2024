@@ -517,8 +517,9 @@ class ColliderScopeUI(QMainWindow):
 
     def update_text_preview(self, latest_item):
         self.ui.text_preview_listWidget.clear()
-        self.ui.text_preview_listWidget.addItems(['%s:\n' % latest_item])
-        self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
+        if latest_item in data:
+            self.ui.text_preview_listWidget.addItems(['%s:\n' % latest_item])
+            self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
 
     def update_string_preview(self, force=False):
         if self.ui.preview_tabWidget.currentIndex() != 2 or force:
@@ -532,60 +533,65 @@ class ColliderScopeUI(QMainWindow):
 
         self.update_text_preview(latest_item)
 
-        nan_count = sum(data[latest_item].isna())
-        allow_autorange = True
+        if latest_item in data:
+            nan_count = sum(data[latest_item].isna())
+            allow_autorange = True
 
-        if (self.ui.graphic_preview_plot_widget.new or
-                nan_count != self.prior_nan_count or
-                sum(data[latest_item].notna()) == 0):
-            # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
-            #                                      symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
-            #                                      symbolSize=1.5, clear=True)
-            # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
-            #                                      symbolBrush=None, symbolPen=(231, 232, 255), symbol='t1',
-            #                                      symbolSize=4, clear=True)
+            if (self.ui.graphic_preview_plot_widget.new or
+                    nan_count != self.prior_nan_count or
+                    sum(data[latest_item].notna()) == 0):
+                # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
+                #                                      symbolBrush=(231, 232, 255), symbolPen=(231, 232, 255), symbol='o',
+                #                                      symbolSize=1.5, clear=True)
+                # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=None,
+                #                                      symbolBrush=None, symbolPen=(231, 232, 255), symbol='t1',
+                #                                      symbolSize=4, clear=True)
 
-            # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
+                # self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255), clear=True)
 
-            if sum(data[latest_item].isna()) > 0 or len(data[latest_item]) == 1:
-                if sum(data[latest_item].notna()) == 0:
-                    # data is all nans...
-                    self.ui.graphic_preview_plot_widget.plot([0], [0], clear=True)
-                    self.ui.graphic_preview_plot_widget.setXRange(-0.5, 0.5)
-                    self.ui.graphic_preview_plot_widget.setYRange(-0.5, 0.5)
-                    allow_autorange = False
+                if sum(data[latest_item].isna()) > 0 or len(data[latest_item]) == 1:
+                    if sum(data[latest_item].notna()) == 0:
+                        # data is all nans...
+                        self.ui.graphic_preview_plot_widget.plot([0], [0], clear=True)
+                        self.ui.graphic_preview_plot_widget.setXRange(-0.5, 0.5)
+                        self.ui.graphic_preview_plot_widget.setYRange(-0.5, 0.5)
+                        allow_autorange = False
+                    else:
+                        self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen='#00000000',
+                                                             symbolBrush=None, symbolPen=(231, 232, 255),
+                                                             symbol='t1', symbolSize=4, clear=True)
+
+                    # label nan count, "anchor" is relative to upper left corner of the box
+                    text = pg.TextItem(
+                        html='<div style="text-align: center"><span style="color: #FFF;'
+                             '"<span style="color: #FF0; font-size: 16pt;">%d NaNs</span></div>' % nan_count,
+                        anchor=(-0.03*0, 0.5*0), border='w', fill=(255, 80, 80, 100))
+                    self.ui.graphic_preview_plot_widget.addItem(text)
+
+                    if sum(data[latest_item].notna()) == 0:
+                        # data is all nans...
+                        text.setPos(0, 0)
+                    else:
+                        text.setPos(0, data[latest_item].max())
                 else:
-                    self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen='#00000000',
-                                                         symbolBrush=None, symbolPen=(231, 232, 255),
-                                                         symbol='t1', symbolSize=4, clear=True)
+                    self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255),
+                                                             clear=True)
 
-                # label nan count, "anchor" is relative to upper left corner of the box
-                text = pg.TextItem(
-                    html='<div style="text-align: center"><span style="color: #FFF;'
-                         '"<span style="color: #FF0; font-size: 16pt;">%d NaNs</span></div>' % nan_count,
-                    anchor=(-0.03*0, 0.5*0), border='w', fill=(255, 80, 80, 100))
-                self.ui.graphic_preview_plot_widget.addItem(text)
+                self.ui.graphic_preview_plot_widget.new = False
+            else:  # re-using plot and no nans, just update data
+                self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
 
-                if sum(data[latest_item].notna()) == 0:
-                    # data is all nans...
-                    text.setPos(0, 0)
-                else:
-                    text.setPos(0, data[latest_item].max())
-            else:
-                self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255),
-                                                         clear=True)
+            self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
+            if allow_autorange:
+                self.ui.graphic_preview_plot_widget.plotItem.autoRange()
+            # maybe do this if len(data) > X?
+            # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
 
-            self.ui.graphic_preview_plot_widget.new = False
-        else:  # re-using plot and no nans, just update data
-            self.ui.graphic_preview_plot_widget.plotItem.curves[0].setData(data[latest_item].values)
+            self.prior_nan_count = nan_count
+        else:
+            self.prior_nan_count = 0
+            self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
-        self.ui.graphic_preview_plot_widget.plotItem.setTitle(latest_item)
-        if allow_autorange:
-            self.ui.graphic_preview_plot_widget.plotItem.autoRange()
-        # maybe do this if len(data) > X?
-        # self.ui.graphic_preview_plot_widget.setDownsampling(auto=True, mode='peak')
-
-        self.prior_nan_count = nan_count
 
     def init_triage_lists(self):
         global data
@@ -819,7 +825,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
     def delete_ignores(self):
-        global data
+        global data, latest_item
 
         if self.ui.triage_ignore_listWidget.source_data:
             qb = QMessageBox()
@@ -831,7 +837,8 @@ class ColliderScopeUI(QMainWindow):
             if response == QMessageBox.Ok:
                 data.drop(columns=ignore_fields, inplace=True)
                 ignore_fields.clear()
-
+                latest_items.clear()
+                latest_item = None
                 self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
     def script_open(self):
