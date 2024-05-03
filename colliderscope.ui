@@ -1290,7 +1290,7 @@ color: black
 </string>
               </property>
               <property name="editTriggers">
-               <set>QAbstractItemView::AllEditTriggers</set>
+               <set>QAbstractItemView::NoEditTriggers</set>
               </property>
               <property name="showDropIndicator" stdset="0">
                <bool>true</bool>
@@ -1632,7 +1632,7 @@ color: black;
                <enum>QFrame::StyledPanel</enum>
               </property>
               <property name="editTriggers">
-               <set>QAbstractItemView::AllEditTriggers</set>
+               <set>QAbstractItemView::NoEditTriggers</set>
               </property>
               <property name="dragEnabled">
                <bool>false</bool>
@@ -1729,7 +1729,7 @@ color: black;
           <item>
            <widget class="QTabWidget" name="ignore_favorites_tabWidget">
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="documentMode">
              <bool>true</bool>
@@ -1826,6 +1826,9 @@ color: black;</string>
                 <property name="styleSheet">
                  <string notr="true">background-color: rgb(233, 255, 255);
 color: black;</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
                 </property>
                 <property name="dragEnabled">
                  <bool>false</bool>
@@ -2445,7 +2448,7 @@ color: black;</string>
    <sender>triage_string_listWidget</sender>
    <signal>itemSelectionChanged()</signal>
    <receiver>ColliderScopeUI</receiver>
-   <slot>update_string_preview()</slot>
+   <slot>string_listwidget_selection_changed()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>533</x>
@@ -2461,7 +2464,7 @@ color: black;</string>
    <sender>triage_numeric_listWidget</sender>
    <signal>itemSelectionChanged()</signal>
    <receiver>ColliderScopeUI</receiver>
-   <slot>update_numeric_preview()</slot>
+   <slot>numeric_listwidget_selection_changed()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>164</x>
@@ -2541,7 +2544,7 @@ color: black;</string>
    <sender>triage_string_listWidget</sender>
    <signal>itemDoubleClicked(QListWidgetItem*)</signal>
    <receiver>ColliderScopeUI</receiver>
-   <slot>force_string_preview()</slot>
+   <slot>triage_doubleclick_selection_handler()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>533</x>
@@ -2557,7 +2560,7 @@ color: black;</string>
    <sender>triage_numeric_listWidget</sender>
    <signal>itemDoubleClicked(QListWidgetItem*)</signal>
    <receiver>ColliderScopeUI</receiver>
-   <slot>force_numeric_preview()</slot>
+   <slot>triage_doubleclick_selection_handler()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>165</x>
@@ -2969,6 +2972,70 @@ color: black;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>triage_favorites_listWidget</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>triage_doubleclick_selection_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>795</x>
+     <y>155</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>triage_favorites_listWidget</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>favorites_listwidget_selection_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>894</x>
+     <y>295</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>triage_ignore_listWidget</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>ignore_listwidget_selection_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>894</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>triage_ignore_listWidget</sender>
+   <signal>itemDoubleClicked(QListWidgetItem*)</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>triage_doubleclick_selection_handler()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>894</x>
+     <y>309</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
@@ -2997,6 +3064,12 @@ color: black;</string>
   <slot>handle_nans_on_import()</slot>
   <slot>ignore_deadvars()</slot>
   <slot>delete_ignores()</slot>
+  <slot>triage_selection_handler()</slot>
+  <slot>triage_doubleclick_selection_handler()</slot>
+  <slot>favorites_listwidget_selection_changed()</slot>
+  <slot>ignore_listwidget_selection_changed()</slot>
+  <slot>numeric_listwidget_selection_changed()</slot>
+  <slot>string_listwidget_selection_changed()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="export_options_buttonGroup"/>
