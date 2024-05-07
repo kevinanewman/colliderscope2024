@@ -24,7 +24,7 @@ import PySide6
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QFileDialog, QTableWidget,
                                QTableWidgetItem, QLabel, QMessageBox, QGraphicsScene, QGraphicsWidget,
-                               QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout)
+                               QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout, QCheckBox)
 
 from PySide6.QtGui import QStandardItemModel, QBrush, QColor
 
@@ -310,6 +310,21 @@ class ColliderScopeUI(QMainWindow):
 
         self.active_plot = pg.plot()
         self.init_plot_widget(self.active_plot, '')
+
+        # # attempt at making two independent grids line up...
+        # min_grid_widths = [41, 100, 100, 100, 41, 100, 41, 100, 41]
+        # stretch = [0, 1, 1, 1, 0, 1, 0, 1, 0]
+        #
+        # for idx, gw in enumerate(min_grid_widths):
+        #     self.ui.plot_inputs_label_gridLayout.setColumnMinimumWidth(idx, gw)
+        #     self.ui.plot_inputs_gridLayout.setColumnMinimumWidth(idx, gw)
+        #
+        # for idx, s in enumerate(stretch):
+        #     self.ui.plot_inputs_label_gridLayout.setColumnStretch(idx, s)
+        #     self.ui.plot_inputs_gridLayout.setColumnStretch(idx, s)
+
+        pass
+
         # timer.start()
 
     def generic_slot(self, *args, **kwargs):

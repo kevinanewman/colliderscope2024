@@ -17,14 +17,14 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QButtonGroup,
-    QCheckBox, QComboBox, QFrame, QGroupBox,
-    QHBoxLayout, QHeaderView, QLabel, QLayout,
-    QLineEdit, QListWidget, QListWidgetItem, QMainWindow,
-    QMenu, QMenuBar, QPlainTextEdit, QPushButton,
-    QRadioButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QSpinBox, QSplitter, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QToolButton, QVBoxLayout,
-    QWidget)
+    QCheckBox, QComboBox, QFrame, QGridLayout,
+    QGroupBox, QHBoxLayout, QHeaderView, QLabel,
+    QLayout, QLineEdit, QListWidget, QListWidgetItem,
+    QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
+    QPushButton, QRadioButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QSpinBox, QSplitter, QStatusBar,
+    QTabWidget, QTableWidget, QTableWidgetItem, QToolButton,
+    QVBoxLayout, QWidget)
 
 from filterwidget import FilterWidget
 from pyqtgraph import PlotWidget
@@ -1103,9 +1103,223 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_8)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.scrollArea_2 = QScrollArea(self.export_tab)
+        self.scrollArea_2.setObjectName(u"scrollArea_2")
+        self.scrollArea_2.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_2 = QWidget()
+        self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 269))
+        self.verticalLayout_14 = QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.verticalLayout_14.setSpacing(5)
+        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.verticalLayout_14.setContentsMargins(5, 5, 5, 5)
+        self.plot_inputs_label_gridLayout = QGridLayout()
+        self.plot_inputs_label_gridLayout.setObjectName(u"plot_inputs_label_gridLayout")
+        self.plot_inputs_label_gridLayout.setHorizontalSpacing(5)
+        self.plot_inputs_label_gridLayout.setVerticalSpacing(-1)
+        self.plot_inputs_label_gridLayout.setContentsMargins(5, 5, 5, 5)
+        self.label_3 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setMaximumSize(QSize(16777215, 16777215))
+        self.label_3.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout_12.addItem(self.verticalSpacer_2)
+        self.plot_inputs_label_gridLayout.addWidget(self.label_3, 0, 0, 1, 1)
+
+        self.label_4 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setMaximumSize(QSize(16777215, 16777215))
+        self.label_4.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_4, 0, 1, 1, 1)
+
+        self.label_5 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setMaximumSize(QSize(16777215, 16777215))
+        self.label_5.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_5, 0, 2, 1, 1)
+
+        self.label_6 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_6.setObjectName(u"label_6")
+        self.label_6.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_6, 0, 3, 1, 1)
+
+        self.label_7 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setMaximumSize(QSize(16777215, 16777215))
+        self.label_7.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_7, 0, 4, 1, 1)
+
+        self.label_8 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_8, 0, 5, 1, 1)
+
+        self.label_9 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setMaximumSize(QSize(16777215, 16777215))
+        self.label_9.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_9, 0, 6, 1, 1)
+
+        self.label_10 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_10, 0, 7, 1, 1)
+
+        self.label_11 = QLabel(self.scrollAreaWidgetContents_2)
+        self.label_11.setObjectName(u"label_11")
+        self.label_11.setMaximumSize(QSize(16777215, 16777215))
+        self.label_11.setAlignment(Qt.AlignCenter)
+
+        self.plot_inputs_label_gridLayout.addWidget(self.label_11, 0, 8, 1, 1)
+
+        self.plot_inputs_label_gridLayout.setColumnStretch(1, 1)
+        self.plot_inputs_label_gridLayout.setColumnStretch(2, 1)
+        self.plot_inputs_label_gridLayout.setColumnStretch(3, 1)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(0, 41)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(1, 100)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(2, 100)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(3, 100)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(4, 41)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(5, 100)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(6, 41)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(7, 100)
+        self.plot_inputs_label_gridLayout.setColumnMinimumWidth(8, 41)
+
+        self.verticalLayout_14.addLayout(self.plot_inputs_label_gridLayout)
+
+        self.plot_inputs_gridLayout = QGridLayout()
+        self.plot_inputs_gridLayout.setObjectName(u"plot_inputs_gridLayout")
+        self.plot_inputs_gridLayout.setHorizontalSpacing(5)
+        self.plot_inputs_gridLayout.setContentsMargins(5, -1, 5, -1)
+        self.comboBox_5 = QComboBox(self.scrollAreaWidgetContents_2)
+        self.comboBox_5.setObjectName(u"comboBox_5")
+        self.comboBox_5.setMinimumSize(QSize(0, 0))
+
+        self.plot_inputs_gridLayout.addWidget(self.comboBox_5, 0, 7, 1, 1)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setSpacing(0)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalSpacer_8 = QSpacerItem(0, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_13.addItem(self.horizontalSpacer_8)
+
+        self.checkBox = QCheckBox(self.scrollAreaWidgetContents_2)
+        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox.setMaximumSize(QSize(19, 16777215))
+
+        self.horizontalLayout_13.addWidget(self.checkBox)
+
+        self.horizontalSpacer_9 = QSpacerItem(10, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_13.addItem(self.horizontalSpacer_9)
+
+
+        self.plot_inputs_gridLayout.addLayout(self.horizontalLayout_13, 0, 0, 1, 1)
+
+        self.comboBox_2 = QComboBox(self.scrollAreaWidgetContents_2)
+        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_2.setMinimumSize(QSize(0, 0))
+
+        self.plot_inputs_gridLayout.addWidget(self.comboBox_2, 0, 2, 1, 1)
+
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setSpacing(0)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalSpacer_10 = QSpacerItem(0, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_14.addItem(self.horizontalSpacer_10)
+
+        self.checkBox_4 = QCheckBox(self.scrollAreaWidgetContents_2)
+        self.checkBox_4.setObjectName(u"checkBox_4")
+        self.checkBox_4.setMaximumSize(QSize(19, 16777215))
+
+        self.horizontalLayout_14.addWidget(self.checkBox_4)
+
+        self.horizontalSpacer_11 = QSpacerItem(10, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_14.addItem(self.horizontalSpacer_11)
+
+
+        self.plot_inputs_gridLayout.addLayout(self.horizontalLayout_14, 0, 4, 1, 1)
+
+        self.comboBox = QComboBox(self.scrollAreaWidgetContents_2)
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setMinimumSize(QSize(0, 0))
+
+        self.plot_inputs_gridLayout.addWidget(self.comboBox, 0, 1, 1, 1)
+
+        self.comboBox_3 = QComboBox(self.scrollAreaWidgetContents_2)
+        self.comboBox_3.setObjectName(u"comboBox_3")
+        self.comboBox_3.setMinimumSize(QSize(0, 0))
+
+        self.plot_inputs_gridLayout.addWidget(self.comboBox_3, 0, 3, 1, 1)
+
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setSpacing(0)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.horizontalSpacer_12 = QSpacerItem(0, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_15.addItem(self.horizontalSpacer_12)
+
+        self.checkBox_5 = QCheckBox(self.scrollAreaWidgetContents_2)
+        self.checkBox_5.setObjectName(u"checkBox_5")
+        self.checkBox_5.setMaximumSize(QSize(19, 16777215))
+
+        self.horizontalLayout_15.addWidget(self.checkBox_5)
+
+        self.horizontalSpacer_13 = QSpacerItem(10, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_15.addItem(self.horizontalSpacer_13)
+
+
+        self.plot_inputs_gridLayout.addLayout(self.horizontalLayout_15, 0, 6, 1, 1)
+
+        self.comboBox_4 = QComboBox(self.scrollAreaWidgetContents_2)
+        self.comboBox_4.setObjectName(u"comboBox_4")
+        self.comboBox_4.setMinimumSize(QSize(0, 0))
+
+        self.plot_inputs_gridLayout.addWidget(self.comboBox_4, 0, 5, 1, 1)
+
+        self.toolButton = QToolButton(self.scrollAreaWidgetContents_2)
+        self.toolButton.setObjectName(u"toolButton")
+        self.toolButton.setMinimumSize(QSize(40, 0))
+        self.toolButton.setIcon(icon3)
+
+        self.plot_inputs_gridLayout.addWidget(self.toolButton, 0, 8, 1, 1)
+
+        self.plot_inputs_gridLayout.setColumnStretch(1, 1)
+        self.plot_inputs_gridLayout.setColumnStretch(2, 1)
+        self.plot_inputs_gridLayout.setColumnStretch(3, 1)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(0, 41)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(1, 100)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(2, 100)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(3, 100)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(4, 41)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(5, 100)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(6, 41)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(7, 100)
+        self.plot_inputs_gridLayout.setColumnMinimumWidth(8, 41)
+
+        self.verticalLayout_14.addLayout(self.plot_inputs_gridLayout)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 187, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_14.addItem(self.verticalSpacer_2)
+
+        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
+
+        self.verticalLayout_12.addWidget(self.scrollArea_2)
+
+        self.verticalSpacer_7 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_12.addItem(self.verticalSpacer_7)
 
         self.tabWidget_main.addTab(self.export_tab, "")
 
@@ -1172,7 +1386,7 @@ class Ui_ColliderScopeUI(object):
         self.triage_ignore_listWidget.itemDoubleClicked.connect(ColliderScopeUI.triage_doubleclick_selection_handler)
         self.ignore_delete_toolButton.clicked.connect(ColliderScopeUI.delete_ignores)
 
-        self.tabWidget_main.setCurrentIndex(0)
+        self.tabWidget_main.setCurrentIndex(3)
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_csv_encoding_comboBox.setCurrentIndex(0)
@@ -1290,6 +1504,19 @@ class Ui_ColliderScopeUI(object):
         self.export_data_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
 
         self.export_data_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export", None))
+        self.label_3.setText(QCoreApplication.translate("ColliderScopeUI", u"Enable", None))
+        self.label_4.setText(QCoreApplication.translate("ColliderScopeUI", u"X", None))
+        self.label_5.setText(QCoreApplication.translate("ColliderScopeUI", u"Y", None))
+        self.label_6.setText(QCoreApplication.translate("ColliderScopeUI", u"Z", None))
+        self.label_7.setText(QCoreApplication.translate("ColliderScopeUI", u"Label", None))
+        self.label_8.setText(QCoreApplication.translate("ColliderScopeUI", u"Symbol", None))
+        self.label_9.setText(QCoreApplication.translate("ColliderScopeUI", u"Fill", None))
+        self.label_10.setText(QCoreApplication.translate("ColliderScopeUI", u"Line", None))
+        self.label_11.setText(QCoreApplication.translate("ColliderScopeUI", u"Delete", None))
+        self.checkBox.setText("")
+        self.checkBox_4.setText("")
+        self.checkBox_5.setText("")
+        self.toolButton.setText(QCoreApplication.translate("ColliderScopeUI", u"...", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.export_tab), QCoreApplication.translate("ColliderScopeUI", u"Export", None))
         self.menuColliderScope2024.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Menu", None))
     # retranslateUi
