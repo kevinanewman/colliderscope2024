@@ -252,6 +252,16 @@ def favorites_listWidget_dropEvent(event):
     event.accept()
 
 
+def set_tab_by_name(tabWidget, tab_name):
+    for i in range(tabWidget.count()):
+        if tabWidget.tabText(i) == tab_name:
+            tabWidget.setCurrentIndex(i)
+
+
+def get_current_tabname(tabWidget):
+    return tabWidget.tabText(tabWidget.currentIndex())
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
         global active_numeric_fields, active_string_fields, ignore_fields, favorite_fields
@@ -259,6 +269,9 @@ class ColliderScopeUI(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
+
+        # make sure we start on the import tab in case the .ui was left on another tab
+        set_tab_by_name(self.ui.tabWidget_main, 'Import')
 
         self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
@@ -423,7 +436,8 @@ class ColliderScopeUI(QMainWindow):
             if 'xls' in file_pathname.split('.')[-1]:
                 self.ui.import_excel_units_row_spinBox.setEnabled(self.ui.import_excel_units_row_checkBox.isChecked())
 
-                self.ui.file_import_tabWidget.setCurrentIndex(1)
+                set_tab_by_name(self.ui.file_import_tabWidget, 'Excel')
+
                 self.ui.import_excel_pushButton.setFocus()
                 self.ui.import_csv_pushButton.clearFocus()
 
@@ -434,7 +448,8 @@ class ColliderScopeUI(QMainWindow):
             else:
                 self.ui.import_csv_units_row_spinBox.setEnabled(self.ui.import_csv_units_row_checkBox.isChecked())
 
-                self.ui.file_import_tabWidget.setCurrentIndex(0)
+                set_tab_by_name(self.ui.file_import_tabWidget, 'CSV')
+
                 self.ui.import_csv_pushButton.setFocus()
                 self.ui.import_excel_pushButton.clearFocus()
 
@@ -550,14 +565,14 @@ class ColliderScopeUI(QMainWindow):
             self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
 
     def update_string_preview(self, force=False):
-        if self.ui.preview_tabWidget.currentIndex() != 2 or force:
-            self.ui.preview_tabWidget.setCurrentIndex(0)
+        if get_current_tabname(self.ui.preview_tabWidget) != 'Preprocess Script' or force:
+            set_tab_by_name(self.ui.preview_tabWidget, 'Text Preview')
 
         self.update_text_preview(latest_item)
 
     def update_numeric_preview(self, force=False):
         if force:
-            self.ui.preview_tabWidget.setCurrentIndex(1)
+            set_tab_by_name(self.ui.preview_tabWidget, 'Graphic Preview')
 
         self.update_text_preview(latest_item)
 
@@ -887,7 +902,7 @@ class ColliderScopeUI(QMainWindow):
         elif latest_item:
             self.ui.script_preview_plainTextEdit.insertPlainText("data['%s']\n" % latest_item)
 
-        self.ui.preview_tabWidget.setCurrentIndex(2)
+        set_tab_by_name(self.ui.preview_tabWidget, 'Preprocess Script')
 
     def import_csv_freeform_changed(self):
         self.ui.import_csv_parameter_tableWidget.resizeColumnsToContents()
