@@ -683,10 +683,8 @@ class ColliderScopeUI(QMainWindow):
                 header_row = self.ui.import_csv_header_row_spinBox.value()
                 if self.ui.import_csv_units_row_checkBox.isChecked():
                     units_row = self.ui.import_csv_units_row_spinBox.value()
-                    skiprows = [units_row]
                 else:
                     units_row = None
-                    skiprows = []
 
                 unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(),
                                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
@@ -700,7 +698,6 @@ class ColliderScopeUI(QMainWindow):
                                          header=header_row, delimiter=delimiter,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                         skiprows=skiprows,
                                          nrows=nrows,
                                          **keyword_args,
                                          )
@@ -711,7 +708,6 @@ class ColliderScopeUI(QMainWindow):
                                          delimiter=delimiter,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                         skiprows=skiprows,
                                          nrows=nrows,
                                          **keyword_args,
                                          )
@@ -723,7 +719,6 @@ class ColliderScopeUI(QMainWindow):
                                      delimiter=delimiter,
                                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                      skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                     skiprows=skiprows,
                                      **keyword_args,
                                      )
 
