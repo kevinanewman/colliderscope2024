@@ -1004,13 +1004,11 @@ class ColliderScopeUI(QMainWindow):
 
             if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
                 filter_str = '*.csv'
-                selectedFilter = '*.csv'
             else:
                 filter_str = '*.xls*'
-                selectedFilter = '*.xls*'
 
             source_files = QFileDialog().getOpenFileNames(self, 'Select Source Files', os.getcwd(),
-                                                          filter=filter_str, selectedFilter=selectedFilter)[0]
+                                                          filter=filter_str, selectedFilter=filter_str)[0]
 
             if source_files:
                 # select destination folder
