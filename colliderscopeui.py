@@ -1043,14 +1043,13 @@ class ColliderScopeUI(QMainWindow):
 
 
 def status_bar():
-    # print(time.time())
-    # if widget:
-    #     widget.ui.statusbar.showMessage(status_bar_message, 1000)
-    pass
+    print(time.time())
+    if mainwindow:
+        mainwindow.ui.statusbar.showMessage(status_bar_message, 1000)
 
 
 def run_colliderscope():
-    global app, mainwindow
+    global app, mainwindow, timer
     import multitimer
     timer = multitimer.MultiTimer(interval=1, function=status_bar)
     app = QApplication(sys.argv)
