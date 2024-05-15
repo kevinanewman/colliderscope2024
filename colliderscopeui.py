@@ -716,13 +716,18 @@ class ColliderScopeUI(QMainWindow):
 
                 keyword_args = self.import_csv_options_dict
 
+                if self.ui.import_csv_skiprows_lineEdit.text():
+                    skiprows = eval(self.ui.import_csv_skiprows_lineEdit.text())
+                else:
+                    skiprows = None
+
                 if preview:
                     try:
                         df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns,
                                          header=header_row, delimiter=delimiter,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                         nrows=nrows,
+                                         nrows=nrows, skiprows=skiprows,
                                          **keyword_args,
                                          )
 
@@ -732,7 +737,7 @@ class ColliderScopeUI(QMainWindow):
                                          delimiter=delimiter,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                         nrows=nrows,
+                                         nrows=nrows, skiprows=skiprows,
                                          **keyword_args,
                                          )
 
@@ -743,6 +748,7 @@ class ColliderScopeUI(QMainWindow):
                                      delimiter=delimiter,
                                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                      skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                     skiprows = skiprows,
                                      **keyword_args,
                                      )
 
@@ -820,8 +826,13 @@ class ColliderScopeUI(QMainWindow):
 
                 engine_kwargs = {'read_only': True}
 
+                if self.ui.import_excel_skiprows_lineEdit.text():
+                    skiprows = eval(self.ui.import_excel_skiprows_lineEdit.text())
+                else:
+                    skiprows = None
+
                 df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
-                                   header=header_row, nrows=nrows, engine_kwargs=engine_kwargs,
+                                   header=header_row, nrows=nrows, engine_kwargs=engine_kwargs, skiprows=skiprows,
                                    **keyword_args)
 
                 df = self.handle_import_nans(df)
