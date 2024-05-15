@@ -60,7 +60,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -2156,283 +2156,347 @@ color: black;</string>
        <property name="enabled">
         <bool>true</bool>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
        <attribute name="title">
         <string>Export</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_12">
+       <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,1,1">
         <item>
          <widget class="QGroupBox" name="export_options_groupBox">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="title">
            <string>Export Options</string>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <layout class="QVBoxLayout" name="verticalLayout_23" stretch="0,0">
+           <property name="leftMargin">
+            <number>5</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
+           </property>
+           <property name="rightMargin">
+            <number>5</number>
+           </property>
+           <property name="bottomMargin">
+            <number>5</number>
+           </property>
            <item>
-            <widget class="QWidget" name="nanhandler_widget" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <property name="leftMargin">
+              <number>5</number>
              </property>
-            </widget>
+             <property name="topMargin">
+              <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+             <item>
+              <widget class="QWidget" name="nanhandler_widget" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="export_signal_buttons_layout">
+               <property name="title">
+                <string>Signals</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_10">
+                <property name="spacing">
+                 <number>-1</number>
+                </property>
+                <property name="sizeConstraint">
+                 <enum>QLayout::SetFixedSize</enum>
+                </property>
+                <item>
+                 <widget class="QRadioButton" name="export_all_radioButton">
+                  <property name="maximumSize">
+                   <size>
+                    <width>173</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Export all</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">export_options_buttonGroup</string>
+                  </attribute>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="export_all_but_ignored_radioButton">
+                  <property name="maximumSize">
+                   <size>
+                    <width>173</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Export all but Ignored</string>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">export_options_buttonGroup</string>
+                  </attribute>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="export_favorites_only_radioButton">
+                  <property name="maximumSize">
+                   <size>
+                    <width>173</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Export Favorites only</string>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">export_options_buttonGroup</string>
+                  </attribute>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QGroupBox" name="export_signal_buttons_layout">
-             <property name="title">
-              <string>Signals</string>
+            <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,0,0,1,0,0,0,0,0">
+             <property name="topMargin">
+              <number>0</number>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_10">
-              <property name="spacing">
-               <number>-1</number>
-              </property>
-              <property name="sizeConstraint">
-               <enum>QLayout::SetFixedSize</enum>
-              </property>
-              <item>
-               <widget class="QRadioButton" name="export_all_radioButton">
-                <property name="maximumSize">
-                 <size>
-                  <width>173</width>
-                  <height>20</height>
-                 </size>
-                </property>
+             <item>
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>Filename</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="export_data_prefix_lineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="placeholderText">
+                <string>prefix</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="export_data_prefix_filler_comboBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+               <item>
                 <property name="text">
-                 <string>Export all</string>
+                 <string>None</string>
                 </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">export_options_buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="export_all_but_ignored_radioButton">
-                <property name="maximumSize">
-                 <size>
-                  <width>173</width>
-                  <height>20</height>
-                 </size>
-                </property>
+               </item>
+               <item>
                 <property name="text">
-                 <string>Export all but Ignored</string>
+                 <string>.</string>
                 </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">export_options_buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="export_favorites_only_radioButton">
-                <property name="maximumSize">
-                 <size>
-                  <width>173</width>
-                  <height>20</height>
-                 </size>
-                </property>
+               </item>
+               <item>
                 <property name="text">
-                 <string>Export Favorites only</string>
+                 <string>-</string>
                 </property>
-                <attribute name="buttonGroup">
-                 <string notr="true">export_options_buttonGroup</string>
-                </attribute>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_7">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="export_data_lineEdit"/>
+             </item>
+             <item>
+              <widget class="QComboBox" name="export_data_suffix_filler_comboBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+               <property name="frame">
+                <bool>false</bool>
+               </property>
+               <item>
+                <property name="text">
+                 <string>None</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>.</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>-</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="export_data_suffix_lineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>150</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="placeholderText">
+                <string>suffix</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="export_data_comboBox">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>21</height>
+                </size>
+               </property>
+               <item>
+                <property name="text">
+                 <string>CSV</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Excel</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="export_data_mode_comboBox">
+               <item>
+                <property name="text">
+                 <string>Single</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Batch Process</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="export_data_pushButton">
+               <property name="text">
+                <string>Export</string>
+               </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
+               <property name="default">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLineEdit" name="export_data_prefix_lineEdit">
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="placeholderText">
-             <string>prefix</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="export_data_prefix_filler_comboBox">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-            <property name="sizeAdjustPolicy">
-             <enum>QComboBox::AdjustToContents</enum>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <item>
-             <property name="text">
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>.</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>-</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="export_data_lineEdit"/>
-          </item>
-          <item>
-           <widget class="QComboBox" name="export_data_suffix_filler_comboBox">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-            <property name="sizeAdjustPolicy">
-             <enum>QComboBox::AdjustToContents</enum>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
-            </property>
-            <item>
-             <property name="text">
-              <string>None</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>.</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>-</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="export_data_suffix_lineEdit">
-            <property name="maximumSize">
-             <size>
-              <width>150</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="placeholderText">
-             <string>suffix</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="export_data_comboBox">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>21</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>21</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>CSV</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Excel</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="export_data_mode_comboBox">
-            <item>
-             <property name="text">
-              <string>Single</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Batch Process</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="export_data_pushButton">
-            <property name="text">
-             <string>Export</string>
-            </property>
-            <property name="autoDefault">
-             <bool>true</bool>
-            </property>
-            <property name="default">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer_7">
@@ -2449,6 +2513,9 @@ color: black;</string>
         </item>
         <item>
          <widget class="QScrollArea" name="scrollArea_2">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
@@ -2458,7 +2525,7 @@ color: black;</string>
              <x>0</x>
              <y>0</y>
              <width>1019</width>
-             <height>266</height>
+             <height>265</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_14">

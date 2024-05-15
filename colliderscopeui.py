@@ -340,6 +340,8 @@ class ColliderScopeUI(QMainWindow):
         #     self.ui.plot_inputs_label_gridLayout.setColumnStretch(idx, s)
         #     self.ui.plot_inputs_gridLayout.setColumnStretch(idx, s)
 
+        self.ui.scrollAreaWidgetContents_2.setVisible(False)
+
         pass
 
         # timer.start()
@@ -419,7 +421,6 @@ class ColliderScopeUI(QMainWindow):
         plot_widget.setBackgroundBrush(backgroundBrush)
 
         # self.ui.plot_graphicsView.showGrid(x=True, y=True)
-
 
     def load_file_preview(self, qstring='', file_pathname=None):
         print('load_file_preview')
