@@ -37,6 +37,10 @@ from pythonhighlighter import PythonHighlighter
 from ui_colliderscope import Ui_ColliderScopeUI
 from ui_nanhandler_horizontal import Ui_NanHandlerHorizontal
 
+from file_io import *
+
+timer = None
+
 app = None
 mainwindow = None
 data = None
@@ -679,16 +683,21 @@ class ColliderScopeUI(QMainWindow):
         original_numeric_fields.extend(active_numeric_fields)
         original_string_fields.extend(active_string_fields)
 
-    def import_csv_file(self, preview=False, nrows=False):
+    def import_csv_file(self, preview=False, nrows=False, file_pathname=None):
         global status_bar_message, data, source_file_pathname
 
-        file_pathname = self.ui.filepathname_lineEdit.text()
+        if file_pathname is None:
+            file_pathname = self.ui.filepathname_lineEdit.text()
+            batch_mode = False
+        else:
+            batch_mode = True
 
         if file_pathname:
             source_file_pathname = file_pathname
-            self.ui.export_data_lineEdit.setText(os.path.basename(file_pathname).rsplit('.', 1)[0])
 
-            self.init_on_import()
+            if not batch_mode:
+                self.ui.export_data_lineEdit.setText(get_filename(source_file_pathname))
+                self.init_on_import()
 
             delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
             if delimiter == 'Auto':
@@ -739,14 +748,16 @@ class ColliderScopeUI(QMainWindow):
 
                     df = self.handle_import_nans(df)
 
-                    data = df
-                    self.setup_initial_triage_lists()
+                    if not batch_mode:
+                        data = df
 
-                self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                              (len(df), len(df.columns)), 10000)
+                        self.setup_initial_triage_lists()
 
-                self.ui.script_preview_consoleWidget.locals().update(globals())
-                self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
+                        self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                                      (len(df), len(df.columns)), 10000)
+
+                        self.ui.script_preview_consoleWidget.locals().update(globals())
+                        self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
                 return df
 
@@ -767,16 +778,21 @@ class ColliderScopeUI(QMainWindow):
 
         return df
 
-    def import_excel_file(self, preview=False, nrows=False):
+    def import_excel_file(self, preview=False, nrows=False, file_pathname=None):
         global status_bar_message, data, source_file_pathname
 
-        file_pathname = self.ui.filepathname_lineEdit.text()
+        if file_pathname is None:
+            file_pathname = self.ui.filepathname_lineEdit.text()
+            batch_mode = False
+        else:
+            batch_mode = True
 
         if file_pathname:
             source_file_pathname = file_pathname
-            self.ui.export_data_lineEdit.setText(os.path.basename(file_pathname).rsplit('.', 1)[0])
 
-            self.init_on_import()
+            if not batch_mode:
+                self.ui.export_data_lineEdit.setText(os.path.basename(file_pathname).rsplit('.', 1)[0])
+                self.init_on_import()
 
             if self.ui.import_excel_sheet_comboBox.count() == 0:
                 from openpyxl import load_workbook
@@ -790,10 +806,8 @@ class ColliderScopeUI(QMainWindow):
 
             if self.ui.import_excel_units_row_checkBox.isChecked():
                 units_row = self.ui.import_excel_units_row_spinBox.value()
-                skiprows = [units_row]
             else:
                 units_row = None
-                skiprows = []
 
             try:
                 if nrows is False:
@@ -804,24 +818,24 @@ class ColliderScopeUI(QMainWindow):
 
                 keyword_args = self.import_excel_options_dict
 
-                # engine_kwargs = {'read_only': preview is True}
                 engine_kwargs = {'read_only': True}
 
                 df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
-                                   skiprows=skiprows, header=header_row, nrows=nrows, engine_kwargs=engine_kwargs,
+                                   header=header_row, nrows=nrows, engine_kwargs=engine_kwargs,
                                    **keyword_args)
 
                 df = self.handle_import_nans(df)
 
-                self.ui.statusbar.showMessage('imported %d rows of df, %d columns' %
-                                              (len(df), len(df.columns)), 10000)
+                if not batch_mode:
+                    self.ui.statusbar.showMessage('imported %d rows of df, %d columns' %
+                                                  (len(df), len(df.columns)), 10000)
 
-                self.ui.script_preview_consoleWidget.locals().update(globals())
-                self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
+                    self.ui.script_preview_consoleWidget.locals().update(globals())
+                    self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
-                if not preview:
-                    data = df
-                    self.setup_initial_triage_lists()
+                    if not preview:
+                        data = df
+                        self.setup_initial_triage_lists()
 
                 return df
 
@@ -920,34 +934,112 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview()
 
+    def export_file(self, export_data, folder_pathname, prefix, file_name, suffix):
+        file_name_noext = file_name.rsplit('.', 1)[0]
+        source_file_name_noext = os.path.basename(source_file_pathname).rsplit('.', 1)[0]
+
+        if self.ui.export_all_but_ignored_radioButton.isChecked():
+            export_data = export_data.drop(columns=ignore_fields)
+        elif self.ui.export_favorites_only_radioButton.isChecked():
+            export_data = export_data.loc[:, favorite_fields]
+
+        export_filename = prefix + file_name_noext + suffix
+
+        if self.ui.export_data_comboBox.currentText() == 'CSV':
+            save_file_pathname = folder_pathname + os.sep + export_filename + '.csv'
+            export_data.to_csv(save_file_pathname, index=False)
+        else:
+            save_file_pathname = folder_pathname + os.sep + export_filename + '.xlsx'
+            export_data.to_excel(save_file_pathname, index=False)
+
+        return save_file_pathname
+
+
+    def update_export_mode(self):
+        print('update_export_mode')
+        print(self.ui.export_data_mode_comboBox.currentText())
+
+        if self.ui.export_data_mode_comboBox.currentText() == 'Single':
+            self.ui.export_data_lineEdit.setEnabled(True)
+        else:
+            self.ui.export_data_lineEdit.setEnabled(False)
+
     def export_data(self):
-        export_data = data.copy()
+        global data
 
-        # file_pathname = QFileDialog().getSaveFileName(self, 'Export Data', os.getcwd(), '*.*', '*.*')[0]
-        folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
+        if self.ui.export_data_prefix_filler_comboBox.currentText() == 'None':
+            prefix_filler = ''
+        else:
+            prefix_filler = self.ui.export_data_prefix_filler_comboBox.currentText()
 
-        if folder_pathname:
-            file_name = self.ui.export_data_lineEdit.text()
+        if self.ui.export_data_suffix_filler_comboBox.currentText() == 'None':
+            suffix_filler = ''
+        else:
+            suffix_filler = self.ui.export_data_suffix_filler_comboBox.currentText()
 
-            file_name_noext = file_name.rsplit('.', 1)[0]
-            source_file_name_noext = os.path.basename(source_file_pathname).rsplit('.', 1)[0]
+        prefix = self.ui.export_data_prefix_lineEdit.text() + prefix_filler
+        suffix = suffix_filler + self.ui.export_data_suffix_lineEdit.text()
 
-            if file_name_noext == source_file_name_noext:
-                file_name_noext = file_name_noext + '_EXPORT'
+        if self.ui.export_data_mode_comboBox.currentText() == 'Single':
+            if data is not None:
+                export_data = data.copy()
 
-            if self.ui.export_all_but_ignored_radioButton.isChecked():
-                export_data = export_data.drop(columns=ignore_fields)
-            elif self.ui.export_favorites_only_radioButton.isChecked():
-                export_data = export_data.loc[:, favorite_fields]
+                msgBox = QMessageBox()
+                msgBox.setText('Select Export Destination')
+                msgBox.exec()
 
-            if self.ui.export_data_comboBox.currentText() == 'CSV':
-                save_file_pathname = folder_pathname + os.sep + file_name_noext + '.csv'
-                export_data.to_csv(save_file_pathname, index=False)
+                folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
+
+                if folder_pathname:
+                    file_name = self.ui.export_data_lineEdit.text()
+
+                    save_file_pathname = self.export_file(export_data, folder_pathname, prefix, file_name, suffix)
+
+                    self.statusBar().showMessage('Exported data to "%s"' % save_file_pathname, 10000)
+        else:
+            # select files to process
+            msgBox = QMessageBox()
+            msgBox.setText('Select Source Files')
+            msgBox.exec()
+
+            if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
+                filter_str = '*.csv'
+                selectedFilter = '*.csv'
             else:
-                save_file_pathname = folder_pathname + os.sep + file_name_noext + '.xlsx'
-                export_data.to_excel(save_file_pathname, index=False)
+                filter_str = '*.xls*'
+                selectedFilter = '*.xls*'
 
-            self.statusBar().showMessage('Exported data to "%s"' % save_file_pathname, 10000)
+            source_files = QFileDialog().getOpenFileNames(self, 'Select Source Files', os.getcwd(),
+                                                          filter=filter_str, selectedFilter=selectedFilter)[0]
+
+            if source_files:
+                # select destination folder
+                msgBox = QMessageBox()
+                msgBox.setText('Select Export Destination')
+                msgBox.exec()
+
+                folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
+
+                if folder_pathname:
+                    original_data = data.copy()
+
+                    for idx, source_file in enumerate(source_files):
+                        print('Processing %s...' % source_file)
+                        file_name = get_filename(source_file)
+
+                        if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
+                            data = self.import_csv_file(file_pathname=source_file)
+                        else:
+                            data = self.import_excel_file(file_pathname=source_file)
+
+                        self.script_run()  # run the script for calculated values, etc
+
+                        self.export_file(data, folder_pathname, prefix, file_name, suffix)
+
+                    self.statusBar().showMessage('Exported %d files to "%s"' % (len(source_files), folder_pathname),
+                                                 10000)
+
+                    data = original_data
 
 
 def status_bar():
