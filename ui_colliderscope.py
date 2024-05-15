@@ -34,7 +34,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1055, 833)
+        ColliderScopeUI.resize(1055, 837)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -197,7 +197,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 273, 482))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 486))
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
 #ifndef Q_OS_MAC
         self.verticalLayout_20.setSpacing(-1)
@@ -1082,14 +1082,19 @@ class Ui_ColliderScopeUI(object):
         self.verticalLayout_23.setObjectName(u"verticalLayout_23")
         self.verticalLayout_23.setContentsMargins(5, 5, 5, 5)
         self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setSpacing(5)
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalLayout_11.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.nanhandler_widget = QWidget(self.export_options_groupBox)
         self.nanhandler_widget.setObjectName(u"nanhandler_widget")
         sizePolicy13.setHeightForWidth(self.nanhandler_widget.sizePolicy().hasHeightForWidth())
         self.nanhandler_widget.setSizePolicy(sizePolicy13)
 
         self.horizontalLayout_11.addWidget(self.nanhandler_widget)
+
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_11.addItem(self.horizontalSpacer_7)
 
         self.export_signal_buttons_layout = QGroupBox(self.export_options_groupBox)
         self.export_signal_buttons_layout.setObjectName(u"export_signal_buttons_layout")
@@ -1099,6 +1104,7 @@ class Ui_ColliderScopeUI(object):
 #endif
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.verticalLayout_10.setSizeConstraint(QLayout.SetFixedSize)
+        self.verticalLayout_10.setContentsMargins(5, 5, 5, 5)
         self.export_all_radioButton = QRadioButton(self.export_signal_buttons_layout)
         self.export_options_buttonGroup = QButtonGroup(ColliderScopeUI)
         self.export_options_buttonGroup.setObjectName(u"export_options_buttonGroup")
@@ -1125,10 +1131,6 @@ class Ui_ColliderScopeUI(object):
 
 
         self.horizontalLayout_11.addWidget(self.export_signal_buttons_layout)
-
-        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_11.addItem(self.horizontalSpacer_7)
 
 
         self.verticalLayout_23.addLayout(self.horizontalLayout_11)
@@ -1229,7 +1231,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 265))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 276))
         self.verticalLayout_14 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_14.setSpacing(5)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>833</height>
+    <height>837</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -333,8 +333,8 @@ Preview</string>
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>273</width>
-                     <height>482</height>
+                     <width>274</width>
+                     <height>486</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_20" stretch="0,0,0,0,0,0,0">
@@ -2204,17 +2204,20 @@ color: black;</string>
            </property>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_11">
-             <property name="leftMargin">
+             <property name="spacing">
               <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
              </property>
              <property name="topMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="bottomMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <item>
               <widget class="QWidget" name="nanhandler_widget" native="true">
@@ -2227,6 +2230,19 @@ color: black;</string>
               </widget>
              </item>
              <item>
+              <spacer name="horizontalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <widget class="QGroupBox" name="export_signal_buttons_layout">
                <property name="title">
                 <string>Signals</string>
@@ -2237,6 +2253,18 @@ color: black;</string>
                 </property>
                 <property name="sizeConstraint">
                  <enum>QLayout::SetFixedSize</enum>
+                </property>
+                <property name="leftMargin">
+                 <number>5</number>
+                </property>
+                <property name="topMargin">
+                 <number>5</number>
+                </property>
+                <property name="rightMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>5</number>
                 </property>
                 <item>
                  <widget class="QRadioButton" name="export_all_radioButton">
@@ -2291,19 +2319,6 @@ color: black;</string>
                 </item>
                </layout>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
             </layout>
            </item>
@@ -2525,7 +2540,7 @@ color: black;</string>
              <x>0</x>
              <y>0</y>
              <width>1019</width>
-             <height>265</height>
+             <height>276</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_14">
