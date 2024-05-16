@@ -315,7 +315,12 @@ class ExportWorker(QObject):
                 if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
                     combined_dfs.append(data.copy())
 
-                file_extension = mainwindow.export_file(data, self.folder_pathname, self.prefix, file_name, self.suffix)
+                if mainwindow.ui.export_data_mode_comboBox.currentText() != 'Combined':
+                    # export source file(s) unless mode is 'Combined' only
+                    file_extension = (
+                        mainwindow.export_file(data, self.folder_pathname, self.prefix, file_name, self.suffix))
+                else:
+                    file_extension = mainwindow.get_export_file_extension()
 
                 mainwindow.ui.export_progressBar.setMaximum(len(self.source_files))
 
@@ -1044,6 +1049,14 @@ class ColliderScopeUI(QMainWindow):
 
         self.load_file_preview()
 
+    def get_export_file_extension(self):
+        if self.ui.export_data_comboBox.currentText() == 'CSV':
+            file_extension = '.csv'
+        else:
+            file_extension = '.xlsx'
+
+        return file_extension
+
     def export_file(self, export_data, folder_pathname, prefix, file_name, suffix):
         file_name_noext = file_name.rsplit('.', 1)[0]
         source_file_name_noext = os.path.basename(source_file_pathname).rsplit('.', 1)[0]
@@ -1055,12 +1068,12 @@ class ColliderScopeUI(QMainWindow):
 
         export_filename = prefix + file_name_noext + suffix
 
+        file_extension = self.get_export_file_extension()
+
         if self.ui.export_data_comboBox.currentText() == 'CSV':
-            file_extension = '.csv'
             save_file_pathname = folder_pathname + os.sep + export_filename + file_extension
             export_data.to_csv(save_file_pathname, index=False)
         else:
-            file_extension = '.xlsx'
             save_file_pathname = folder_pathname + os.sep + export_filename + file_extension
             export_data.to_excel(save_file_pathname, index=False)
 
