@@ -979,7 +979,7 @@ class ColliderScopeUI(QMainWindow):
             self.ui.export_data_lineEdit.setEnabled(False)
 
     def export_data(self):
-        from datetime import datetime
+        from file_io import create_combined_filename
         global data
 
         if self.ui.export_data_prefix_filler_comboBox.currentText() == 'None':
@@ -1013,6 +1013,7 @@ class ColliderScopeUI(QMainWindow):
                     self.statusBar().showMessage('Exported data to "%s"' % save_file_pathname, 10000)
         else:
             combined_dfs = []
+            source_filenames = []
 
             # select files to process
             msgBox = QMessageBox()
@@ -1041,6 +1042,7 @@ class ColliderScopeUI(QMainWindow):
                     for idx, source_file in enumerate(source_files):
                         print('Processing %s...' % source_file)
                         file_name = get_filename(source_file)
+                        source_filenames.append(file_name)
 
                         if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
                             data = self.import_csv_file(file_pathname=source_file)
@@ -1055,12 +1057,12 @@ class ColliderScopeUI(QMainWindow):
                         file_extension = self.export_file(data, folder_pathname, prefix, file_name, suffix)
 
                     if 'Combined' in self.ui.export_data_mode_comboBox.currentText():
-                        timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-
-                        combined_filename = (folder_pathname + os.sep + timestamp + '_' + prefix +
-                                             get_basename(folder_pathname) + suffix + '-combined' + file_extension)
+                        combined_filename = create_combined_filename(folder_pathname, source_filenames, prefix,
+                                                                     suffix, file_extension)
 
                         combined_df = pd.concat(combined_dfs, ignore_index=True, sort=False)
+
+                        combined_filename = folder_pathname + os.sep + combined_filename + '-combined' + file_extension
 
                         combined_df.to_csv(combined_filename, index=False)
 

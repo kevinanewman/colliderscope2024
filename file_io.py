@@ -11,6 +11,7 @@ Generally, user-friendly wrappers for functionality provided by the ``os`` and `
 """
 
 import sys, os, shutil
+import pandas as pd
 
 
 def get_user_home():
@@ -209,3 +210,40 @@ def sysprint(msg):
     :param msg: string to echo
     """
     os.system('echo {}'.format(msg))
+
+
+def create_combined_filename(folder_pathname, source_filenames, prefix, suffix, file_extension):
+    """
+    This function creates a combined filename based on a list of source filenames.
+
+    The function first checks if all source filenames have the same value one position at a time. If they do, it
+    concatenates the common values into a new filename. If the file names have nothing in commong, it uses a generic
+    filename pattern with a timestamp and appends the prefix, the name of the folder, suffix and the string
+    '-combined' separated by file extension.
+
+    :param folder_pathname: The path to the folder where the files are located.
+    :param source_filenames: A list of filenames to combine.
+    :param prefix: A string that is added at the beginning of the combined filename.
+    :param suffix: A string that is added at the end of the combined filename.
+    :param file_extension: The file extension for the combined filename.
+
+    :return: A combined filename based on the input parameters.
+    """
+    combined_filename = ''
+
+    df = pd.DataFrame([list(name) for name in source_filenames])
+
+    for c in df.columns:
+        if all(df[c] == df.loc[0, c]):
+            combined_filename += df.loc[0, c]
+        else:
+            combined_filename += 'X'
+
+    if all(c == 'X' for c in combined_filename):
+        # filenames have nothing in common, use generic filename
+        timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+
+        combined_filename = (folder_pathname + os.sep + timestamp + '_' + prefix +
+                             get_basename(folder_pathname) + suffix + '-combined' + file_extension)
+
+    return combined_filename
