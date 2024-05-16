@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>856</height>
+    <height>832</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -346,7 +346,7 @@ Preview</string>
                      <x>0</x>
                      <y>0</y>
                      <width>274</width>
-                     <height>519</height>
+                     <height>486</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_20" stretch="0,0,0,0,0,0,0">
@@ -2178,7 +2178,7 @@ color: black;</string>
       </widget>
       <widget class="QWidget" name="export_tab">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
@@ -2195,7 +2195,10 @@ color: black;</string>
        <attribute name="title">
         <string>Export</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_12" stretch="1,0">
+       <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
         <property name="leftMargin">
          <number>5</number>
         </property>
@@ -2225,7 +2228,7 @@ color: black;</string>
           <property name="title">
            <string>Export Options</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_25" stretch="0,0,0,0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_25" stretch="0,0,0,1,0">
            <property name="spacing">
             <number>10</number>
            </property>
@@ -2816,7 +2819,7 @@ color: black;</string>
         <item>
          <widget class="QScrollArea" name="scrollArea_2">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -2832,8 +2835,8 @@ color: black;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1003</width>
-             <height>266</height>
+             <width>1023</width>
+             <height>79</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -3246,7 +3249,7 @@ color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1035</width>
+     <width>1055</width>
      <height>24</height>
     </rect>
    </property>
@@ -4143,7 +4146,7 @@ color: black;</string>
   <slot>select_export_batch_files()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="export_options_buttonGroup"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>

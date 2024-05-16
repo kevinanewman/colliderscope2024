@@ -771,12 +771,16 @@ class ColliderScopeUI(QMainWindow):
 
     def setup_initial_triage_lists(self):
         global data
-        self.ui.triage_tab.setEnabled(True)
         self.ui.tabWidget_main.setCurrentIndex(1)
         self.init_triage_lists()
         # grab non-filtered original fields for later reference:
         original_numeric_fields.extend(active_numeric_fields)
         original_string_fields.extend(active_string_fields)
+
+        self.ui.triage_tab.setEnabled(True)
+        self.ui.export_tab.setEnabled(True)
+        self.ui.plot_tab.setEnabled(True)
+
 
     def import_csv_file(self, preview=False, nrows=False, file_pathname=None):
         global status_bar_message, data, source_file_pathname
@@ -1200,7 +1204,7 @@ class ColliderScopeUI(QMainWindow):
     def select_export_mode(self):
         print('select_export_mode')
         if self.ui.export_mode_single_radioButton.isChecked():
-            self.ui.export_data_lineEdit.setEnabled(True)
+            # self.ui.export_data_lineEdit.setEnabled(True)
             self.ui.export_mode_stackedWidget.setCurrentWidget(self.ui.single_page)
 
         if self.ui.export_mode_batch_radioButton.isChecked():
