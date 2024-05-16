@@ -21,10 +21,10 @@ from pyqtgraph import PlotWidget
 from pyqtgraph.console import ConsoleWidget
 
 import PySide6
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QObject, QThread, Signal
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QFileDialog, QTableWidget,
                                QTableWidgetItem, QLabel, QMessageBox, QGraphicsScene, QGraphicsWidget,
-                               QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout, QCheckBox)
+                               QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout, QCheckBox,)
 
 from PySide6.QtGui import QStandardItemModel, QBrush, QColor
 
@@ -267,6 +267,53 @@ def get_current_tabname(tabWidget):
     return tabWidget.tabText(tabWidget.currentIndex())
 
 
+class ExportWorker(QObject):
+    finished = Signal()
+    progress = Signal(int)
+
+    def __init__(self, folder_pathname, source_files, prefix, suffix):
+        super().__init__()
+        self.folder_pathname = folder_pathname
+        self.source_files = source_files
+        self.prefix = prefix
+        self.suffix = suffix
+
+    def export_files(self):
+        combined_dfs = []
+        source_filenames = []
+
+        for idx, source_file in enumerate(self.source_files):
+            file_name = get_filename(source_file)
+            source_filenames.append(file_name)
+
+            if get_current_tabname(mainwindow.ui.file_import_tabWidget) == 'CSV':
+                data = mainwindow.import_csv_file(file_pathname=source_file)
+            else:
+                data = mainwindow.import_excel_file(file_pathname=source_file)
+
+            mainwindow.script_run()  # run the script for calculated values, etc
+
+            if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
+                combined_dfs.append(data.copy())
+
+            file_extension = mainwindow.export_file(data, self.folder_pathname, self.prefix, file_name, self.suffix)
+
+            mainwindow.ui.export_progressBar.setMaximum(len(self.source_files))
+            self.progress.emit(idx)
+
+        if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
+            combined_filename = create_combined_filename(self.folder_pathname, source_filenames, self.prefix,
+                                                         self.suffix, file_extension)
+
+            combined_df = pd.concat(combined_dfs, ignore_index=True, sort=False)
+
+            combined_filename = self.folder_pathname + os.sep + combined_filename + '-combined' + file_extension
+
+            combined_df.to_csv(combined_filename, index=False)
+
+        self.finished.emit()
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
         global active_numeric_fields, active_string_fields, ignore_fields, favorite_fields
@@ -343,9 +390,9 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.scrollAreaWidgetContents_2.setVisible(False)
 
-        pass
-
         # timer.start()
+
+        pass
 
     def generic_slot(self, *args, **kwargs):
         print('generic slot...')
@@ -449,7 +496,7 @@ class ColliderScopeUI(QMainWindow):
 
                 df = self.import_excel_file(preview=True, nrows=num_preview_rows)
                 if df is not None:
-                    self.preview_dataframe(df, num_preview_rows)
+                    self.preview_dataframe(df)
 
             else:
                 self.ui.import_csv_units_row_spinBox.setEnabled(self.ui.import_csv_units_row_checkBox.isChecked())
@@ -465,7 +512,7 @@ class ColliderScopeUI(QMainWindow):
 
                 df = self.import_csv_file(preview=True, nrows=num_preview_rows)
                 if df is not None:
-                    self.preview_dataframe(df, num_preview_rows)
+                    self.preview_dataframe(df)
                 else:
                     with open(file_pathname, 'r') as f_read:
                         for i in range(0, num_preview_rows):
@@ -977,6 +1024,23 @@ class ColliderScopeUI(QMainWindow):
         else:
             self.ui.export_data_lineEdit.setEnabled(False)
 
+    def start_export_files_thread(self, folder_pathname, source_files, prefix, suffix):
+        self.ui.export_progressBar.setMaximum(0)
+        self.export_worker_thread = QThread()
+        self.export_worker = ExportWorker(folder_pathname, source_files, prefix, suffix)
+        self.export_worker.moveToThread(self.export_worker_thread)
+        self.export_worker_thread.started.connect(self.export_worker.export_files)
+        self.export_worker.progress.connect(self.update_progress)
+        self.export_worker.finished.connect(self.export_worker_thread.quit)
+        self.export_worker.finished.connect(self.export_worker.deleteLater)
+        self.export_worker_thread.finished.connect(self.export_worker_thread.deleteLater)
+        self.export_worker_thread.start()
+
+    def update_progress(self, value):
+        self.ui.export_progressBar.setValue(value+1)
+        if self.ui.export_progressBar.text() == '100%':
+            self.statusBar().showMessage('Export Complete!', 10000)
+
     def export_data(self):
         from file_io import create_combined_filename
         global data
@@ -1007,12 +1071,20 @@ class ColliderScopeUI(QMainWindow):
                 if folder_pathname:
                     file_name = self.ui.export_data_lineEdit.text()
 
-                    save_file_pathname = self.export_file(export_data, folder_pathname, prefix, file_name, suffix)
+                    self.start_export_files_thread(folder_pathname, [get_basename(file_name)],
+                                                   prefix, suffix)
 
-                    self.statusBar().showMessage('Exported data to "%s"' % save_file_pathname, 10000)
+                    if self.ui.export_data_comboBox.currentText() == 'CSV':
+                        file_extension = '.csv'
+                    else:
+                        file_extension = '.xlsx'
+
+                    save_file_pathname = (
+                            folder_pathname + os.sep + prefix + get_basename(file_name) + suffix + file_extension)
+
+                    self.statusBar().showMessage('Exporting data to "%s"' % save_file_pathname, 100000)
         else:
-            combined_dfs = []
-            source_filenames = []
+            self.ui.export_progressBar.setValue(0)
 
             # select files to process
             msgBox = QMessageBox()
@@ -1038,36 +1110,10 @@ class ColliderScopeUI(QMainWindow):
                 if folder_pathname:
                     original_data = data.copy()
 
-                    for idx, source_file in enumerate(source_files):
-                        print('Processing %s...' % source_file)
-                        file_name = get_filename(source_file)
-                        source_filenames.append(file_name)
+                    self.start_export_files_thread(folder_pathname, source_files, prefix, suffix)
 
-                        if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
-                            data = self.import_csv_file(file_pathname=source_file)
-                        else:
-                            data = self.import_excel_file(file_pathname=source_file)
-
-                        self.script_run()  # run the script for calculated values, etc
-
-                        if 'Combined' in self.ui.export_data_mode_comboBox.currentText():
-                            combined_dfs.append(data.copy())
-
-                        file_extension = self.export_file(data, folder_pathname, prefix, file_name, suffix)
-
-                    if 'Combined' in self.ui.export_data_mode_comboBox.currentText():
-                        combined_filename = create_combined_filename(folder_pathname, source_filenames, prefix,
-                                                                     suffix, file_extension)
-
-                        combined_df = pd.concat(combined_dfs, ignore_index=True, sort=False)
-
-                        combined_filename = folder_pathname + os.sep + combined_filename + '-combined' + file_extension
-
-                        combined_df.to_csv(combined_filename, index=False)
-
-                    self.statusBar().showMessage('Exported %d files to "%s"' % (len(source_files), folder_pathname),
-                                                 10000)
-
+                    self.statusBar().showMessage('Exporting %d files to "%s"' % (len(source_files), folder_pathname),
+                                                 100000)
                     data = original_data
 
 

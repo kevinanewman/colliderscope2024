@@ -21,10 +21,10 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication
     QGroupBox, QHBoxLayout, QHeaderView, QLabel,
     QLayout, QLineEdit, QListWidget, QListWidgetItem,
     QMainWindow, QMenu, QMenuBar, QPlainTextEdit,
-    QPushButton, QRadioButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QSpinBox, QSplitter, QStatusBar,
-    QTabWidget, QTableWidget, QTableWidgetItem, QToolButton,
-    QVBoxLayout, QWidget)
+    QProgressBar, QPushButton, QRadioButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QSpinBox, QSplitter,
+    QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
+    QToolButton, QVBoxLayout, QWidget)
 
 from filterwidget import FilterWidget
 from pyqtgraph import PlotWidget
@@ -197,7 +197,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 486))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 268, 470))
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
 #ifndef Q_OS_MAC
         self.verticalLayout_20.setSpacing(-1)
@@ -1219,6 +1219,13 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_23.addLayout(self.horizontalLayout_8)
 
+        self.export_progressBar = QProgressBar(self.export_options_groupBox)
+        self.export_progressBar.setObjectName(u"export_progressBar")
+        self.export_progressBar.setMaximum(1)
+        self.export_progressBar.setValue(0)
+
+        self.verticalLayout_23.addWidget(self.export_progressBar)
+
 
         self.verticalLayout_12.addWidget(self.export_options_groupBox)
 
@@ -1232,7 +1239,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 285))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 272))
         self.verticalLayout_14 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_14.setSpacing(5)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
