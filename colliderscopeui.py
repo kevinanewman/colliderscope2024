@@ -958,13 +958,15 @@ class ColliderScopeUI(QMainWindow):
         export_filename = prefix + file_name_noext + suffix
 
         if self.ui.export_data_comboBox.currentText() == 'CSV':
-            save_file_pathname = folder_pathname + os.sep + export_filename + '.csv'
+            file_extension = '.csv'
+            save_file_pathname = folder_pathname + os.sep + export_filename + file_extension
             export_data.to_csv(save_file_pathname, index=False)
         else:
-            save_file_pathname = folder_pathname + os.sep + export_filename + '.xlsx'
+            file_extension = '.xlsx'
+            save_file_pathname = folder_pathname + os.sep + export_filename + file_extension
             export_data.to_excel(save_file_pathname, index=False)
 
-        return save_file_pathname
+        return file_extension
 
 
     def update_export_mode(self):
@@ -977,6 +979,7 @@ class ColliderScopeUI(QMainWindow):
             self.ui.export_data_lineEdit.setEnabled(False)
 
     def export_data(self):
+        from datetime import datetime
         global data
 
         if self.ui.export_data_prefix_filler_comboBox.currentText() == 'None':
@@ -1009,6 +1012,8 @@ class ColliderScopeUI(QMainWindow):
 
                     self.statusBar().showMessage('Exported data to "%s"' % save_file_pathname, 10000)
         else:
+            combined_dfs = []
+
             # select files to process
             msgBox = QMessageBox()
             msgBox.setText('Select Source Files')
@@ -1044,7 +1049,20 @@ class ColliderScopeUI(QMainWindow):
 
                         self.script_run()  # run the script for calculated values, etc
 
-                        self.export_file(data, folder_pathname, prefix, file_name, suffix)
+                        if 'Combined' in self.ui.export_data_mode_comboBox.currentText():
+                            combined_dfs.append(data.copy())
+
+                        file_extension = self.export_file(data, folder_pathname, prefix, file_name, suffix)
+
+                    if 'Combined' in self.ui.export_data_mode_comboBox.currentText():
+                        timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+
+                        combined_filename = (folder_pathname + os.sep + timestamp + '_' + prefix +
+                                             get_basename(folder_pathname) + suffix + '-combined' + file_extension)
+
+                        combined_df = pd.concat(combined_dfs, ignore_index=True, sort=False)
+
+                        combined_df.to_csv(combined_filename, index=False)
 
                     self.statusBar().showMessage('Exported %d files to "%s"' % (len(source_files), folder_pathname),
                                                  10000)

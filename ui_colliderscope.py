@@ -34,7 +34,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1055, 837)
+        ColliderScopeUI.resize(1055, 856)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -1204,6 +1204,7 @@ class Ui_ColliderScopeUI(object):
         self.export_data_mode_comboBox = QComboBox(self.export_options_groupBox)
         self.export_data_mode_comboBox.addItem("")
         self.export_data_mode_comboBox.addItem("")
+        self.export_data_mode_comboBox.addItem("")
         self.export_data_mode_comboBox.setObjectName(u"export_data_mode_comboBox")
 
         self.horizontalLayout_8.addWidget(self.export_data_mode_comboBox)
@@ -1231,7 +1232,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 276))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 285))
         self.verticalLayout_14 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_14.setSpacing(5)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
@@ -1631,7 +1632,8 @@ class Ui_ColliderScopeUI(object):
         self.export_data_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
 
         self.export_data_mode_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"Single", None))
-        self.export_data_mode_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Batch Process", None))
+        self.export_data_mode_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Batch", None))
+        self.export_data_mode_comboBox.setItemText(2, QCoreApplication.translate("ColliderScopeUI", u"Batch + Combined", None))
 
         self.export_data_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export", None))
         self.label_6.setText(QCoreApplication.translate("ColliderScopeUI", u"Z", None))
