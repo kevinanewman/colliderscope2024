@@ -154,7 +154,7 @@ def two_column_tableWidget_to_dict(table_widget):
     return options_dict
 
 
-def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='utf-8', header_row=0, units_row=None):
+def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='utf-8', header_row=0, units_row=None):
     """
     Combine column labels and units row into a single combined string to identify the column.
 
@@ -163,7 +163,8 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=[], encoding='u
         sheet_name (str): for reading a particular Excel sheet, or ``None`` for CSV files
         ignore_units (list of str): unit values to ignore, default ``Text``
         encoding (str): file encoding (decoding) method name
-        units_nrows (int): number of units rows, if any
+        header_row (int): the header row number
+        units_row (int): the unit row number, if any
 
     Returns:
         List of combined column headers and units as in ``['ColumnName_units', ...]``
@@ -487,7 +488,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.import_excel_units_row_spinBox.setValue(self.ui.import_excel_header_row_spinBox.value() + 1)
         self.load_file_preview()
 
-    def preview_dataframe(self, df, num_preview_rows):
+    def preview_dataframe(self, df):
         # Set row and column count
         self.ui.file_preview_tableWidget.setRowCount(df.shape[0])
         self.ui.file_preview_tableWidget.setColumnCount(df.shape[1])
@@ -640,7 +641,6 @@ class ColliderScopeUI(QMainWindow):
             self.prior_nan_count = 0
             self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
-
     def init_triage_lists(self):
         global data
         data = data.convert_dtypes()
@@ -749,7 +749,7 @@ class ColliderScopeUI(QMainWindow):
                                      delimiter=delimiter,
                                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                      skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                     skiprows = skiprows,
+                                     skiprows=skiprows,
                                      **keyword_args,
                                      )
 
@@ -967,7 +967,6 @@ class ColliderScopeUI(QMainWindow):
             export_data.to_excel(save_file_pathname, index=False)
 
         return file_extension
-
 
     def update_export_mode(self):
         print('update_export_mode')
