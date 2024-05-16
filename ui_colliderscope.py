@@ -197,7 +197,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 268, 470))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 505))
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
 #ifndef Q_OS_MAC
         self.verticalLayout_20.setSpacing(-1)
@@ -1506,7 +1506,7 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_skiprows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
         self.import_excel_skiprows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
 
-        self.tabWidget_main.setCurrentIndex(3)
+        self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_csv_encoding_comboBox.setCurrentIndex(0)

@@ -279,18 +279,20 @@ class ExportWorker(QObject):
         self.suffix = suffix
 
     def handle_export_nans(self, df):
-        if mainwindow.ui.row_drop_if_all_nans_radioButton.isChecked():
+        if mainwindow.ui.nanhandler_widget.ui.row_drop_if_all_nans_radioButton.isChecked():
             df = df.dropna(axis=0, how='all')
-        elif mainwindow.ui.row_drop_if_any_nans_radioButton.isChecked():
+        elif mainwindow.ui.nanhandler_widget.ui.row_drop_if_any_nans_radioButton.isChecked():
             df = df.dropna(axis=0, how='any')
-        if mainwindow.ui.column_drop_if_all_nans_radioButton.isChecked():
+        if mainwindow.ui.nanhandler_widget.ui.column_drop_if_all_nans_radioButton.isChecked():
             df = df.dropna(axis=1, how='all')
-        elif mainwindow.ui.column_drop_if_any_nans_radioButton.isChecked():
+        elif mainwindow.ui.nanhandler_widget.ui.column_drop_if_any_nans_radioButton.isChecked():
             df = df.dropna(axis=1, how='any')
 
         return df
 
     def export_files(self):
+        global data
+
         combined_dfs = []
         source_filenames = []
 
@@ -385,7 +387,8 @@ class ColliderScopeUI(QMainWindow):
         # the target widget in the compiled python script. The filter widget has a proper class, and the ui part
         # gets handled in the __init__, but the nanhandler doesn't have a proper class, just the ui.  The filter
         # widget was an entire Qt Creator "project", not just an isolated ui file.
-        self.ui.nanhandler_widget = Ui_NanHandlerHorizontal().setupUi(self.ui.nanhandler_widget)
+        self.ui.nanhandler_widget.ui = Ui_NanHandlerHorizontal()
+        self.ui.nanhandler_widget.ui.setupUi(self.ui.nanhandler_widget)
 
         self.active_plot = pg.plot()
         self.init_plot_widget(self.active_plot, '')
