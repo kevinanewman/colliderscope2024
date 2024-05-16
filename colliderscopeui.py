@@ -527,12 +527,14 @@ class ColliderScopeUI(QMainWindow):
 
     def import_csv_header_row_changed(self):
         # set unit row to header row + 1, by default:
-        self.ui.import_csv_units_row_spinBox.setValue(self.ui.import_csv_header_row_spinBox.value() + 1)
+        if not self.ui.import_csv_units_row_checkBox.isChecked():
+            self.ui.import_csv_units_row_spinBox.setValue(self.ui.import_csv_header_row_spinBox.value() + 1)
         self.load_file_preview()
 
     def import_excel_header_row_changed(self):
-        # set unit row to header row + 1, by default:
-        self.ui.import_excel_units_row_spinBox.setValue(self.ui.import_excel_header_row_spinBox.value() + 1)
+        if not self.ui.import_excel_units_row_checkBox.isChecked():
+            # set unit row to header row + 1, by default:
+            self.ui.import_excel_units_row_spinBox.setValue(self.ui.import_excel_header_row_spinBox.value() + 1)
         self.load_file_preview()
 
     def preview_dataframe(self, df):
