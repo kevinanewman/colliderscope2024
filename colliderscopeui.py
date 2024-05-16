@@ -277,6 +277,7 @@ class ExportWorker(QObject):
         self.source_files = source_files
         self.prefix = prefix
         self.suffix = suffix
+        self.cancelled = False
 
     def handle_export_nans(self, df):
         if mainwindow.ui.nanhandler_widget.ui.row_drop_if_all_nans_radioButton.isChecked():
@@ -297,24 +298,26 @@ class ExportWorker(QObject):
         source_filenames = []
 
         for idx, source_file in enumerate(self.source_files):
-            file_name = get_filename(source_file)
-            source_filenames.append(file_name)
+            if not self.cancelled:
+                file_name = get_filename(source_file)
+                source_filenames.append(file_name)
 
-            if get_current_tabname(mainwindow.ui.file_import_tabWidget) == 'CSV':
-                data = mainwindow.import_csv_file(file_pathname=source_file)
-            else:
-                data = mainwindow.import_excel_file(file_pathname=source_file)
+                if get_current_tabname(mainwindow.ui.file_import_tabWidget) == 'CSV':
+                    data = mainwindow.import_csv_file(file_pathname=source_file)
+                else:
+                    data = mainwindow.import_excel_file(file_pathname=source_file)
 
-            mainwindow.script_run()  # run the script for calculated values, etc
+                mainwindow.script_run()  # run the script for calculated values, etc
 
-            data = self.handle_export_nans(data)
+                data = self.handle_export_nans(data)
 
-            if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
-                combined_dfs.append(data.copy())
+                if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
+                    combined_dfs.append(data.copy())
 
-            file_extension = mainwindow.export_file(data, self.folder_pathname, self.prefix, file_name, self.suffix)
+                file_extension = mainwindow.export_file(data, self.folder_pathname, self.prefix, file_name, self.suffix)
 
-            mainwindow.ui.export_progressBar.setMaximum(len(self.source_files))
+                mainwindow.ui.export_progressBar.setMaximum(len(self.source_files))
+
             self.progress.emit(idx)
 
         if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
@@ -328,6 +331,9 @@ class ExportWorker(QObject):
             combined_df.to_csv(combined_filename, index=False)
 
         self.finished.emit()
+
+    def cancel(self):
+        self.cancelled = True
 
 
 class ColliderScopeUI(QMainWindow):
@@ -1079,10 +1085,21 @@ class ColliderScopeUI(QMainWindow):
         self.export_worker_thread.finished.connect(self.export_worker_thread.deleteLater)
         self.export_worker_thread.start()
 
+    def cancel_export(self):
+        self.export_worker.cancel()
+        self.statusBar().showMessage('Cancelling Export...', 100000)
+
     def update_progress(self, value):
         self.ui.export_progressBar.setValue(value+1)
         if self.ui.export_progressBar.text() == '100%':
-            self.statusBar().showMessage('Export Complete!', 10000)
+            if self.export_worker.cancelled:
+                self.ui.export_progressBar.setValue(0)
+                self.statusBar().showMessage('Export Cancelled!', 10000)
+            else:
+                self.statusBar().showMessage('Export Complete!', 10000)
+
+            self.ui.export_data_pushButton.setEnabled(True)
+            self.ui.export_data_cancel_pushButton.setEnabled(False)
 
     def export_data(self):
         from file_io import create_combined_filename
@@ -1126,6 +1143,9 @@ class ColliderScopeUI(QMainWindow):
                             folder_pathname + os.sep + prefix + get_basename(file_name) + suffix + file_extension)
 
                     self.statusBar().showMessage('Exporting data to "%s"' % save_file_pathname, 100000)
+
+                    self.ui.export_data_pushButton.setEnabled(False)
+                    self.ui.export_data_cancel_pushButton.setEnabled(True)
         else:
             self.ui.export_progressBar.setValue(0)
 
@@ -1157,7 +1177,11 @@ class ColliderScopeUI(QMainWindow):
 
                     self.statusBar().showMessage('Exporting %d files to "%s"' % (len(source_files), folder_pathname),
                                                  100000)
-                    data = original_data
+
+                    self.ui.export_data_pushButton.setEnabled(False)
+                    self.ui.export_data_cancel_pushButton.setEnabled(True)
+
+                    data = original_data  # TODO: do this on completion, not here...
 
 
 def status_bar():

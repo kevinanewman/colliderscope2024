@@ -1219,12 +1219,23 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_23.addLayout(self.horizontalLayout_8)
 
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.export_progressBar = QProgressBar(self.export_options_groupBox)
         self.export_progressBar.setObjectName(u"export_progressBar")
         self.export_progressBar.setMaximum(1)
         self.export_progressBar.setValue(0)
 
-        self.verticalLayout_23.addWidget(self.export_progressBar)
+        self.horizontalLayout_18.addWidget(self.export_progressBar)
+
+        self.export_data_cancel_pushButton = QPushButton(self.export_options_groupBox)
+        self.export_data_cancel_pushButton.setObjectName(u"export_data_cancel_pushButton")
+        self.export_data_cancel_pushButton.setEnabled(False)
+
+        self.horizontalLayout_18.addWidget(self.export_data_cancel_pushButton)
+
+
+        self.verticalLayout_23.addLayout(self.horizontalLayout_18)
 
 
         self.verticalLayout_12.addWidget(self.export_options_groupBox)
@@ -1239,7 +1250,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 272))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1019, 257))
         self.verticalLayout_14 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_14.setSpacing(5)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
@@ -1505,6 +1516,7 @@ class Ui_ColliderScopeUI(object):
         self.export_data_mode_comboBox.activated.connect(ColliderScopeUI.update_export_mode)
         self.import_csv_skiprows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
         self.import_excel_skiprows_lineEdit.editingFinished.connect(ColliderScopeUI.load_file_preview)
+        self.export_data_cancel_pushButton.clicked.connect(ColliderScopeUI.cancel_export)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -1643,6 +1655,7 @@ class Ui_ColliderScopeUI(object):
         self.export_data_mode_comboBox.setItemText(2, QCoreApplication.translate("ColliderScopeUI", u"Batch + Combined", None))
 
         self.export_data_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export", None))
+        self.export_data_cancel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Cancel", None))
         self.label_6.setText(QCoreApplication.translate("ColliderScopeUI", u"Z", None))
         self.label_10.setText(QCoreApplication.translate("ColliderScopeUI", u"Line", None))
         self.label_4.setText(QCoreApplication.translate("ColliderScopeUI", u"X", None))
