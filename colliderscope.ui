@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>837</height>
+    <height>856</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -2490,7 +2490,12 @@ color: black;</string>
                </item>
                <item>
                 <property name="text">
-                 <string>Batch Process</string>
+                 <string>Batch</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Batch + Combined</string>
                 </property>
                </item>
               </widget>
@@ -2540,7 +2545,7 @@ color: black;</string>
              <x>0</x>
              <y>0</y>
              <width>1019</width>
-             <height>276</height>
+             <height>285</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_14">
