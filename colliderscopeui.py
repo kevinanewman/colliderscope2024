@@ -307,7 +307,8 @@ class ExportWorker(QObject):
                 else:
                     data = mainwindow.import_excel_file(file_pathname=source_file)
 
-                mainwindow.script_run()  # run the script for calculated values, etc
+                # run the script for calculated values, etc, but don't update triage lists, etc
+                mainwindow.ui.script_preview_consoleWidget.repl.runCmd('run()')
 
                 data = self.handle_export_nans(data)
 
@@ -748,6 +749,19 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
+    def handle_import_nans(self, df):
+        if self.ui.row_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='all')
+        elif self.ui.row_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='any')
+
+        if self.ui.column_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=1, how='all')
+        elif self.ui.column_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=1, how='any')
+
+        return df
+
     def setup_initial_triage_lists(self):
         global data
         self.ui.triage_tab.setEnabled(True)
@@ -850,18 +864,6 @@ class ColliderScopeUI(QMainWindow):
                     print('Error reading "%s"\n\n%s' % (file_pathname, str(e)))
 
                 return None
-
-    def handle_import_nans(self, df):
-        if self.ui.row_drop_if_all_nans_radioButton.isChecked():
-            df = df.dropna(axis=0, how='all')
-        elif self.ui.row_drop_if_any_nans_radioButton.isChecked():
-            df = df.dropna(axis=0, how='any')
-        if self.ui.column_drop_if_all_nans_radioButton.isChecked():
-            df = df.dropna(axis=1, how='all')
-        elif self.ui.column_drop_if_any_nans_radioButton.isChecked():
-            df = df.dropna(axis=1, how='any')
-
-        return df
 
     def import_excel_file(self, preview=False, nrows=False, file_pathname=None):
         global status_bar_message, data, source_file_pathname
@@ -1090,7 +1092,10 @@ class ColliderScopeUI(QMainWindow):
         self.statusBar().showMessage('Cancelling Export...', 100000)
 
     def update_progress(self, value):
+        global data
+
         self.ui.export_progressBar.setValue(value+1)
+
         if self.ui.export_progressBar.text() == '100%':
             if self.export_worker.cancelled:
                 self.ui.export_progressBar.setValue(0)
@@ -1100,6 +1105,8 @@ class ColliderScopeUI(QMainWindow):
 
             self.ui.export_data_pushButton.setEnabled(True)
             self.ui.export_data_cancel_pushButton.setEnabled(False)
+
+        data = self.pre_export_data  # restore pre-export data
 
     def export_data(self):
         from file_io import create_combined_filename
@@ -1120,8 +1127,6 @@ class ColliderScopeUI(QMainWindow):
 
         if self.ui.export_data_mode_comboBox.currentText() == 'Single':
             if data is not None:
-                export_data = data.copy()
-
                 msgBox = QMessageBox()
                 msgBox.setText('Select Export Destination')
                 msgBox.exec()
@@ -1129,6 +1134,8 @@ class ColliderScopeUI(QMainWindow):
                 folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
 
                 if folder_pathname:
+                    self.pre_export_data = data.copy()
+
                     file_name = self.ui.export_data_lineEdit.text()
 
                     self.start_export_files_thread(folder_pathname, [get_basename(file_name)],
@@ -1171,7 +1178,7 @@ class ColliderScopeUI(QMainWindow):
                 folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
 
                 if folder_pathname:
-                    original_data = data.copy()
+                    self.pre_export_data = data.copy()
 
                     self.start_export_files_thread(folder_pathname, source_files, prefix, suffix)
 
@@ -1180,8 +1187,6 @@ class ColliderScopeUI(QMainWindow):
 
                     self.ui.export_data_pushButton.setEnabled(False)
                     self.ui.export_data_cancel_pushButton.setEnabled(True)
-
-                    data = original_data  # TODO: do this on completion, not here...
 
 
 def status_bar():

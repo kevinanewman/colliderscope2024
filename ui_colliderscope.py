@@ -1080,7 +1080,6 @@ class Ui_ColliderScopeUI(object):
         self.export_options_groupBox.setMinimumSize(QSize(0, 0))
         self.verticalLayout_23 = QVBoxLayout(self.export_options_groupBox)
         self.verticalLayout_23.setObjectName(u"verticalLayout_23")
-        self.verticalLayout_23.setContentsMargins(5, 5, 5, 5)
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setSpacing(5)
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
