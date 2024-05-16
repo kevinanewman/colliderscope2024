@@ -781,7 +781,6 @@ class ColliderScopeUI(QMainWindow):
         self.ui.export_tab.setEnabled(True)
         self.ui.plot_tab.setEnabled(True)
 
-
     def import_csv_file(self, preview=False, nrows=False, file_pathname=None):
         global status_bar_message, data, source_file_pathname
 
@@ -1113,7 +1112,7 @@ class ColliderScopeUI(QMainWindow):
             else:
                 self.statusBar().showMessage('Export Complete!', 10000)
 
-            self.ui.export_data_pushButton.setEnabled(True)
+            self.ui.export_options_groupBox.setEnabled(True)
             self.ui.export_data_cancel_pushButton.setEnabled(False)
 
         data = self.pre_export_data  # restore pre-export data
@@ -1134,6 +1133,8 @@ class ColliderScopeUI(QMainWindow):
         msgBox.setText('Select Source Files')
         msgBox.exec()
 
+        self.ui.export_batch_files_listWidget.clear()
+
         if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
             filter_str = '*.csv'
         else:
@@ -1143,8 +1144,10 @@ class ColliderScopeUI(QMainWindow):
                                                                         filter=filter_str, selectedFilter=filter_str)[0]
         if self.export_batch_source_files:
             self.ui.export_batch_files_listWidget.addItems(self.export_batch_source_files)
+            self.ui.export_data_pushButton.setEnabled(True)
         else:
             self.ui.export_batch_files_listWidget.clear()
+            self.ui.export_data_pushButton.setEnabled(False)
 
     def export_data(self):
         from file_io import create_combined_filename
@@ -1183,7 +1186,7 @@ class ColliderScopeUI(QMainWindow):
 
                     self.statusBar().showMessage('Exporting data to "%s" ...' % save_file_pathname, 100000)
 
-                    self.ui.export_data_pushButton.setEnabled(False)
+                    self.ui.export_options_groupBox.setEnabled(False)
                     self.ui.export_data_cancel_pushButton.setEnabled(True)
         else:
             self.ui.export_progressBar.setValue(0)
@@ -1198,18 +1201,22 @@ class ColliderScopeUI(QMainWindow):
                     self.statusBar().showMessage('Exporting %d files to "%s" ...' %
                                                  (len(self.export_batch_source_files), self.export_folder_pathname), 10000)
 
-                    self.ui.export_data_pushButton.setEnabled(False)
+                    self.ui.export_options_groupBox.setEnabled(False)
                     self.ui.export_data_cancel_pushButton.setEnabled(True)
 
     def select_export_mode(self):
-        print('select_export_mode')
+        self.ui.export_progressBar.setValue(0)
+
         if self.ui.export_mode_single_radioButton.isChecked():
             # self.ui.export_data_lineEdit.setEnabled(True)
             self.ui.export_mode_stackedWidget.setCurrentWidget(self.ui.single_page)
+            self.ui.export_data_pushButton.setEnabled(True)
 
         if self.ui.export_mode_batch_radioButton.isChecked():
             self.ui.export_data_lineEdit.setEnabled(False)
             self.ui.export_mode_stackedWidget.setCurrentWidget(self.ui.batch_page)
+            if self.ui.export_batch_files_listWidget.count() == 0:
+                self.ui.export_data_pushButton.setEnabled(False)
 
 
 def status_bar():

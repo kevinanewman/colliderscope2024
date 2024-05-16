@@ -1072,11 +1072,15 @@ class Ui_ColliderScopeUI(object):
         self.export_tab.setMinimumSize(QSize(0, 100))
         self.verticalLayout_12 = QVBoxLayout(self.export_tab)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.verticalLayout_12.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.verticalLayout_12.setContentsMargins(5, 5, 5, 5)
         self.export_options_groupBox = QGroupBox(self.export_tab)
         self.export_options_groupBox.setObjectName(u"export_options_groupBox")
-        sizePolicy11.setHeightForWidth(self.export_options_groupBox.sizePolicy().hasHeightForWidth())
-        self.export_options_groupBox.setSizePolicy(sizePolicy11)
+        sizePolicy13 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        sizePolicy13.setHorizontalStretch(0)
+        sizePolicy13.setVerticalStretch(0)
+        sizePolicy13.setHeightForWidth(self.export_options_groupBox.sizePolicy().hasHeightForWidth())
+        self.export_options_groupBox.setSizePolicy(sizePolicy13)
         self.export_options_groupBox.setMinimumSize(QSize(0, 0))
         self.verticalLayout_25 = QVBoxLayout(self.export_options_groupBox)
         self.verticalLayout_25.setSpacing(10)
@@ -1088,9 +1092,6 @@ class Ui_ColliderScopeUI(object):
         self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.nanhandler_widget = QWidget(self.export_options_groupBox)
         self.nanhandler_widget.setObjectName(u"nanhandler_widget")
-        sizePolicy13 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        sizePolicy13.setHorizontalStretch(0)
-        sizePolicy13.setVerticalStretch(0)
         sizePolicy13.setHeightForWidth(self.nanhandler_widget.sizePolicy().hasHeightForWidth())
         self.nanhandler_widget.setSizePolicy(sizePolicy13)
 
@@ -1348,27 +1349,27 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_25.addWidget(self.export_mode_groupBox)
 
+        self.verticalLayout_25.setStretch(3, 1)
+
+        self.verticalLayout_12.addWidget(self.export_options_groupBox)
+
         self.horizontalLayout_18 = QHBoxLayout()
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
-        self.export_progressBar = QProgressBar(self.export_options_groupBox)
+        self.export_progressBar = QProgressBar(self.export_tab)
         self.export_progressBar.setObjectName(u"export_progressBar")
         self.export_progressBar.setMaximum(1)
         self.export_progressBar.setValue(0)
 
         self.horizontalLayout_18.addWidget(self.export_progressBar)
 
-        self.export_data_cancel_pushButton = QPushButton(self.export_options_groupBox)
+        self.export_data_cancel_pushButton = QPushButton(self.export_tab)
         self.export_data_cancel_pushButton.setObjectName(u"export_data_cancel_pushButton")
         self.export_data_cancel_pushButton.setEnabled(False)
 
         self.horizontalLayout_18.addWidget(self.export_data_cancel_pushButton)
 
 
-        self.verticalLayout_25.addLayout(self.horizontalLayout_18)
-
-        self.verticalLayout_25.setStretch(3, 1)
-
-        self.verticalLayout_12.addWidget(self.export_options_groupBox)
+        self.verticalLayout_12.addLayout(self.horizontalLayout_18)
 
         self.scrollArea_2 = QScrollArea(self.export_tab)
         self.scrollArea_2.setObjectName(u"scrollArea_2")
@@ -1578,7 +1579,6 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_12.addWidget(self.scrollArea_2)
 
-        self.verticalLayout_12.setStretch(0, 1)
         self.tabWidget_main.addTab(self.export_tab, "")
 
         self.verticalLayout_11.addWidget(self.tabWidget_main)

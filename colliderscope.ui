@@ -2195,7 +2195,7 @@ color: black;</string>
        <attribute name="title">
         <string>Export</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0,0">
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
@@ -2228,7 +2228,7 @@ color: black;</string>
           <property name="title">
            <string>Export Options</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_25" stretch="0,0,0,1,0">
+          <layout class="QVBoxLayout" name="verticalLayout_25" stretch="0,0,0,1">
            <property name="spacing">
             <number>10</number>
            </property>
@@ -2789,32 +2789,32 @@ color: black;</string>
              </layout>
             </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_18">
-             <item>
-              <widget class="QProgressBar" name="export_progressBar">
-               <property name="maximum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>0</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="export_data_cancel_pushButton">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>Cancel</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
           </layout>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <widget class="QProgressBar" name="export_progressBar">
+            <property name="maximum">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="export_data_cancel_pushButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Cancel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QScrollArea" name="scrollArea_2">
@@ -4146,7 +4146,7 @@ color: black;</string>
   <slot>select_export_batch_files()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="export_options_buttonGroup"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="export_options_buttonGroup"/>
  </buttongroups>
 </ui>
