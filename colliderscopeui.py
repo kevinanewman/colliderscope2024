@@ -419,6 +419,8 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.scrollAreaWidgetContents_2.setVisible(False)
 
+        self.export_folder_pathname = None
+
         # timer.start()
 
         pass
@@ -1079,15 +1081,6 @@ class ColliderScopeUI(QMainWindow):
 
         return file_extension
 
-    def update_export_mode(self):
-        print('update_export_mode')
-        print(self.ui.export_data_mode_comboBox.currentText())
-
-        if self.ui.export_data_mode_comboBox.currentText() == 'Single':
-            self.ui.export_data_lineEdit.setEnabled(True)
-        else:
-            self.ui.export_data_lineEdit.setEnabled(False)
-
     def start_export_files_thread(self, folder_pathname, source_files, prefix, suffix):
         self.ui.export_progressBar.setMaximum(0)
         self.export_worker_thread = QThread()
@@ -1121,6 +1114,34 @@ class ColliderScopeUI(QMainWindow):
 
         data = self.pre_export_data  # restore pre-export data
 
+    def export_folder_browse(self):
+        self.export_folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
+        self.ui.export_folder_filepathname_lineEdit.setText(self.export_folder_pathname)
+        if self.export_folder_pathname:
+            self.ui.export_data_pushButton.setEnabled(True)
+            self.ui.export_mode_groupBox.setEnabled(True)
+        else:
+            self.ui.export_data_pushButton.setEnabled(False)
+            self.ui.export_mode_groupBox.setEnabled(False)
+
+    def select_export_batch_files(self):
+        # select files to process
+        msgBox = QMessageBox()
+        msgBox.setText('Select Source Files')
+        msgBox.exec()
+
+        if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
+            filter_str = '*.csv'
+        else:
+            filter_str = '*.xls*'
+
+        self.export_batch_source_files = QFileDialog().getOpenFileNames(self, 'Select Source Files', os.getcwd(),
+                                                                        filter=filter_str, selectedFilter=filter_str)[0]
+        if self.export_batch_source_files:
+            self.ui.export_batch_files_listWidget.addItems(self.export_batch_source_files)
+        else:
+            self.ui.export_batch_files_listWidget.clear()
+
     def export_data(self):
         from file_io import create_combined_filename
         global data
@@ -1138,20 +1159,14 @@ class ColliderScopeUI(QMainWindow):
         prefix = self.ui.export_data_prefix_lineEdit.text() + prefix_filler
         suffix = suffix_filler + self.ui.export_data_suffix_lineEdit.text()
 
-        if self.ui.export_data_mode_comboBox.currentText() == 'Single':
+        if self.ui.export_mode_single_radioButton.isChecked():
             if data is not None:
-                msgBox = QMessageBox()
-                msgBox.setText('Select Export Destination')
-                msgBox.exec()
-
-                folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
-
-                if folder_pathname:
+                if self.export_folder_pathname:
                     self.pre_export_data = data.copy()
 
-                    file_name = self.ui.export_data_lineEdit.text()
+                    file_name = self.ui.filepathname_lineEdit.text()
 
-                    self.start_export_files_thread(folder_pathname, [get_basename(file_name)],
+                    self.start_export_files_thread(self.export_folder_pathname, [file_name],
                                                    prefix, suffix)
 
                     if self.ui.export_data_comboBox.currentText() == 'CSV':
@@ -1160,46 +1175,37 @@ class ColliderScopeUI(QMainWindow):
                         file_extension = '.xlsx'
 
                     save_file_pathname = (
-                            folder_pathname + os.sep + prefix + get_basename(file_name) + suffix + file_extension)
+                            self.export_folder_pathname + os.sep + prefix + get_filename(file_name) + suffix + file_extension)
 
-                    self.statusBar().showMessage('Exporting data to "%s"' % save_file_pathname, 100000)
+                    self.statusBar().showMessage('Exporting data to "%s" ...' % save_file_pathname, 100000)
 
                     self.ui.export_data_pushButton.setEnabled(False)
                     self.ui.export_data_cancel_pushButton.setEnabled(True)
         else:
             self.ui.export_progressBar.setValue(0)
 
-            # select files to process
-            msgBox = QMessageBox()
-            msgBox.setText('Select Source Files')
-            msgBox.exec()
-
-            if get_current_tabname(self.ui.file_import_tabWidget) == 'CSV':
-                filter_str = '*.csv'
-            else:
-                filter_str = '*.xls*'
-
-            source_files = QFileDialog().getOpenFileNames(self, 'Select Source Files', os.getcwd(),
-                                                          filter=filter_str, selectedFilter=filter_str)[0]
-
-            if source_files:
-                # select destination folder
-                msgBox = QMessageBox()
-                msgBox.setText('Select Export Destination')
-                msgBox.exec()
-
-                folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
-
-                if folder_pathname:
+            if self.export_batch_source_files:
+                if self.export_folder_pathname:
                     self.pre_export_data = data.copy()
 
-                    self.start_export_files_thread(folder_pathname, source_files, prefix, suffix)
+                    self.start_export_files_thread(self.export_folder_pathname, self.export_batch_source_files,
+                                                   prefix, suffix)
 
-                    self.statusBar().showMessage('Exporting %d files to "%s"' % (len(source_files), folder_pathname),
-                                                 100000)
+                    self.statusBar().showMessage('Exporting %d files to "%s" ...' %
+                                                 (len(self.export_batch_source_files), self.export_folder_pathname), 10000)
 
                     self.ui.export_data_pushButton.setEnabled(False)
                     self.ui.export_data_cancel_pushButton.setEnabled(True)
+
+    def select_export_mode(self):
+        print('select_export_mode')
+        if self.ui.export_mode_single_radioButton.isChecked():
+            self.ui.export_data_lineEdit.setEnabled(True)
+            self.ui.export_mode_stackedWidget.setCurrentWidget(self.ui.single_page)
+
+        if self.ui.export_mode_batch_radioButton.isChecked():
+            self.ui.export_data_lineEdit.setEnabled(False)
+            self.ui.export_mode_stackedWidget.setCurrentWidget(self.ui.batch_page)
 
 
 def status_bar():
