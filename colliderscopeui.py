@@ -278,6 +278,18 @@ class ExportWorker(QObject):
         self.prefix = prefix
         self.suffix = suffix
 
+    def handle_export_nans(self, df):
+        if mainwindow.ui.row_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='all')
+        elif mainwindow.ui.row_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='any')
+        if mainwindow.ui.column_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=1, how='all')
+        elif mainwindow.ui.column_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=1, how='any')
+
+        return df
+
     def export_files(self):
         combined_dfs = []
         source_filenames = []
@@ -292,6 +304,8 @@ class ExportWorker(QObject):
                 data = mainwindow.import_excel_file(file_pathname=source_file)
 
             mainwindow.script_run()  # run the script for calculated values, etc
+
+            data = self.handle_export_nans(data)
 
             if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
                 combined_dfs.append(data.copy())
@@ -601,7 +615,8 @@ class ColliderScopeUI(QMainWindow):
             if lw is not self.active_listwidget:
                 lw.clearSelection()
 
-        latest_item = self.active_listwidget.currentItem().text()
+        if self.active_listwidget.currentItem() is not None:
+            latest_item = self.active_listwidget.currentItem().text()
         latest_items = [i.text() for i in self.active_listwidget.selectedItems()]
 
         if latest_item in original_string_fields:
@@ -760,7 +775,7 @@ class ColliderScopeUI(QMainWindow):
                 else:
                     units_row = None
 
-                unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(),
+                unitized_columns = get_unitized_columns(source_file_pathname,
                                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                                         header_row=header_row, units_row=units_row)
 
@@ -773,7 +788,7 @@ class ColliderScopeUI(QMainWindow):
 
                 if preview:
                     try:
-                        df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns,
+                        df = pd.read_csv(source_file_pathname, names=unitized_columns,
                                          header=header_row, delimiter=delimiter,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
@@ -783,7 +798,7 @@ class ColliderScopeUI(QMainWindow):
 
                         df = self.handle_import_nans(df)
                     except:
-                        df = pd.read_csv(self.ui.filepathname_lineEdit.text(), header=header_row,
+                        df = pd.read_csv(source_file_pathname, header=header_row,
                                          delimiter=delimiter,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
@@ -794,7 +809,7 @@ class ColliderScopeUI(QMainWindow):
                         df = self.handle_import_nans(df)
 
                 else:  # read in actual file
-                    df = pd.read_csv(self.ui.filepathname_lineEdit.text(), names=unitized_columns, header=header_row,
+                    df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
                                      delimiter=delimiter,
                                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                      skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
@@ -818,8 +833,13 @@ class ColliderScopeUI(QMainWindow):
                 return df
 
             except Exception as e:
-                QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
-                            (file_pathname, str(e))).exec()
+                if not batch_mode:
+                    QMessageBox(QMessageBox.Icon.Critical, 'CSV Import Error', 'Error reading "%s"\n\n%s' %
+                                (file_pathname, str(e))).exec()
+                else:
+                    print('Excel Import Error')
+                    print('Error reading "%s"\n\n%s' % (file_pathname, str(e)))
+
                 return None
 
     def handle_import_nans(self, df):
@@ -857,6 +877,7 @@ class ColliderScopeUI(QMainWindow):
                 self.ui.import_excel_sheet_comboBox.setCurrentIndex(0)
 
             sheet_name = self.ui.import_excel_sheet_comboBox.currentText()
+            sheet_number = self.ui.import_excel_sheet_comboBox.currentIndex()
 
             header_row = self.ui.import_excel_header_row_spinBox.value()
 
@@ -869,8 +890,14 @@ class ColliderScopeUI(QMainWindow):
                 if nrows is False:
                     nrows = None
 
-                unitized_columns = get_unitized_columns(self.ui.filepathname_lineEdit.text(), sheet_name=sheet_name,
-                                                        header_row=header_row, units_row=units_row)
+                try:
+                    # try loading by sheet name
+                    unitized_columns = get_unitized_columns(source_file_pathname, sheet_name=sheet_name,
+                                                            header_row=header_row, units_row=units_row)
+                except:
+                    # try loading by sheet number, in case sheet name changes across files...
+                    unitized_columns = get_unitized_columns(source_file_pathname, sheet_name=sheet_number,
+                                                            header_row=header_row, units_row=units_row)
 
                 keyword_args = self.import_excel_options_dict
 
@@ -881,9 +908,16 @@ class ColliderScopeUI(QMainWindow):
                 else:
                     skiprows = None
 
-                df = pd.read_excel(self.ui.filepathname_lineEdit.text(), names=unitized_columns, sheet_name=sheet_name,
-                                   header=header_row, nrows=nrows, engine_kwargs=engine_kwargs, skiprows=skiprows,
-                                   **keyword_args)
+                try:
+                    # try loading by sheet name
+                    df = pd.read_excel(source_file_pathname, names=unitized_columns, sheet_name=sheet_name,
+                                       header=header_row, nrows=nrows, engine_kwargs=engine_kwargs, skiprows=skiprows,
+                                       **keyword_args)
+                except:
+                    # try loading by sheet number, in case sheet name changes across files...
+                    df = pd.read_excel(source_file_pathname, names=unitized_columns, sheet_name=sheet_number,
+                                       header=header_row, nrows=nrows, engine_kwargs=engine_kwargs, skiprows=skiprows,
+                                       **keyword_args)
 
                 df = self.handle_import_nans(df)
 
@@ -901,8 +935,12 @@ class ColliderScopeUI(QMainWindow):
                 return df
 
             except Exception as e:
-                QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
-                            (file_pathname, str(e))).exec()
+                if not batch_mode:
+                    QMessageBox(QMessageBox.Icon.Critical, 'Excel Import Error', 'Error reading "%s"\n\n%s' %
+                                (file_pathname, str(e))).exec()
+                else:
+                    print('Excel Import Error')
+                    print('Error reading "%s"\n\n%s' % (file_pathname, str(e)))
                 return None
 
     def init_on_import(self):
@@ -1000,7 +1038,7 @@ class ColliderScopeUI(QMainWindow):
         source_file_name_noext = os.path.basename(source_file_pathname).rsplit('.', 1)[0]
 
         if self.ui.export_all_but_ignored_radioButton.isChecked():
-            export_data = export_data.drop(columns=ignore_fields)
+            export_data = export_data.drop(columns=ignore_fields, errors='ignore')
         elif self.ui.export_favorites_only_radioButton.isChecked():
             export_data = export_data.loc[:, favorite_fields]
 
