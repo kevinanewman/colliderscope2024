@@ -568,7 +568,7 @@ class ColliderScopeUI(QMainWindow):
                 self.ui.file_preview_tableWidget.setColumnCount(1)
 
                 df = self.import_csv_file(preview=True, nrows=num_preview_rows)
-                if df is not None:
+                if df is not None and not self.ui.raw_file_preview_checkBox.isChecked():
                     self.preview_dataframe(df)
                 else:
                     with open(file_pathname, 'r',

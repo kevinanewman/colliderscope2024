@@ -110,6 +110,11 @@ class Ui_ColliderScopeUI(object):
 
         self.preview_verticalLayout.addWidget(self.file_preview_label)
 
+        self.raw_file_preview_checkBox = QCheckBox(self.import_tab)
+        self.raw_file_preview_checkBox.setObjectName(u"raw_file_preview_checkBox")
+
+        self.preview_verticalLayout.addWidget(self.raw_file_preview_checkBox)
+
         self.preview_size_checkBox = QCheckBox(self.import_tab)
         self.preview_size_checkBox.setObjectName(u"preview_size_checkBox")
         self.preview_size_checkBox.setChecked(True)
@@ -1705,6 +1710,7 @@ class Ui_ColliderScopeUI(object):
         self.export_data_comboBox.currentTextChanged.connect(ColliderScopeUI.update_export_filename_preview)
         self.export_folder_filepathname_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
         self.text_preview_unique_checkBox.clicked.connect(ColliderScopeUI.update_string_preview)
+        self.raw_file_preview_checkBox.clicked.connect(ColliderScopeUI.load_file_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -1731,6 +1737,7 @@ class Ui_ColliderScopeUI(object):
         self.file_import_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Select File ...", None))
         self.file_preview_label.setText(QCoreApplication.translate("ColliderScopeUI", u"File\n"
 "Preview", None))
+        self.raw_file_preview_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Raw", None))
         self.preview_size_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Limit", None))
         self.import_csv_encoding_label.setText(QCoreApplication.translate("ColliderScopeUI", u"encoding", None))
         self.import_csv_encoding_comboBox.setItemText(2, QCoreApplication.translate("ColliderScopeUI", u"cp437", None))
