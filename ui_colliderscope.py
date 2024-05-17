@@ -1083,9 +1083,7 @@ class Ui_ColliderScopeUI(object):
         self.export_options_groupBox.setSizePolicy(sizePolicy13)
         self.export_options_groupBox.setMinimumSize(QSize(0, 0))
         self.verticalLayout_25 = QVBoxLayout(self.export_options_groupBox)
-        self.verticalLayout_25.setSpacing(10)
         self.verticalLayout_25.setObjectName(u"verticalLayout_25")
-        self.verticalLayout_25.setContentsMargins(5, 5, 5, 5)
         self.horizontalLayout_11 = QHBoxLayout()
         self.horizontalLayout_11.setSpacing(5)
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
@@ -1246,6 +1244,25 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_25.addLayout(self.horizontalLayout_8)
 
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.horizontalLayout_22.setContentsMargins(5, -1, 5, -1)
+        self.label_16 = QLabel(self.export_options_groupBox)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setMinimumSize(QSize(70, 0))
+
+        self.horizontalLayout_22.addWidget(self.label_16)
+
+        self.export_filename_preview_label = QLabel(self.export_options_groupBox)
+        self.export_filename_preview_label.setObjectName(u"export_filename_preview_label")
+        self.export_filename_preview_label.setFont(font)
+
+        self.horizontalLayout_22.addWidget(self.export_filename_preview_label)
+
+        self.horizontalLayout_22.setStretch(1, 1)
+
+        self.verticalLayout_25.addLayout(self.horizontalLayout_22)
+
         self.export_mode_groupBox = QGroupBox(self.export_options_groupBox)
         self.export_mode_groupBox.setObjectName(u"export_mode_groupBox")
         self.export_mode_groupBox.setEnabled(False)
@@ -1349,7 +1366,6 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_25.addWidget(self.export_mode_groupBox)
 
-        self.verticalLayout_25.setStretch(3, 1)
 
         self.verticalLayout_12.addWidget(self.export_options_groupBox)
 
@@ -1649,8 +1665,15 @@ class Ui_ColliderScopeUI(object):
         self.file_export_folder_browse_pushButton.clicked.connect(ColliderScopeUI.export_folder_browse)
         self.export_data_pushButton.clicked.connect(ColliderScopeUI.export_data)
         self.file_export_batch_files_browse_pushButton.clicked.connect(ColliderScopeUI.select_export_batch_files)
+        self.export_data_prefix_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
+        self.export_data_prefix_filler_comboBox.currentTextChanged.connect(ColliderScopeUI.update_export_filename_preview)
+        self.export_data_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
+        self.export_data_suffix_filler_comboBox.currentTextChanged.connect(ColliderScopeUI.update_export_filename_preview)
+        self.export_data_suffix_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
+        self.export_data_comboBox.currentTextChanged.connect(ColliderScopeUI.update_export_filename_preview)
+        self.export_folder_filepathname_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
 
-        self.tabWidget_main.setCurrentIndex(0)
+        self.tabWidget_main.setCurrentIndex(3)
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_csv_encoding_comboBox.setCurrentIndex(0)
@@ -1789,6 +1812,8 @@ class Ui_ColliderScopeUI(object):
         self.export_data_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
 
         self.export_data_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export", None))
+        self.label_16.setText(QCoreApplication.translate("ColliderScopeUI", u"Preview", None))
+        self.export_filename_preview_label.setText("")
         self.export_mode_groupBox.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Export Mode", None))
         self.export_mode_single_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Single", None))
         self.export_mode_batch_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Batch", None))
