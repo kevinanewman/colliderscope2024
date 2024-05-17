@@ -60,7 +60,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <property name="documentMode">
        <bool>true</bool>
@@ -104,20 +104,20 @@
               <item>
                <widget class="QLineEdit" name="filepathname_lineEdit">
                 <property name="enabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                 <property name="placeholderText">
                  <string>path/to/input_file</string>
                 </property>
                 <property name="clearButtonEnabled">
-                 <bool>true</bool>
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="file_import_browse_pushButton">
                 <property name="text">
-                 <string>Browse ...</string>
+                 <string>Select File ...</string>
                 </property>
                 <property name="autoDefault">
                  <bool>true</bool>
@@ -2389,7 +2389,7 @@ color: black;</string>
              <item>
               <widget class="QPushButton" name="file_export_folder_browse_pushButton">
                <property name="text">
-                <string>Browse ...</string>
+                <string>Select Folder ...</string>
                </property>
                <property name="autoDefault">
                 <bool>true</bool>
@@ -2775,7 +2775,7 @@ color: black;</string>
                     <item>
                      <widget class="QPushButton" name="file_export_batch_files_browse_pushButton">
                       <property name="text">
-                       <string>Browse ...</string>
+                       <string>Select Files ...</string>
                       </property>
                       <property name="autoDefault">
                        <bool>true</bool>
