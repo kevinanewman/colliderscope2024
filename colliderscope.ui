@@ -397,6 +397,9 @@ Preview</string>
                           <height>16777215</height>
                          </size>
                         </property>
+                        <property name="editable">
+                         <bool>true</bool>
+                        </property>
                         <property name="currentIndex">
                          <number>0</number>
                         </property>
@@ -408,6 +411,11 @@ Preview</string>
                         <item>
                          <property name="text">
                           <string notr="true">cp1253</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>cp437</string>
                          </property>
                         </item>
                        </widget>
@@ -567,12 +575,12 @@ Preview</string>
                        <widget class="QComboBox" name="import_csv_skip_blank_lines_comboBox">
                         <item>
                          <property name="text">
-                          <string>True</string>
+                          <string>False</string>
                          </property>
                         </item>
                         <item>
                          <property name="text">
-                          <string>False</string>
+                          <string>True</string>
                          </property>
                         </item>
                        </widget>
