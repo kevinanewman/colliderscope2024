@@ -419,7 +419,12 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.scrollAreaWidgetContents_2.setVisible(False)
 
-        self.export_folder_pathname = None
+        # export-related attributes
+        self.export_folder_pathname = ''
+        self.export_worker_thread = None
+        self.export_worker = None
+        self.export_batch_source_files = []
+        self.pre_export_data = None
 
         # timer.start()
 
@@ -1063,8 +1068,7 @@ class ColliderScopeUI(QMainWindow):
         return file_extension
 
     def export_file(self, export_data, folder_pathname, prefix, file_name, suffix):
-        file_name_noext = file_name.rsplit('.', 1)[0]
-        source_file_name_noext = os.path.basename(source_file_pathname).rsplit('.', 1)[0]
+        file_name_noext = get_filename(file_name)
 
         if self.ui.export_all_but_ignored_radioButton.isChecked():
             export_data = export_data.drop(columns=ignore_fields, errors='ignore')
@@ -1119,7 +1123,9 @@ class ColliderScopeUI(QMainWindow):
 
     def export_folder_browse(self):
         self.export_folder_pathname = QFileDialog().getExistingDirectory(self, 'Select Export Destination', '')
+
         self.ui.export_folder_filepathname_lineEdit.setText(self.export_folder_pathname)
+
         if self.export_folder_pathname:
             self.ui.export_data_pushButton.setEnabled(True)
             self.ui.export_mode_groupBox.setEnabled(True)
@@ -1153,36 +1159,15 @@ class ColliderScopeUI(QMainWindow):
         from file_io import create_combined_filename
         global data
 
-        if self.ui.export_data_prefix_filler_comboBox.currentText() == 'None':
-            prefix_filler = ''
-        else:
-            prefix_filler = self.ui.export_data_prefix_filler_comboBox.currentText()
-
-        if self.ui.export_data_suffix_filler_comboBox.currentText() == 'None':
-            suffix_filler = ''
-        else:
-            suffix_filler = self.ui.export_data_suffix_filler_comboBox.currentText()
-
-        prefix = self.ui.export_data_prefix_lineEdit.text() + prefix_filler
-        suffix = suffix_filler + self.ui.export_data_suffix_lineEdit.text()
+        prefix, save_file_pathname, suffix = self.update_export_filename_preview()
 
         if self.ui.export_mode_single_radioButton.isChecked():
             if data is not None:
                 if self.export_folder_pathname:
                     self.pre_export_data = data.copy()
 
-                    file_name = self.ui.filepathname_lineEdit.text()
-
                     self.start_export_files_thread(self.export_folder_pathname, [file_name],
                                                    prefix, suffix)
-
-                    if self.ui.export_data_comboBox.currentText() == 'CSV':
-                        file_extension = '.csv'
-                    else:
-                        file_extension = '.xlsx'
-
-                    save_file_pathname = (
-                            self.export_folder_pathname + os.sep + prefix + get_filename(file_name) + suffix + file_extension)
 
                     self.statusBar().showMessage('Exporting data to "%s" ...' % save_file_pathname, 100000)
 
@@ -1218,6 +1203,34 @@ class ColliderScopeUI(QMainWindow):
             if self.ui.export_batch_files_listWidget.count() == 0:
                 self.ui.export_data_pushButton.setEnabled(False)
 
+
+    def update_export_filename_preview(self):
+        if self.ui.export_data_prefix_filler_comboBox.currentText() == 'None':
+            prefix_filler = ''
+        else:
+            prefix_filler = self.ui.export_data_prefix_filler_comboBox.currentText()
+
+        if self.ui.export_data_suffix_filler_comboBox.currentText() == 'None':
+            suffix_filler = ''
+        else:
+            suffix_filler = self.ui.export_data_suffix_filler_comboBox.currentText()
+
+        prefix = self.ui.export_data_prefix_lineEdit.text() + prefix_filler
+        suffix = suffix_filler + self.ui.export_data_suffix_lineEdit.text()
+
+        if self.ui.export_data_comboBox.currentText() == 'CSV':
+            file_extension = '.csv'
+        else:
+            file_extension = '.xlsx'
+
+        file_name = self.ui.filepathname_lineEdit.text()
+
+        save_file_pathname = (
+                self.export_folder_pathname + os.sep + prefix + get_filename(file_name) + suffix + file_extension)
+
+        self.ui.export_filename_preview_label.setText(save_file_pathname)
+
+        return prefix, save_file_pathname, suffix
 
 def status_bar():
     print(time.time())
