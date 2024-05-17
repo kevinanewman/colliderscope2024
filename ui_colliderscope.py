@@ -86,8 +86,8 @@ class Ui_ColliderScopeUI(object):
 
         self.filepathname_lineEdit = QLineEdit(self.import_tab)
         self.filepathname_lineEdit.setObjectName(u"filepathname_lineEdit")
-        self.filepathname_lineEdit.setEnabled(True)
-        self.filepathname_lineEdit.setClearButtonEnabled(True)
+        self.filepathname_lineEdit.setEnabled(False)
+        self.filepathname_lineEdit.setClearButtonEnabled(False)
 
         self.file_import_browse_horizontalLayout.addWidget(self.filepathname_lineEdit)
 
@@ -1676,7 +1676,7 @@ class Ui_ColliderScopeUI(object):
         self.export_data_comboBox.currentTextChanged.connect(ColliderScopeUI.update_export_filename_preview)
         self.export_folder_filepathname_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
 
-        self.tabWidget_main.setCurrentIndex(3)
+        self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
         self.file_import_tabWidget.setCurrentIndex(0)
         self.import_csv_encoding_comboBox.setCurrentIndex(0)
@@ -1698,7 +1698,7 @@ class Ui_ColliderScopeUI(object):
         self.action_Save_Setup.setText(QCoreApplication.translate("ColliderScopeUI", u"Save Setup", None))
         self.filepathname_label.setText(QCoreApplication.translate("ColliderScopeUI", u"Filename", None))
         self.filepathname_lineEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"path/to/input_file", None))
-        self.file_import_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Browse ...", None))
+        self.file_import_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Select File ...", None))
         self.file_preview_label.setText(QCoreApplication.translate("ColliderScopeUI", u"File\n"
 "Preview", None))
         self.preview_size_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Limit", None))
@@ -1800,7 +1800,7 @@ class Ui_ColliderScopeUI(object):
         self.export_favorites_only_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export Favorites only", None))
         self.filepathname_label_2.setText(QCoreApplication.translate("ColliderScopeUI", u"Export Path", None))
         self.export_folder_filepathname_lineEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"path/to/output_folder", None))
-        self.file_export_folder_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Browse ...", None))
+        self.file_export_folder_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Select Folder ...", None))
         self.label_14.setText(QCoreApplication.translate("ColliderScopeUI", u"Filename", None))
         self.export_data_prefix_lineEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"prefix", None))
         self.export_data_prefix_filler_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"None", None))
@@ -1826,7 +1826,7 @@ class Ui_ColliderScopeUI(object):
         self.export_data_mode_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"Batch + Combined", None))
         self.export_data_mode_comboBox.setItemText(2, QCoreApplication.translate("ColliderScopeUI", u"Combined", None))
 
-        self.file_export_batch_files_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Browse ...", None))
+        self.file_export_batch_files_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Select Files ...", None))
         self.export_data_cancel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Cancel", None))
         self.label_6.setText(QCoreApplication.translate("ColliderScopeUI", u"Z", None))
         self.label_10.setText(QCoreApplication.translate("ColliderScopeUI", u"Line", None))

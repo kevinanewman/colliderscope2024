@@ -212,7 +212,7 @@ def sysprint(msg):
     os.system('echo {}'.format(msg))
 
 
-def create_combined_filename(folder_pathname, source_filenames, prefix, suffix, file_extension):
+def create_combined_filename(source_filenames):
     """
     This function creates a combined filename based on a list of source filenames.
 
@@ -221,11 +221,7 @@ def create_combined_filename(folder_pathname, source_filenames, prefix, suffix, 
     filename pattern with a timestamp and appends the prefix, the name of the folder, suffix and the string
     '-combined' separated by file extension.
 
-    :param folder_pathname: The path to the folder where the files are located.
     :param source_filenames: A list of filenames to combine.
-    :param prefix: A string that is added at the beginning of the combined filename.
-    :param suffix: A string that is added at the end of the combined filename.
-    :param file_extension: The file extension for the combined filename.
 
     :return: A combined filename based on the input parameters.
     """
@@ -243,7 +239,6 @@ def create_combined_filename(folder_pathname, source_filenames, prefix, suffix, 
         # filenames have nothing in common, use generic filename
         timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
-        combined_filename = (folder_pathname + os.sep + timestamp + '_' + prefix +
-                             get_basename(folder_pathname) + suffix + '-combined' + file_extension)
+        combined_filename = timestamp + '_' + combined_filename
 
     return combined_filename
