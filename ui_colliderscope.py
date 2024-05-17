@@ -38,8 +38,10 @@ class Ui_ColliderScopeUI(object):
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
-        self.actionsubmenu = QAction(ColliderScopeUI)
-        self.actionsubmenu.setObjectName(u"actionsubmenu")
+        self.action_Load_Setup = QAction(ColliderScopeUI)
+        self.action_Load_Setup.setObjectName(u"action_Load_Setup")
+        self.action_Save_Setup = QAction(ColliderScopeUI)
+        self.action_Save_Setup.setObjectName(u"action_Save_Setup")
         self.centralwidget = QWidget(ColliderScopeUI)
         self.centralwidget.setObjectName(u"centralwidget")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -1611,7 +1613,8 @@ class Ui_ColliderScopeUI(object):
         ColliderScopeUI.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuColliderScope2024.menuAction())
-        self.menuColliderScope2024.addAction(self.actionsubmenu)
+        self.menuColliderScope2024.addAction(self.action_Load_Setup)
+        self.menuColliderScope2024.addAction(self.action_Save_Setup)
 
         self.retranslateUi(ColliderScopeUI)
         self.import_excel_pushButton.clicked.connect(ColliderScopeUI.import_excel_file)
@@ -1691,7 +1694,8 @@ class Ui_ColliderScopeUI(object):
 
     def retranslateUi(self, ColliderScopeUI):
         ColliderScopeUI.setWindowTitle(QCoreApplication.translate("ColliderScopeUI", u"ColliderScopeUI", None))
-        self.actionsubmenu.setText(QCoreApplication.translate("ColliderScopeUI", u"submenu", None))
+        self.action_Load_Setup.setText(QCoreApplication.translate("ColliderScopeUI", u"Load Setup", None))
+        self.action_Save_Setup.setText(QCoreApplication.translate("ColliderScopeUI", u"Save Setup", None))
         self.filepathname_label.setText(QCoreApplication.translate("ColliderScopeUI", u"Filename", None))
         self.filepathname_lineEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"path/to/input_file", None))
         self.file_import_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Browse ...", None))

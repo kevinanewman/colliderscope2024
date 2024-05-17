@@ -3277,14 +3277,20 @@ color: black;</string>
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionsubmenu"/>
+    <addaction name="action_Load_Setup"/>
+    <addaction name="action_Save_Setup"/>
    </widget>
    <addaction name="menuColliderScope2024"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionsubmenu">
+  <action name="action_Load_Setup">
    <property name="text">
-    <string>submenu</string>
+    <string>Load Setup</string>
+   </property>
+  </action>
+  <action name="action_Save_Setup">
+   <property name="text">
+    <string>Save Setup</string>
    </property>
   </action>
  </widget>
