@@ -647,9 +647,14 @@ class ColliderScopeUI(QMainWindow):
 
     def update_text_preview(self, latest_item):
         self.ui.text_preview_listWidget.clear()
+
         if latest_item in data:
-            self.ui.text_preview_listWidget.addItems(['%s:\n' % latest_item])
-            self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
+            self.ui.text_preview_listWidget.addItems(['%s:' % latest_item, '-' * (len(latest_item) + 1)])
+
+            if self.ui.text_preview_unique_checkBox.isChecked():
+                self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
+            else:
+                self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item]])
 
     def update_string_preview(self, force=False):
         if get_current_tabname(self.ui.preview_tabWidget) != 'Preprocess Script' or force:
