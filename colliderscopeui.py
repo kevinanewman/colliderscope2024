@@ -154,7 +154,8 @@ def two_column_tableWidget_to_dict(table_widget):
     return options_dict
 
 
-def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='utf-8', header_row=0, units_row=None):
+def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='utf-8', header_row=0, units_row=None,
+                         skiprows=None):
     """
     Combine column labels and units row into a single combined string to identify the column.
 
@@ -170,7 +171,7 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
         List of combined column headers and units as in ``['ColumnName_units', ...]``
 
     """
-    num_rows = 100  # may have to read a chunk of row2 if there are partial columns...
+    num_rows = 100  # may have to read a chunk of row2 if there are partial columns...??
 
     if sheet_name:
         columns = pd.read_excel(filename, header=None, nrows=num_rows, skiprows=list(range(0, header_row)),
@@ -181,13 +182,13 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
                                   sheet_name=sheet_name)
         else:
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
-    else:  # blank units
+    else:
         columns = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, header_row)),
-                              encoding=encoding, encoding_errors='strict')
+                              encoding=encoding, encoding_errors='strict', on_bad_lines='warn')
 
         if units_row is not None:
             units = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, units_row)),
-                                encoding=encoding, encoding_errors='strict')
+                                encoding=encoding, encoding_errors='strict', on_bad_lines='warn')
         else:  # blank units
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
 
@@ -195,9 +196,9 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
 
     for col, unit in zip(columns.values[0], units.values[0]):
         if unit not in ignore_units and pd.notna(unit) and units_row is not None:
-            unitized_columns.append('%s_%s' % (col, unit))
+            unitized_columns.append('%s_%s' % (str(col).strip(), str(unit).strip()))
         else:
-            unitized_columns.append('%s' % col)
+            unitized_columns.append('%s' % str(col).strip())
 
     # deal with dupicates!
     sanitized_columns = []
@@ -265,6 +266,13 @@ def set_tab_by_name(tabWidget, tab_name):
 
 def get_current_tabname(tabWidget):
     return tabWidget.tabText(tabWidget.currentIndex())
+
+
+def try_to_float(v):
+    try:
+        return float(v)
+    except:
+        return np.nan
 
 
 class ExportWorker(QObject):
@@ -545,16 +553,41 @@ class ColliderScopeUI(QMainWindow):
                 if df is not None:
                     self.preview_dataframe(df)
                 else:
-                    with open(file_pathname, 'r') as f_read:
-                        for i in range(0, num_preview_rows):
-                            line = f_read.readline()
-                            if line:
-                                self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
-                                self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+                    # need to figure out how number the table widget from 0, insetad of 1
+                    with open(file_pathname, 'r',
+                              encoding=self.ui.import_csv_encoding_comboBox.currentText()) as f_read:
+                        if num_preview_rows:
+                            fault = False
+                            offset = 2
+                            for i in range(0, num_preview_rows):
+                                fault, offset = self.attempt_readline(f_read, fault, i, offset)
+                        else:
+                            fault = False
+                            offset = 2
+                            line = True
+                            i = 0
+                            while line:
+                                fault, offset = self.attempt_readline(f_read, fault, i, offset)
+                                i += 1
 
                         self.ui.file_preview_tableWidget.horizontalHeader().setVisible(False)
                         self.ui.file_preview_tableWidget.resizeColumnsToContents()
                         self.ui.file_preview_tableWidget.horizontalHeader().setMinimumHeight(30)
+
+    def attempt_readline(self, f_read, fault, i, offset):
+        if not fault:
+            try:
+                line = f_read.readline()
+            except Exception as e:
+                line = str(e)
+                fault = True
+                offset = 1
+
+            if line:
+                self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
+                self.ui.file_preview_tableWidget.setItem(i - offset, 1, QTableWidgetItem('%s' % line.rstrip()))
+
+        return fault, offset
 
     def import_csv_header_row_changed(self):
         # set unit row to header row + 1, by default:
@@ -740,7 +773,9 @@ class ColliderScopeUI(QMainWindow):
         # convert mixed columns (e.g. strings and numbers) to strings
         non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
         for c in non_numeric_fields:
-            data[c] = data[c].astype('string')
+            if not pd.api.types.is_string_dtype(data[c]):
+                data['%s-str' % c] = data[c].astype('string')
+            data['%s-num' % c] = data[c].apply(try_to_float)
 
         active_numeric_fields.extend(data.select_dtypes(include='number').columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
@@ -820,9 +855,14 @@ class ColliderScopeUI(QMainWindow):
                 else:
                     units_row = None
 
-                unitized_columns = get_unitized_columns(source_file_pathname,
-                                                        encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                                        header_row=header_row, units_row=units_row)
+                try:
+                    unitized_columns = get_unitized_columns(source_file_pathname,
+                                                            encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                                            header_row=header_row, units_row=units_row)
+                    usecols = list(range(0, len(unitized_columns)))
+                except:
+                    unitized_columns = []
+                    usecols = None
 
                 keyword_args = self.import_csv_options_dict
 
@@ -831,33 +871,38 @@ class ColliderScopeUI(QMainWindow):
                 else:
                     skiprows = None
 
+                skip_blank_lines = eval(self.ui.import_csv_skip_blank_lines_comboBox.currentText())
+
                 if preview:
                     try:
                         df = pd.read_csv(source_file_pathname, names=unitized_columns,
-                                         header=header_row, delimiter=delimiter,
+                                         header=header_row, delimiter=delimiter, usecols=usecols,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                         skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                         nrows=nrows, skiprows=skiprows,
+                                         skip_blank_lines=skip_blank_lines,
+                                         nrows=nrows, skiprows=skiprows, on_bad_lines='warn',
                                          **keyword_args,
                                          )
 
                         df = self.handle_import_nans(df)
                     except:
-                        df = pd.read_csv(source_file_pathname, header=header_row,
-                                         delimiter=delimiter,
-                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                         skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
-                                         nrows=nrows, skiprows=skiprows,
-                                         **keyword_args,
-                                         )
-
-                        df = self.handle_import_nans(df)
+                        df = None
+                        pass
+                    # except:
+                    #     df = pd.read_csv(source_file_pathname, header=header_row,
+                    #                      delimiter=delimiter, usecols=usecols,
+                    #                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                    #                      skip_blank_lines=skip_blank_lines,
+                    #                      nrows=nrows, skiprows=skiprows, on_bad_lines='warn',
+                    #                      **keyword_args,
+                    #                      )
+                    #
+                    #     df = self.handle_import_nans(df)
 
                 else:  # read in actual file
                     df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
-                                     delimiter=delimiter,
+                                     delimiter=delimiter, usecols=usecols,
                                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                     skip_blank_lines=self.ui.import_csv_skip_blank_lines_comboBox.currentText(),
+                                     skip_blank_lines=skip_blank_lines, on_bad_lines='warn',
                                      skiprows=skiprows,
                                      **keyword_args,
                                      )

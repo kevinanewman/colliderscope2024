@@ -219,6 +219,7 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_encoding_comboBox = QComboBox(self.scrollAreaWidgetContents)
         self.import_csv_encoding_comboBox.addItem(u"utf_8")
         self.import_csv_encoding_comboBox.addItem(u"cp1253")
+        self.import_csv_encoding_comboBox.addItem("")
         self.import_csv_encoding_comboBox.setObjectName(u"import_csv_encoding_comboBox")
         sizePolicy6 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Fixed)
         sizePolicy6.setHorizontalStretch(0)
@@ -226,6 +227,7 @@ class Ui_ColliderScopeUI(object):
         sizePolicy6.setHeightForWidth(self.import_csv_encoding_comboBox.sizePolicy().hasHeightForWidth())
         self.import_csv_encoding_comboBox.setSizePolicy(sizePolicy6)
         self.import_csv_encoding_comboBox.setMaximumSize(QSize(16777215, 16777215))
+        self.import_csv_encoding_comboBox.setEditable(True)
 
         self.import_csv_encoding_horizontalLayout.addWidget(self.import_csv_encoding_comboBox)
 
@@ -1731,6 +1733,7 @@ class Ui_ColliderScopeUI(object):
 "Preview", None))
         self.preview_size_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Limit", None))
         self.import_csv_encoding_label.setText(QCoreApplication.translate("ColliderScopeUI", u"encoding", None))
+        self.import_csv_encoding_comboBox.setItemText(2, QCoreApplication.translate("ColliderScopeUI", u"cp437", None))
 
         self.import_csv_header_row_label.setText(QCoreApplication.translate("ColliderScopeUI", u"header row", None))
         self.import_csv_units_row_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"units row", None))
@@ -1741,8 +1744,8 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_delimiter_comboBox.setItemText(3, QCoreApplication.translate("ColliderScopeUI", u"\\t", None))
 
         self.import_csv_skip_blank_lines_label.setText(QCoreApplication.translate("ColliderScopeUI", u"skip_blank_lines", None))
-        self.import_csv_skip_blank_lines_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"True", None))
-        self.import_csv_skip_blank_lines_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"False", None))
+        self.import_csv_skip_blank_lines_comboBox.setItemText(0, QCoreApplication.translate("ColliderScopeUI", u"False", None))
+        self.import_csv_skip_blank_lines_comboBox.setItemText(1, QCoreApplication.translate("ColliderScopeUI", u"True", None))
 
         self.label_12.setText(QCoreApplication.translate("ColliderScopeUI", u"skiprows", None))
         self.import_csv_skiprows_lineEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"0", None))
