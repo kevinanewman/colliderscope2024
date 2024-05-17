@@ -510,6 +510,23 @@ class ColliderScopeUI(QMainWindow):
 
         # self.ui.plot_graphicsView.showGrid(x=True, y=True)
 
+    def try_readline(self, f_read, stop, i):
+        try:
+            line = f_read.readline()
+        except Exception as e:
+            line = str(e)
+            stop = True
+
+        if line:
+            self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
+            # label rows from 0 and not 1, to be compatible with import settings like header_row:
+            self.ui.file_preview_tableWidget.setVerticalHeaderItem(i, QTableWidgetItem(str(i)))
+            self.ui.file_preview_tableWidget.setItem(i-1, 1, QTableWidgetItem('%s' % line.rstrip()))
+        else:
+            stop = True
+
+        return stop
+
     def load_file_preview(self, qstring='', file_pathname=None):
         print('load_file_preview')
 
@@ -554,41 +571,22 @@ class ColliderScopeUI(QMainWindow):
                 if df is not None:
                     self.preview_dataframe(df)
                 else:
-                    # need to figure out how number the table widget from 0, insetad of 1
                     with open(file_pathname, 'r',
                               encoding=self.ui.import_csv_encoding_comboBox.currentText()) as f_read:
+                        stop = False
                         if num_preview_rows:
-                            fault = False
-                            offset = 2
                             for i in range(0, num_preview_rows):
-                                fault, offset = self.attempt_readline(f_read, fault, i, offset)
+                                if not stop:
+                                    stop = self.try_readline(f_read, stop, i)
                         else:
-                            fault = False
-                            offset = 2
-                            line = True
                             i = 0
-                            while line:
-                                fault, offset = self.attempt_readline(f_read, fault, i, offset)
+                            while not stop:
+                                stop = self.try_readline(f_read, stop, i)
                                 i += 1
 
                         self.ui.file_preview_tableWidget.horizontalHeader().setVisible(False)
                         self.ui.file_preview_tableWidget.resizeColumnsToContents()
                         self.ui.file_preview_tableWidget.horizontalHeader().setMinimumHeight(30)
-
-    def attempt_readline(self, f_read, fault, i, offset):
-        if not fault:
-            try:
-                line = f_read.readline()
-            except Exception as e:
-                line = str(e)
-                fault = True
-                offset = 1
-
-            if line:
-                self.ui.file_preview_tableWidget.insertRow(self.ui.file_preview_tableWidget.rowCount())
-                self.ui.file_preview_tableWidget.setItem(i - offset, 1, QTableWidgetItem('%s' % line.rstrip()))
-
-        return fault, offset
 
     def import_csv_header_row_changed(self):
         # set unit row to header row + 1, by default:
