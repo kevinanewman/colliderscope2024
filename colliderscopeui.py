@@ -730,7 +730,12 @@ class ColliderScopeUI(QMainWindow):
         ignore_fields.clear()
         favorite_fields.clear()
 
-        active_numeric_fields.extend(data.select_dtypes(exclude=['string', 'object']).columns)
+        # convert mixed columns (e.g. strings and numbers) to strings
+        non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
+        for c in non_numeric_fields:
+            data[c] = data[c].astype('string')
+
+        active_numeric_fields.extend(data.select_dtypes(include='number').columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
 
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
@@ -984,6 +989,7 @@ class ColliderScopeUI(QMainWindow):
 
         original_numeric_fields = [c for c in data.select_dtypes(exclude=['string', 'object']).columns]
         original_string_fields = [c for c in data.select_dtypes(include='string').columns]
+        original_object_fields = [c for c in data.select_dtypes(exclude=['object']).columns]
 
         non_ignored_numeric_fields = [f for f in original_numeric_fields if f not in ignore_fields]
         non_ignored_string_fields = [f for f in original_string_fields if f not in ignore_fields]
