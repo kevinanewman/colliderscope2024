@@ -1120,13 +1120,9 @@ class Ui_ColliderScopeUI(object):
 
         self.export_signal_buttons_layout = QGroupBox(self.export_options_groupBox)
         self.export_signal_buttons_layout.setObjectName(u"export_signal_buttons_layout")
+        self.export_signal_buttons_layout.setMinimumSize(QSize(200, 0))
         self.verticalLayout_10 = QVBoxLayout(self.export_signal_buttons_layout)
-#ifndef Q_OS_MAC
-        self.verticalLayout_10.setSpacing(-1)
-#endif
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.verticalLayout_10.setSizeConstraint(QLayout.SetFixedSize)
-        self.verticalLayout_10.setContentsMargins(5, 5, 5, 5)
         self.export_all_radioButton = QRadioButton(self.export_signal_buttons_layout)
         self.export_options_buttonGroup = QButtonGroup(ColliderScopeUI)
         self.export_options_buttonGroup.setObjectName(u"export_options_buttonGroup")
@@ -1150,6 +1146,20 @@ class Ui_ColliderScopeUI(object):
         self.export_favorites_only_radioButton.setMaximumSize(QSize(173, 20))
 
         self.verticalLayout_10.addWidget(self.export_favorites_only_radioButton)
+
+        self.export_numeric_only_radioButton = QRadioButton(self.export_signal_buttons_layout)
+        self.export_options_buttonGroup.addButton(self.export_numeric_only_radioButton)
+        self.export_numeric_only_radioButton.setObjectName(u"export_numeric_only_radioButton")
+        self.export_numeric_only_radioButton.setMaximumSize(QSize(173, 20))
+
+        self.verticalLayout_10.addWidget(self.export_numeric_only_radioButton)
+
+        self.export_non_numeric_only_radioButton = QRadioButton(self.export_signal_buttons_layout)
+        self.export_options_buttonGroup.addButton(self.export_non_numeric_only_radioButton)
+        self.export_non_numeric_only_radioButton.setObjectName(u"export_non_numeric_only_radioButton")
+        self.export_non_numeric_only_radioButton.setMaximumSize(QSize(173, 20))
+
+        self.verticalLayout_10.addWidget(self.export_non_numeric_only_radioButton)
 
 
         self.horizontalLayout_11.addWidget(self.export_signal_buttons_layout)
@@ -1816,7 +1826,9 @@ class Ui_ColliderScopeUI(object):
         self.export_signal_buttons_layout.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Signals", None))
         self.export_all_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export all", None))
         self.export_all_but_ignored_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export all but Ignored", None))
-        self.export_favorites_only_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export Favorites only", None))
+        self.export_favorites_only_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export Favorites", None))
+        self.export_numeric_only_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export Numeric", None))
+        self.export_non_numeric_only_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Export non-Numeric", None))
         self.filepathname_label_2.setText(QCoreApplication.translate("ColliderScopeUI", u"Export Path", None))
         self.export_folder_filepathname_lineEdit.setPlaceholderText(QCoreApplication.translate("ColliderScopeUI", u"path/to/output_folder", None))
         self.file_export_folder_browse_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Select Folder ...", None))

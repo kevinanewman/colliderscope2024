@@ -325,10 +325,9 @@ class ExportWorker(QObject):
 
             combined_df = pd.concat(combined_dfs, ignore_index=True, sort=False)
 
-            combined_filename = \
-                mainwindow.update_export_filename_preview(export_filename=combined_filename + '-combined')[0]
+            combined_df = self.handle_export_nans(combined_df)
 
-            combined_df.to_csv(combined_filename, index=False)
+            mainwindow.export_file(combined_df, combined_filename + '-combined')
 
         self.finished.emit()
 
@@ -1082,6 +1081,10 @@ class ColliderScopeUI(QMainWindow):
             export_data = export_data.drop(columns=ignore_fields, errors='ignore')
         elif self.ui.export_favorites_only_radioButton.isChecked():
             export_data = export_data.loc[:, favorite_fields]
+        elif self.ui.export_numeric_only_radioButton.isChecked():
+            export_data = export_data.select_dtypes(include='number')
+        elif self.ui.export_non_numeric_only_radioButton.isChecked():
+            export_data = export_data.select_dtypes(exclude='number')
 
         save_file_pathname, file_extension = (
             self.update_export_filename_preview(export_filename=file_name))

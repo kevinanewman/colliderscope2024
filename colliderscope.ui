@@ -2307,28 +2307,16 @@ color: black;</string>
              </item>
              <item>
               <widget class="QGroupBox" name="export_signal_buttons_layout">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="title">
                 <string>Signals</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_10">
-                <property name="spacing">
-                 <number>-1</number>
-                </property>
-                <property name="sizeConstraint">
-                 <enum>QLayout::SetFixedSize</enum>
-                </property>
-                <property name="leftMargin">
-                 <number>5</number>
-                </property>
-                <property name="topMargin">
-                 <number>5</number>
-                </property>
-                <property name="rightMargin">
-                 <number>5</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>5</number>
-                </property>
                 <item>
                  <widget class="QRadioButton" name="export_all_radioButton">
                   <property name="maximumSize">
@@ -2373,7 +2361,39 @@ color: black;</string>
                    </size>
                   </property>
                   <property name="text">
-                   <string>Export Favorites only</string>
+                   <string>Export Favorites</string>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">export_options_buttonGroup</string>
+                  </attribute>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="export_numeric_only_radioButton">
+                  <property name="maximumSize">
+                   <size>
+                    <width>173</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Export Numeric</string>
+                  </property>
+                  <attribute name="buttonGroup">
+                   <string notr="true">export_options_buttonGroup</string>
+                  </attribute>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="export_non_numeric_only_radioButton">
+                  <property name="maximumSize">
+                   <size>
+                    <width>173</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Export non-Numeric</string>
                   </property>
                   <attribute name="buttonGroup">
                    <string notr="true">export_options_buttonGroup</string>
