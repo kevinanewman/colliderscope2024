@@ -848,9 +848,16 @@ class ColliderScopeUI(QMainWindow):
                 delimiter = None
 
             try:
+                if self.ui.import_csv_skiprows_lineEdit.text():
+                    skiprows = eval(self.ui.import_csv_skiprows_lineEdit.text())
+                else:
+                    skiprows = 0
+
                 header_row = self.ui.import_csv_header_row_spinBox.value()
+
                 if self.ui.import_csv_units_row_checkBox.isChecked():
                     units_row = self.ui.import_csv_units_row_spinBox.value()
+                    skiprows += units_row - header_row
                 else:
                     units_row = None
 
@@ -864,11 +871,6 @@ class ColliderScopeUI(QMainWindow):
                     usecols = None
 
                 keyword_args = self.import_csv_options_dict
-
-                if self.ui.import_csv_skiprows_lineEdit.text():
-                    skiprows = eval(self.ui.import_csv_skiprows_lineEdit.text())
-                else:
-                    skiprows = None
 
                 skip_blank_lines = eval(self.ui.import_csv_skip_blank_lines_comboBox.currentText())
 
@@ -885,18 +887,6 @@ class ColliderScopeUI(QMainWindow):
                         df = self.handle_import_nans(df)
                     except:
                         df = None
-                        pass
-                    # except:
-                    #     df = pd.read_csv(source_file_pathname, header=header_row,
-                    #                      delimiter=delimiter, usecols=usecols,
-                    #                      encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                    #                      skip_blank_lines=skip_blank_lines,
-                    #                      nrows=nrows, skiprows=skiprows, on_bad_lines='warn',
-                    #                      **keyword_args,
-                    #                      )
-                    #
-                    #     df = self.handle_import_nans(df)
-
                 else:  # read in actual file
                     df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
                                      delimiter=delimiter, usecols=usecols,
