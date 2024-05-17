@@ -285,14 +285,15 @@ class ExportWorker(QObject):
         self.cancelled = False
 
     def handle_export_nans(self, df):
-        if mainwindow.ui.nanhandler_widget.ui.row_drop_if_all_nans_radioButton.isChecked():
-            df = df.dropna(axis=0, how='all')
-        elif mainwindow.ui.nanhandler_widget.ui.row_drop_if_any_nans_radioButton.isChecked():
-            df = df.dropna(axis=0, how='any')
         if mainwindow.ui.nanhandler_widget.ui.column_drop_if_all_nans_radioButton.isChecked():
             df = df.dropna(axis=1, how='all')
         elif mainwindow.ui.nanhandler_widget.ui.column_drop_if_any_nans_radioButton.isChecked():
             df = df.dropna(axis=1, how='any')
+
+        if mainwindow.ui.nanhandler_widget.ui.row_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='all')
+        elif mainwindow.ui.nanhandler_widget.ui.row_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='any')
 
         return df
 
@@ -804,15 +805,15 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
     def handle_import_nans(self, df):
-        if self.ui.row_drop_if_all_nans_radioButton.isChecked():
-            df = df.dropna(axis=0, how='all')
-        elif self.ui.row_drop_if_any_nans_radioButton.isChecked():
-            df = df.dropna(axis=0, how='any')
-
         if self.ui.column_drop_if_all_nans_radioButton.isChecked():
             df = df.dropna(axis=1, how='all')
         elif self.ui.column_drop_if_any_nans_radioButton.isChecked():
             df = df.dropna(axis=1, how='any')
+
+        if self.ui.row_drop_if_all_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='all')
+        elif self.ui.row_drop_if_any_nans_radioButton.isChecked():
+            df = df.dropna(axis=0, how='any')
 
         return df
 
