@@ -152,6 +152,10 @@ class Ui_ColliderScopeUI(object):
         self.file_preview_tableWidget.setSizePolicy(sizePolicy3)
         self.file_preview_tableWidget.setMinimumSize(QSize(0, 0))
         self.file_preview_tableWidget.setMaximumSize(QSize(16777215, 16777208))
+        font = QFont()
+        font.setFamilies([u"Courier New"])
+        font.setPointSize(13)
+        self.file_preview_tableWidget.setFont(font)
         self.file_preview_tableWidget.setAutoScroll(False)
         self.file_preview_tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.file_preview_tableWidget.setTabKeyNavigation(False)
@@ -584,37 +588,6 @@ class Ui_ColliderScopeUI(object):
 
         self.verticalLayout_6.addWidget(self.file_import_tabWidget)
 
-        self.row_groupBox = QGroupBox(self.import_tab)
-        self.row_groupBox.setObjectName(u"row_groupBox")
-        self.row_groupBox.setEnabled(False)
-        self.row_groupBox.setMaximumSize(QSize(16777215, 86))
-        self.verticalLayout_15 = QVBoxLayout(self.row_groupBox)
-        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
-        self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_16 = QVBoxLayout()
-        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
-        self.row_allow_nans = QRadioButton(self.row_groupBox)
-        self.row_allow_nans.setObjectName(u"row_allow_nans")
-        self.row_allow_nans.setChecked(True)
-
-        self.verticalLayout_16.addWidget(self.row_allow_nans)
-
-        self.row_drop_if_all_nans_radioButton = QRadioButton(self.row_groupBox)
-        self.row_drop_if_all_nans_radioButton.setObjectName(u"row_drop_if_all_nans_radioButton")
-
-        self.verticalLayout_16.addWidget(self.row_drop_if_all_nans_radioButton)
-
-        self.row_drop_if_any_nans_radioButton = QRadioButton(self.row_groupBox)
-        self.row_drop_if_any_nans_radioButton.setObjectName(u"row_drop_if_any_nans_radioButton")
-
-        self.verticalLayout_16.addWidget(self.row_drop_if_any_nans_radioButton)
-
-
-        self.verticalLayout_15.addLayout(self.verticalLayout_16)
-
-
-        self.verticalLayout_6.addWidget(self.row_groupBox)
-
         self.column_groupBox = QGroupBox(self.import_tab)
         self.column_groupBox.setObjectName(u"column_groupBox")
         self.column_groupBox.setEnabled(False)
@@ -650,6 +623,37 @@ class Ui_ColliderScopeUI(object):
 
 
         self.verticalLayout_6.addWidget(self.column_groupBox)
+
+        self.row_groupBox = QGroupBox(self.import_tab)
+        self.row_groupBox.setObjectName(u"row_groupBox")
+        self.row_groupBox.setEnabled(False)
+        self.row_groupBox.setMaximumSize(QSize(16777215, 86))
+        self.verticalLayout_15 = QVBoxLayout(self.row_groupBox)
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.verticalLayout_15.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_16 = QVBoxLayout()
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.row_allow_nans = QRadioButton(self.row_groupBox)
+        self.row_allow_nans.setObjectName(u"row_allow_nans")
+        self.row_allow_nans.setChecked(True)
+
+        self.verticalLayout_16.addWidget(self.row_allow_nans)
+
+        self.row_drop_if_all_nans_radioButton = QRadioButton(self.row_groupBox)
+        self.row_drop_if_all_nans_radioButton.setObjectName(u"row_drop_if_all_nans_radioButton")
+
+        self.verticalLayout_16.addWidget(self.row_drop_if_all_nans_radioButton)
+
+        self.row_drop_if_any_nans_radioButton = QRadioButton(self.row_groupBox)
+        self.row_drop_if_any_nans_radioButton.setObjectName(u"row_drop_if_any_nans_radioButton")
+
+        self.verticalLayout_16.addWidget(self.row_drop_if_any_nans_radioButton)
+
+
+        self.verticalLayout_15.addLayout(self.verticalLayout_16)
+
+
+        self.verticalLayout_6.addWidget(self.row_groupBox)
 
         self.verticalSpacer_6 = QSpacerItem(20, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
 
@@ -977,9 +981,9 @@ class Ui_ColliderScopeUI(object):
 
         self.text_preview_listWidget = QListWidget(self.text_preview_tab)
         self.text_preview_listWidget.setObjectName(u"text_preview_listWidget")
-        font = QFont()
-        font.setFamilies([u"Courier New"])
-        self.text_preview_listWidget.setFont(font)
+        font1 = QFont()
+        font1.setFamilies([u"Courier New"])
+        self.text_preview_listWidget.setFont(font1)
 
         self.verticalLayout_26.addWidget(self.text_preview_listWidget)
 
@@ -1051,7 +1055,7 @@ class Ui_ColliderScopeUI(object):
 
         self.script_preview_plainTextEdit = QPlainTextEdit(self.layoutWidget)
         self.script_preview_plainTextEdit.setObjectName(u"script_preview_plainTextEdit")
-        self.script_preview_plainTextEdit.setFont(font)
+        self.script_preview_plainTextEdit.setFont(font1)
         self.script_preview_plainTextEdit.setPlainText(u"")
         self.script_preview_plainTextEdit.setTabStopDistance(32.000000000000000)
 
@@ -1291,7 +1295,7 @@ class Ui_ColliderScopeUI(object):
 
         self.export_filename_preview_label = QLabel(self.export_options_groupBox)
         self.export_filename_preview_label.setObjectName(u"export_filename_preview_label")
-        self.export_filename_preview_label.setFont(font)
+        self.export_filename_preview_label.setFont(font1)
 
         self.horizontalLayout_22.addWidget(self.export_filename_preview_label)
 
@@ -1388,7 +1392,7 @@ class Ui_ColliderScopeUI(object):
 
         self.export_batch_files_listWidget = QListWidget(self.batch_page)
         self.export_batch_files_listWidget.setObjectName(u"export_batch_files_listWidget")
-        self.export_batch_files_listWidget.setFont(font)
+        self.export_batch_files_listWidget.setFont(font1)
         self.export_batch_files_listWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.export_batch_files_listWidget.setProperty("showDropIndicator", False)
 
@@ -1779,14 +1783,14 @@ class Ui_ColliderScopeUI(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("ColliderScopeUI", u"Value", None));
         self.import_excel_pushButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.file_import_tabWidget.setTabText(self.file_import_tabWidget.indexOf(self.import_excel_tab), QCoreApplication.translate("ColliderScopeUI", u"Excel", None))
-        self.row_groupBox.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Rows", None))
-        self.row_allow_nans.setText(QCoreApplication.translate("ColliderScopeUI", u"Allow NANs", None))
-        self.row_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if all NANs", None))
-        self.row_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if any NANs", None))
         self.column_groupBox.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Columns", None))
         self.column_allow_nans.setText(QCoreApplication.translate("ColliderScopeUI", u"Allow NANs", None))
         self.column_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if all NANs", None))
         self.column_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if any NANs", None))
+        self.row_groupBox.setTitle(QCoreApplication.translate("ColliderScopeUI", u"Rows", None))
+        self.row_allow_nans.setText(QCoreApplication.translate("ColliderScopeUI", u"Allow NANs", None))
+        self.row_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if all NANs", None))
+        self.row_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("ColliderScopeUI", u"Drop if any NANs", None))
         self.tabWidget_main.setTabText(self.tabWidget_main.indexOf(self.import_tab), QCoreApplication.translate("ColliderScopeUI", u"Import", None))
         self.label.setText(QCoreApplication.translate("ColliderScopeUI", u"Data Preview and Triage", None))
         self.active_numeric_list_label.setText(QCoreApplication.translate("ColliderScopeUI", u"Numeric (Plot Sources)", None))
