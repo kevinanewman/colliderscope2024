@@ -33,43 +33,6 @@ class Ui_NanHandlerHorizontal(object):
         self.verticalLayout_5.setContentsMargins(-1, 5, 5, 5)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.row_groupBox = QGroupBox(NanHandlerHorizontal)
-        self.row_groupBox.setObjectName(u"row_groupBox")
-        sizePolicy.setHeightForWidth(self.row_groupBox.sizePolicy().hasHeightForWidth())
-        self.row_groupBox.setSizePolicy(sizePolicy)
-        self.row_groupBox.setMinimumSize(QSize(145, 93))
-        self.verticalLayout_4 = QVBoxLayout(self.row_groupBox)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(5, 5, 5, 5)
-        self.verticalLayout = QVBoxLayout()
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.row_allow_nans = QRadioButton(self.row_groupBox)
-        self.row_buttonGroup = QButtonGroup(NanHandlerHorizontal)
-        self.row_buttonGroup.setObjectName(u"row_buttonGroup")
-        self.row_buttonGroup.addButton(self.row_allow_nans)
-        self.row_allow_nans.setObjectName(u"row_allow_nans")
-        self.row_allow_nans.setChecked(True)
-
-        self.verticalLayout.addWidget(self.row_allow_nans)
-
-        self.row_drop_if_all_nans_radioButton = QRadioButton(self.row_groupBox)
-        self.row_buttonGroup.addButton(self.row_drop_if_all_nans_radioButton)
-        self.row_drop_if_all_nans_radioButton.setObjectName(u"row_drop_if_all_nans_radioButton")
-
-        self.verticalLayout.addWidget(self.row_drop_if_all_nans_radioButton)
-
-        self.row_drop_if_any_nans_radioButton = QRadioButton(self.row_groupBox)
-        self.row_buttonGroup.addButton(self.row_drop_if_any_nans_radioButton)
-        self.row_drop_if_any_nans_radioButton.setObjectName(u"row_drop_if_any_nans_radioButton")
-
-        self.verticalLayout.addWidget(self.row_drop_if_any_nans_radioButton)
-
-
-        self.verticalLayout_4.addLayout(self.verticalLayout)
-
-
-        self.horizontalLayout.addWidget(self.row_groupBox)
-
         self.column_groupBox = QGroupBox(NanHandlerHorizontal)
         self.column_groupBox.setObjectName(u"column_groupBox")
         sizePolicy.setHeightForWidth(self.column_groupBox.sizePolicy().hasHeightForWidth())
@@ -107,6 +70,43 @@ class Ui_NanHandlerHorizontal(object):
 
         self.horizontalLayout.addWidget(self.column_groupBox)
 
+        self.row_groupBox = QGroupBox(NanHandlerHorizontal)
+        self.row_groupBox.setObjectName(u"row_groupBox")
+        sizePolicy.setHeightForWidth(self.row_groupBox.sizePolicy().hasHeightForWidth())
+        self.row_groupBox.setSizePolicy(sizePolicy)
+        self.row_groupBox.setMinimumSize(QSize(145, 93))
+        self.verticalLayout_4 = QVBoxLayout(self.row_groupBox)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.row_allow_nans = QRadioButton(self.row_groupBox)
+        self.row_buttonGroup = QButtonGroup(NanHandlerHorizontal)
+        self.row_buttonGroup.setObjectName(u"row_buttonGroup")
+        self.row_buttonGroup.addButton(self.row_allow_nans)
+        self.row_allow_nans.setObjectName(u"row_allow_nans")
+        self.row_allow_nans.setChecked(True)
+
+        self.verticalLayout.addWidget(self.row_allow_nans)
+
+        self.row_drop_if_all_nans_radioButton = QRadioButton(self.row_groupBox)
+        self.row_buttonGroup.addButton(self.row_drop_if_all_nans_radioButton)
+        self.row_drop_if_all_nans_radioButton.setObjectName(u"row_drop_if_all_nans_radioButton")
+
+        self.verticalLayout.addWidget(self.row_drop_if_all_nans_radioButton)
+
+        self.row_drop_if_any_nans_radioButton = QRadioButton(self.row_groupBox)
+        self.row_buttonGroup.addButton(self.row_drop_if_any_nans_radioButton)
+        self.row_drop_if_any_nans_radioButton.setObjectName(u"row_drop_if_any_nans_radioButton")
+
+        self.verticalLayout.addWidget(self.row_drop_if_any_nans_radioButton)
+
+
+        self.verticalLayout_4.addLayout(self.verticalLayout)
+
+
+        self.horizontalLayout.addWidget(self.row_groupBox)
+
 
         self.verticalLayout_5.addLayout(self.horizontalLayout)
 
@@ -118,13 +118,13 @@ class Ui_NanHandlerHorizontal(object):
 
     def retranslateUi(self, NanHandlerHorizontal):
         NanHandlerHorizontal.setWindowTitle(QCoreApplication.translate("NanHandlerHorizontal", u"Form", None))
-        self.row_groupBox.setTitle(QCoreApplication.translate("NanHandlerHorizontal", u"Rows", None))
-        self.row_allow_nans.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Allow NANs", None))
-        self.row_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Drop if all NANs", None))
-        self.row_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Drop if any NANs", None))
         self.column_groupBox.setTitle(QCoreApplication.translate("NanHandlerHorizontal", u"Columns", None))
         self.column_allow_nans.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Allow NANs", None))
         self.column_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Drop if all NANs", None))
         self.column_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Drop if any NANs", None))
+        self.row_groupBox.setTitle(QCoreApplication.translate("NanHandlerHorizontal", u"Rows", None))
+        self.row_allow_nans.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Allow NANs", None))
+        self.row_drop_if_all_nans_radioButton.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Drop if all NANs", None))
+        self.row_drop_if_any_nans_radioButton.setText(QCoreApplication.translate("NanHandlerHorizontal", u"Drop if any NANs", None))
     # retranslateUi
 

@@ -224,6 +224,12 @@ Preview</string>
                   <height>16777208</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Courier New</family>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
                 <property name="autoScroll">
                  <bool>false</bool>
                 </property>
@@ -1114,64 +1120,6 @@ Preview</string>
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="row_groupBox">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>86</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Rows</string>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_15">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_16">
-                 <item>
-                  <widget class="QRadioButton" name="row_allow_nans">
-                   <property name="text">
-                    <string>Allow NANs</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="row_drop_if_all_nans_radioButton">
-                   <property name="text">
-                    <string>Drop if all NANs</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="row_drop_if_any_nans_radioButton">
-                   <property name="text">
-                    <string>Drop if any NANs</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
              <widget class="QGroupBox" name="column_groupBox">
               <property name="enabled">
                <bool>false</bool>
@@ -1225,6 +1173,64 @@ Preview</string>
                  </item>
                  <item>
                   <widget class="QRadioButton" name="column_drop_if_any_nans_radioButton">
+                   <property name="text">
+                    <string>Drop if any NANs</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="row_groupBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>86</height>
+               </size>
+              </property>
+              <property name="title">
+               <string>Rows</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_15">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_16">
+                 <item>
+                  <widget class="QRadioButton" name="row_allow_nans">
+                   <property name="text">
+                    <string>Allow NANs</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="row_drop_if_all_nans_radioButton">
+                   <property name="text">
+                    <string>Drop if all NANs</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="row_drop_if_any_nans_radioButton">
                    <property name="text">
                     <string>Drop if any NANs</string>
                    </property>
