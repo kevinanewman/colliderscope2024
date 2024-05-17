@@ -651,8 +651,11 @@ class ColliderScopeUI(QMainWindow):
         if latest_item in data:
             self.ui.text_preview_listWidget.addItems(['%s:' % latest_item, '-' * (len(latest_item) + 1)])
 
+            unique_values = data[latest_item].unique()
+            self.ui.text_preview_unique_checkBox.setText('Unique [%d]' % len(unique_values))
+
             if self.ui.text_preview_unique_checkBox.isChecked():
-                self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item].unique()])
+                self.ui.text_preview_listWidget.addItems([str(d) for d in unique_values])
             else:
                 self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item]])
 
