@@ -184,11 +184,11 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
     else:
         columns = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, header_row)),
-                              encoding=encoding, encoding_errors='strict', on_bad_lines='warn')
+                              encoding=encoding, encoding_errors='strict', on_bad_lines='skip')
 
         if units_row is not None:
             units = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, units_row)),
-                                encoding=encoding, encoding_errors='strict', on_bad_lines='warn')
+                                encoding=encoding, encoding_errors='strict', on_bad_lines='skip')
         else:  # blank units
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
 
