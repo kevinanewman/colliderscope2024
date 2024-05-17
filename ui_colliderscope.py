@@ -949,13 +949,32 @@ class Ui_ColliderScopeUI(object):
         self.preview_tabWidget.setTabsClosable(False)
         self.text_preview_tab = QWidget()
         self.text_preview_tab.setObjectName(u"text_preview_tab")
-        self.horizontalLayout = QHBoxLayout(self.text_preview_tab)
+        self.verticalLayout_26 = QVBoxLayout(self.text_preview_tab)
+        self.verticalLayout_26.setObjectName(u"verticalLayout_26")
+        self.verticalLayout_26.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
+        self.text_preview_unique_checkBox = QCheckBox(self.text_preview_tab)
+        self.text_preview_unique_checkBox.setObjectName(u"text_preview_unique_checkBox")
+        self.text_preview_unique_checkBox.setCheckable(True)
+        self.text_preview_unique_checkBox.setChecked(True)
+
+        self.horizontalLayout.addWidget(self.text_preview_unique_checkBox)
+
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_14)
+
+
+        self.verticalLayout_26.addLayout(self.horizontalLayout)
+
         self.text_preview_listWidget = QListWidget(self.text_preview_tab)
         self.text_preview_listWidget.setObjectName(u"text_preview_listWidget")
+        font = QFont()
+        font.setFamilies([u"Courier New"])
+        self.text_preview_listWidget.setFont(font)
 
-        self.horizontalLayout.addWidget(self.text_preview_listWidget)
+        self.verticalLayout_26.addWidget(self.text_preview_listWidget)
 
         self.preview_tabWidget.addTab(self.text_preview_tab, "")
         self.graphic_preview_tab = QWidget()
@@ -1025,8 +1044,6 @@ class Ui_ColliderScopeUI(object):
 
         self.script_preview_plainTextEdit = QPlainTextEdit(self.layoutWidget)
         self.script_preview_plainTextEdit.setObjectName(u"script_preview_plainTextEdit")
-        font = QFont()
-        font.setFamilies([u"Courier New"])
         self.script_preview_plainTextEdit.setFont(font)
         self.script_preview_plainTextEdit.setPlainText(u"")
         self.script_preview_plainTextEdit.setTabStopDistance(32.000000000000000)
@@ -1675,6 +1692,7 @@ class Ui_ColliderScopeUI(object):
         self.export_data_suffix_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
         self.export_data_comboBox.currentTextChanged.connect(ColliderScopeUI.update_export_filename_preview)
         self.export_folder_filepathname_lineEdit.textChanged.connect(ColliderScopeUI.update_export_filename_preview)
+        self.text_preview_unique_checkBox.clicked.connect(ColliderScopeUI.update_string_preview)
 
         self.tabWidget_main.setCurrentIndex(0)
         self.file_import_browse_pushButton.setDefault(True)
@@ -1682,7 +1700,7 @@ class Ui_ColliderScopeUI(object):
         self.import_csv_encoding_comboBox.setCurrentIndex(0)
         self.import_excel_pushButton.setDefault(False)
         self.ignore_favorites_tabWidget.setCurrentIndex(0)
-        self.preview_tabWidget.setCurrentIndex(0)
+        self.preview_tabWidget.setCurrentIndex(1)
         self.file_export_folder_browse_pushButton.setDefault(True)
         self.export_data_pushButton.setDefault(False)
         self.export_mode_stackedWidget.setCurrentIndex(0)
@@ -1775,6 +1793,7 @@ class Ui_ColliderScopeUI(object):
         self.ignore_delete_toolButton.setText("")
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.ignore_tab), QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.favorites_tab), QCoreApplication.translate("ColliderScopeUI", u"Favorites", None))
+        self.text_preview_unique_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Unique", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.text_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Text Preview", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.graphic_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Graphic Preview", None))
 #if QT_CONFIG(tooltip)

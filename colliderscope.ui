@@ -1945,7 +1945,7 @@ color: black;</string>
            <enum>Qt::LeftToRight</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <property name="documentMode">
            <bool>true</bool>
@@ -1957,7 +1957,7 @@ color: black;</string>
            <attribute name="title">
             <string>Text Preview</string>
            </attribute>
-           <layout class="QHBoxLayout" name="horizontalLayout">
+           <layout class="QVBoxLayout" name="verticalLayout_26">
             <property name="leftMargin">
              <number>5</number>
             </property>
@@ -1971,7 +1971,43 @@ color: black;</string>
              <number>5</number>
             </property>
             <item>
-             <widget class="QListWidget" name="text_preview_listWidget"/>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QCheckBox" name="text_preview_unique_checkBox">
+                <property name="text">
+                 <string>Unique</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_14">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QListWidget" name="text_preview_listWidget">
+              <property name="font">
+               <font>
+                <family>Courier New</family>
+               </font>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -4243,6 +4279,22 @@ color: black;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>text_preview_unique_checkBox</sender>
+   <signal>clicked()</signal>
+   <receiver>ColliderScopeUI</receiver>
+   <slot>update_string_preview()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>69</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>527</x>
+     <y>415</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>import_filebrowse()</slot>
@@ -4283,9 +4335,10 @@ color: black;</string>
   <slot>export_folder_browse()</slot>
   <slot>select_export_batch_files()</slot>
   <slot>update_export_filename_preview()</slot>
+  <slot>update_text_preview()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="export_options_buttonGroup"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
