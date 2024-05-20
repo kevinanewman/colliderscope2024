@@ -434,6 +434,10 @@ class ColliderScopeUI(QMainWindow):
         self.ui.export_batch_files_listWidget.default_keyPressEvent = (
             self.ui.export_batch_files_listWidget.keyPressEvent)
         self.ui.export_batch_files_listWidget.keyPressEvent = self.remove_export_batch_files
+        # self.ui.export_batch_files_listWidget.setAcceptDrops(True)
+        self.ui.export_batch_files_listWidget.dragEnterEvent = self.export_batch_files_listWidget_dragEnterEvent
+        self.ui.export_batch_files_listWidget.dragMoveEvent = self.export_batch_files_listWidget_dragMoveEvent
+        self.ui.export_batch_files_listWidget.dropEvent = self.export_batch_files_listWidget_dropEvent
 
         # timer.start()
 
@@ -1212,6 +1216,33 @@ class ColliderScopeUI(QMainWindow):
         else:
             # If the key pressed is not Backspace or Delete, handle the event normally
             self.ui.export_batch_files_listWidget.default_keyPressEvent(event)
+
+    def export_batch_files_listWidget_dragEnterEvent(self, event):
+        print('enter')
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def export_batch_files_listWidget_dragMoveEvent(self, event):
+        print('enter')
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def export_batch_files_listWidget_dropEvent(self, event):
+        print('drop')
+        if get_current_tabname(self.ui.file_import_tabWidget) == 'Excel':
+            file_type = 'xls'
+        else:
+            file_type = 'csv'
+
+        for url in event.mimeData().urls():
+            file_path = url.toLocalFile()
+            if file_type == 'csv' and 'xls' not in file_path.split('.')[-1]:
+                self.ui.export_batch_files_listWidget.addItem(file_path)
+                self.export_batch_source_files.append(file_path)
+            else:
+                QMessageBox(QMessageBox.Icon.Critical,
+                            'Drop Error', "Can't accept file type '%s' with current '%s' import settings" %
+                            (file_path.split('.')[-1], file_type)).exec()
 
     def export_data(self):
         from file_io import create_combined_filename

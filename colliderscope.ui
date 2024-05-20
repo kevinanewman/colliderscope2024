@@ -2871,11 +2871,17 @@ color: black;</string>
                       <family>Courier New</family>
                      </font>
                     </property>
+                    <property name="acceptDrops">
+                     <bool>true</bool>
+                    </property>
                     <property name="editTriggers">
                      <set>QAbstractItemView::NoEditTriggers</set>
                     </property>
                     <property name="showDropIndicator" stdset="0">
-                     <bool>false</bool>
+                     <bool>true</bool>
+                    </property>
+                    <property name="dragDropMode">
+                     <enum>QAbstractItemView::DropOnly</enum>
                     </property>
                     <property name="selectionMode">
                      <enum>QAbstractItemView::ExtendedSelection</enum>

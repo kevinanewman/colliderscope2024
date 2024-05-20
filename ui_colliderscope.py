@@ -1393,8 +1393,10 @@ class Ui_ColliderScopeUI(object):
         self.export_batch_files_listWidget = QListWidget(self.batch_page)
         self.export_batch_files_listWidget.setObjectName(u"export_batch_files_listWidget")
         self.export_batch_files_listWidget.setFont(font1)
+        self.export_batch_files_listWidget.setAcceptDrops(True)
         self.export_batch_files_listWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.export_batch_files_listWidget.setProperty("showDropIndicator", False)
+        self.export_batch_files_listWidget.setProperty("showDropIndicator", True)
+        self.export_batch_files_listWidget.setDragDropMode(QAbstractItemView.DropOnly)
         self.export_batch_files_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
         self.verticalLayout_23.addWidget(self.export_batch_files_listWidget)
