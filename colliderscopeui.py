@@ -431,6 +431,8 @@ class ColliderScopeUI(QMainWindow):
         self.pre_export_data = None
 
         # Connect keyPressEvent to handle keyboard events in export batch list widget
+        self.ui.export_batch_files_listWidget.default_keyPressEvent = (
+            self.ui.export_batch_files_listWidget.keyPressEvent)
         self.ui.export_batch_files_listWidget.keyPressEvent = self.remove_export_batch_files
 
         # timer.start()
@@ -1201,7 +1203,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.export_data_pushButton.setFocus()
 
     def remove_export_batch_files(self, event):
-        if event.key() == 16777219 or event.key() == 16777223:  # Backspace or Delete key
+        if event.key() == Qt.Key.Key_Backspace or event.key() == Qt.Key.Key_Delete:
             selected_items = self.ui.export_batch_files_listWidget.selectedItems()
             if selected_items:
                 for item in selected_items:
@@ -1209,7 +1211,7 @@ class ColliderScopeUI(QMainWindow):
                     self.export_batch_source_files.remove(item.text())
         else:
             # If the key pressed is not Backspace or Delete, handle the event normally
-            super().keyPressEvent(event)
+            self.ui.export_batch_files_listWidget.default_keyPressEvent(event)
 
     def export_data(self):
         from file_io import create_combined_filename
