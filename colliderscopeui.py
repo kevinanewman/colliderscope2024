@@ -434,10 +434,12 @@ class ColliderScopeUI(QMainWindow):
         self.ui.export_batch_files_listWidget.default_keyPressEvent = (
             self.ui.export_batch_files_listWidget.keyPressEvent)
         self.ui.export_batch_files_listWidget.keyPressEvent = self.remove_export_batch_files
-        # self.ui.export_batch_files_listWidget.setAcceptDrops(True)
+
+        # set up drag/drop events for export_batch_files_listWidget
         self.ui.export_batch_files_listWidget.dragEnterEvent = self.export_batch_files_listWidget_dragEnterEvent
-        self.ui.export_batch_files_listWidget.dragMoveEvent = self.export_batch_files_listWidget_dragMoveEvent
         self.ui.export_batch_files_listWidget.dropEvent = self.export_batch_files_listWidget_dropEvent
+        #   dragMoveEvent MUST be set up or QListWidget will not receive drops!
+        self.ui.export_batch_files_listWidget.dragMoveEvent = self.export_batch_files_listWidget_dragMoveEvent
 
         # timer.start()
 
