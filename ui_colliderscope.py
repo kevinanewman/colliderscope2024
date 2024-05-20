@@ -34,7 +34,7 @@ class Ui_ColliderScopeUI(object):
     def setupUi(self, ColliderScopeUI):
         if not ColliderScopeUI.objectName():
             ColliderScopeUI.setObjectName(u"ColliderScopeUI")
-        ColliderScopeUI.resize(1055, 832)
+        ColliderScopeUI.resize(1055, 848)
         ColliderScopeUI.setDocumentMode(True)
         ColliderScopeUI.setTabShape(QTabWidget.Triangular)
         ColliderScopeUI.setUnifiedTitleAndToolBarOnMac(False)
@@ -209,7 +209,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 486))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 502))
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
 #ifndef Q_OS_MAC
         self.verticalLayout_20.setSpacing(-1)
@@ -1395,6 +1395,7 @@ class Ui_ColliderScopeUI(object):
         self.export_batch_files_listWidget.setFont(font1)
         self.export_batch_files_listWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.export_batch_files_listWidget.setProperty("showDropIndicator", False)
+        self.export_batch_files_listWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
 
         self.verticalLayout_23.addWidget(self.export_batch_files_listWidget)
 

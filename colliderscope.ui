@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1055</width>
-    <height>832</height>
+    <height>848</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -359,7 +359,7 @@ Preview</string>
                      <x>0</x>
                      <y>0</y>
                      <width>274</width>
-                     <height>486</height>
+                     <height>502</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_20" stretch="0,0,0,0,0,0,0">
@@ -2877,6 +2877,9 @@ color: black;</string>
                     <property name="showDropIndicator" stdset="0">
                      <bool>false</bool>
                     </property>
+                    <property name="selectionMode">
+                     <enum>QAbstractItemView::ExtendedSelection</enum>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -4395,7 +4398,7 @@ color: black;</string>
   <slot>update_text_preview()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="export_options_buttonGroup"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="export_options_buttonGroup"/>
  </buttongroups>
 </ui>

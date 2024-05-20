@@ -430,6 +430,9 @@ class ColliderScopeUI(QMainWindow):
         self.export_batch_source_files = []
         self.pre_export_data = None
 
+        # Connect keyPressEvent to handle keyboard events in export batch list widget
+        self.ui.export_batch_files_listWidget.keyPressEvent = self.remove_export_batch_files
+
         # timer.start()
 
         pass
@@ -773,8 +776,11 @@ class ColliderScopeUI(QMainWindow):
         non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
         for c in non_numeric_fields:
             if not pd.api.types.is_string_dtype(data[c]):
-                data['%s-str' % c] = data[c].astype('string')
-            data['%s-num' % c] = data[c].apply(try_to_float)
+                data['%s__string' % c] = data[c].astype('string')
+            try:
+                data['%s__float' % c] = data[c].as_type('float')
+            except:
+                data['%s__float' % c] = data[c].apply(try_to_float)
 
         active_numeric_fields.extend(data.select_dtypes(include='number').columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
@@ -1193,6 +1199,17 @@ class ColliderScopeUI(QMainWindow):
             self.ui.export_data_pushButton.setEnabled(False)
 
         self.ui.export_data_pushButton.setFocus()
+
+    def remove_export_batch_files(self, event):
+        if event.key() == 16777219 or event.key() == 16777223:  # Backspace or Delete key
+            selected_items = self.ui.export_batch_files_listWidget.selectedItems()
+            if selected_items:
+                for item in selected_items:
+                    self.ui.export_batch_files_listWidget.takeItem(self.ui.export_batch_files_listWidget.row(item))
+                    self.export_batch_source_files.remove(item.text())
+        else:
+            # If the key pressed is not Backspace or Delete, handle the event normally
+            super().keyPressEvent(event)
 
     def export_data(self):
         from file_io import create_combined_filename
