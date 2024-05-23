@@ -26,7 +26,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QFil
                                QTableWidgetItem, QLabel, QMessageBox, QGraphicsScene, QGraphicsWidget,
                                QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout, QCheckBox,)
 
-from PySide6.QtGui import QStandardItemModel, QBrush, QColor, QTextCursor
+from PySide6.QtGui import QStandardItemModel, QBrush, QColor, QTextCursor, QFont
 
 from pythonhighlighter import PythonHighlighter
 
@@ -467,6 +467,12 @@ class ColliderScopeUI(QMainWindow):
         self.ui.script_preview_plainTextEdit.default_keyPressEvent = \
             self.ui.script_preview_plainTextEdit.keyPressEvent
         self.ui.script_preview_plainTextEdit.keyPressEvent = preprocess_script_keyPressEvent
+
+        # customize font in the python interpreter input text edit
+        font = QFont()
+        font.setFamily("Courier New")
+        font.setStyleStrategy(QFont.StyleStrategy.PreferAntialias)
+        self.ui.script_preview_consoleWidget.repl.input.setFont(font)
 
         # timer.start()
 
