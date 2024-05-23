@@ -737,9 +737,15 @@ class ColliderScopeUI(QMainWindow):
                         self.ui.graphic_preview_plot_widget.setYRange(-0.5, 0.5)
                         allow_autorange = False
                     else:
-                        self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen='#00000000',
+                        self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item].values, pen='#00000000',
                                                              symbolBrush=None, symbolPen=(231, 232, 255),
                                                              symbol='t1', symbolSize=4, clear=True)
+                        pts = data[latest_item].isna()
+                        self.ui.graphic_preview_plot_widget.plot(data[latest_item].loc[pts].index,
+                                                                 [0] * len(data[latest_item].loc[pts].index),
+                                                                 pen='#00000000', symbolBrush=(255, 80, 80, 100),
+                                                                 symbolPen=(255, 80, 80, 100), symbol='o', symbolSize=8)
+
 
                     # label nan count, "anchor" is relative to upper left corner of the box
                     text = pg.TextItem(
@@ -754,7 +760,7 @@ class ColliderScopeUI(QMainWindow):
                     else:
                         text.setPos(0, data[latest_item].max())
                 else:
-                    self.ui.graphic_preview_plot_widget.plot(data[latest_item].values, pen=(231, 232, 255),
+                    self.ui.graphic_preview_plot_widget.plot(data.index, data[latest_item].values, pen=(231, 232, 255),
                                                              clear=True)
 
                 self.ui.graphic_preview_plot_widget.new = False
@@ -774,21 +780,27 @@ class ColliderScopeUI(QMainWindow):
 
     def init_triage_lists(self):
         global data
-        data = data.convert_dtypes()
+        data = data.convert_dtypes(convert_boolean=False)
         active_numeric_fields.clear()
         active_string_fields.clear()
         ignore_fields.clear()
         favorite_fields.clear()
 
+        drop_fields = set()
         # convert mixed columns (e.g. strings and numbers) to strings
         non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
         for c in non_numeric_fields:
             if not pd.api.types.is_string_dtype(data[c]):
-                data['%s__string' % c] = data[c].astype('string')
-            try:
-                data['%s__float' % c] = data[c].as_type('float')
-            except:
-                data['%s__float' % c] = data[c].apply(try_to_float)
+                data['%s__obj->str' % c] = data[c].astype('string')
+                drop_fields.add(c)
+                try:
+                    data['%s__obj->float' % c] = data[c].as_type('float')
+                    drop_fields.add(c)
+                except:
+                    data['%s__obj->float' % c] = data[c].apply(try_to_float)
+                    drop_fields.add(c)
+
+        data = data.drop(drop_fields, axis=1)
 
         active_numeric_fields.extend(data.select_dtypes(include='number').columns)
         active_string_fields.extend(data.select_dtypes(include='string').columns)
@@ -802,8 +814,11 @@ class ColliderScopeUI(QMainWindow):
             if sum(data[c].notna()) == 0:
                 ignore_fields.append(c)
             else:
-                if data[c].min() == data[c].max():
-                    ignore_fields.append(c)
+                try:
+                    if data[c].min() == data[c].max():
+                        ignore_fields.append(c)
+                except:
+                    print(c)
 
         ignore_fields = list(np.unique(ignore_fields))
         self.ui.triage_ignore_listWidget.source_data = ignore_fields
