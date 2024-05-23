@@ -844,6 +844,8 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
+        set_tab_by_name(self.ui.ignore_favorites_tabWidget, 'Ignore')
+
     def handle_import_nans(self, df):
         if self.ui.column_drop_if_all_nans_radioButton.isChecked():
             df = df.dropna(axis=1, how='all')
@@ -1059,6 +1061,9 @@ class ColliderScopeUI(QMainWindow):
         active_string_fields.clear()
         ignore_fields.clear()
         favorite_fields.clear()
+
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
         self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
     def script_run(self):
