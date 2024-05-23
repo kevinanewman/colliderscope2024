@@ -26,7 +26,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QDialog, QFil
                                QTableWidgetItem, QLabel, QMessageBox, QGraphicsScene, QGraphicsWidget,
                                QGraphicsProxyWidget, QSizePolicy, QVBoxLayout, QHBoxLayout, QCheckBox,)
 
-from PySide6.QtGui import QStandardItemModel, QBrush, QColor
+from PySide6.QtGui import QStandardItemModel, QBrush, QColor, QTextCursor
 
 from pythonhighlighter import PythonHighlighter
 
@@ -344,6 +344,19 @@ class ExportWorker(QObject):
         self.cancelled = True
 
 
+def preprocess_script_keyPressEvent(event):
+    if event.key() == Qt.Key_Home:
+        cursor = mainwindow.ui.script_preview_plainTextEdit.textCursor()
+        cursor.movePosition(QTextCursor.StartOfLine)
+        mainwindow.ui.script_preview_plainTextEdit.setTextCursor(cursor)
+    elif event.key() == Qt.Key_End:
+        cursor = mainwindow.ui.script_preview_plainTextEdit.textCursor()
+        cursor.movePosition(QTextCursor.EndOfLine)
+        mainwindow.ui.script_preview_plainTextEdit.setTextCursor(cursor)
+    else:
+        mainwindow.ui.script_preview_plainTextEdit.default_keyPressEvent(event)
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
         global active_numeric_fields, active_string_fields, ignore_fields, favorite_fields
@@ -449,6 +462,11 @@ class ColliderScopeUI(QMainWindow):
         self.ui.export_batch_files_listWidget.dropEvent = self.export_batch_files_listWidget_dropEvent
         #   dragMoveEvent MUST be set up or QListWidget will not receive drops!
         self.ui.export_batch_files_listWidget.dragMoveEvent = self.export_batch_files_listWidget_dragMoveEvent
+
+        # handle preprocess script keyPressEvents for Home and End keys
+        self.ui.script_preview_plainTextEdit.default_keyPressEvent = \
+            self.ui.script_preview_plainTextEdit.keyPressEvent
+        self.ui.script_preview_plainTextEdit.keyPressEvent = preprocess_script_keyPressEvent
 
         # timer.start()
 
