@@ -62,13 +62,20 @@ class FilterWidget(QWidget):
                         f'(self.ui.lineEdit.text(){case_modifier} {compare} f{case_modifier})]'.format(), locals())
 
                 lw.addItems(fields)
+
+                if lw.active_label is not None:
+                    lw.active_label.setText('[%d]' % lw.count())
         else:
             for lw in self.widget_list:
                 lw.clear()
                 fields = [f for f in lw.source_data]
                 lw.addItems(fields)
+
                 if lw.count_label is not None:
                     lw.count_label.setText('[%d]' % len(fields))
+
+                if lw.active_label is not None:
+                    lw.active_label.setText('[%d]' % lw.count())
 
     def goto_settings(self):
         self.ui.stackedWidget.setCurrentIndex(1)

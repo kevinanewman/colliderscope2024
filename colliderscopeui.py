@@ -368,15 +368,22 @@ class ColliderScopeUI(QMainWindow):
 
         self.ui.triage_numeric_listWidget.source_data = active_numeric_fields
         self.ui.triage_numeric_listWidget.count_label = self.ui.active_numeric_count_label
+        self.ui.triage_numeric_listWidget.active_label = None
 
         self.ui.triage_string_listWidget.source_data = active_string_fields
         self.ui.triage_string_listWidget.count_label = self.ui.active_string_count_label
+        self.ui.triage_string_listWidget.active_label = None
 
         self.ui.triage_ignore_listWidget.source_data = ignore_fields
         self.ui.triage_ignore_listWidget.count_label = self.ui.ignore_count_label
+        self.ui.triage_ignore_listWidget.active_label = None
 
         self.ui.triage_favorites_listWidget.source_data = favorite_fields
         self.ui.triage_favorites_listWidget.count_label = None
+        self.ui.triage_favorites_listWidget.active_label = None
+
+        self.ui.text_preview_listWidget.count_label = None
+        self.ui.text_preview_listWidget.active_label = self.ui.text_preview_active_count_label
 
         self.triage_listwidgets = [
             self.ui.triage_numeric_listWidget,
@@ -390,6 +397,8 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_filter_widget.widget_list = \
             [self.ui.triage_numeric_listWidget, self.ui.triage_string_listWidget,
              self.ui.triage_ignore_listWidget, self.ui.triage_favorites_listWidget]
+
+        self.ui.text_preview_filter_widget.widget_list = [self.ui.text_preview_listWidget]
 
         self.ui.triage_ignore_listWidget.dropEvent = ignore_listWidget_dropEvent
         self.ui.triage_favorites_listWidget.dropEvent = favorites_listWidget_dropEvent
@@ -689,6 +698,7 @@ class ColliderScopeUI(QMainWindow):
 
     def update_text_preview(self, latest_item):
         self.ui.text_preview_listWidget.clear()
+        self.ui.text_preview_listWidget.source_data = []
 
         if latest_item in data:
             self.ui.text_preview_listWidget.addItems(['%s:' % latest_item, '-' * (len(latest_item) + 1)])
@@ -697,9 +707,13 @@ class ColliderScopeUI(QMainWindow):
             self.ui.text_preview_unique_checkBox.setText('Unique [%d]' % len(unique_values))
 
             if self.ui.text_preview_unique_checkBox.isChecked():
-                self.ui.text_preview_listWidget.addItems([str(d) for d in unique_values])
+                self.ui.text_preview_listWidget.source_data = [str(d) for d in unique_values]
             else:
-                self.ui.text_preview_listWidget.addItems([str(d) for d in data[latest_item]])
+                self.ui.text_preview_listWidget.source_data = [str(d) for d in data[latest_item]]
+
+            self.ui.text_preview_listWidget.addItems(self.ui.text_preview_listWidget.source_data)
+
+            self.ui.text_preview_filter_widget.inputChanged()
 
     def update_string_preview(self, force=False):
         if get_current_tabname(self.ui.preview_tabWidget) != 'Preprocess Script' or force:
@@ -745,7 +759,6 @@ class ColliderScopeUI(QMainWindow):
                                                                  [0] * len(data[latest_item].loc[pts].index),
                                                                  pen='#00000000', symbolBrush=(255, 80, 80, 100),
                                                                  symbolPen=(255, 80, 80, 100), symbol='o', symbolSize=8)
-
 
                     # label nan count, "anchor" is relative to upper left corner of the box
                     text = pg.TextItem(

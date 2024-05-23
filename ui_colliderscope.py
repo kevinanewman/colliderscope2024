@@ -209,7 +209,7 @@ class Ui_ColliderScopeUI(object):
         self.scrollArea.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 502))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 521))
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
 #ifndef Q_OS_MAC
         self.verticalLayout_20.setSpacing(-1)
@@ -972,9 +972,23 @@ class Ui_ColliderScopeUI(object):
 
         self.horizontalLayout.addWidget(self.text_preview_unique_checkBox)
 
+        self.text_preview_filter_widget = FilterWidget(self.text_preview_tab)
+        self.text_preview_filter_widget.setObjectName(u"text_preview_filter_widget")
+        sizePolicy8.setHeightForWidth(self.text_preview_filter_widget.sizePolicy().hasHeightForWidth())
+        self.text_preview_filter_widget.setSizePolicy(sizePolicy8)
+        self.text_preview_filter_widget.setMinimumSize(QSize(300, 0))
+        self.text_preview_filter_widget.setMaximumSize(QSize(300, 25))
+
+        self.horizontalLayout.addWidget(self.text_preview_filter_widget)
+
         self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_14)
+
+        self.text_preview_active_count_label = QLabel(self.text_preview_tab)
+        self.text_preview_active_count_label.setObjectName(u"text_preview_active_count_label")
+
+        self.horizontalLayout.addWidget(self.text_preview_active_count_label)
 
 
         self.verticalLayout_26.addLayout(self.horizontalLayout)
@@ -1821,6 +1835,7 @@ class Ui_ColliderScopeUI(object):
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.ignore_tab), QCoreApplication.translate("ColliderScopeUI", u"Ignore", None))
         self.ignore_favorites_tabWidget.setTabText(self.ignore_favorites_tabWidget.indexOf(self.favorites_tab), QCoreApplication.translate("ColliderScopeUI", u"Favorites", None))
         self.text_preview_unique_checkBox.setText(QCoreApplication.translate("ColliderScopeUI", u"Unique", None))
+        self.text_preview_active_count_label.setText(QCoreApplication.translate("ColliderScopeUI", u"[0]", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.text_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Text Preview", None))
         self.preview_tabWidget.setTabText(self.preview_tabWidget.indexOf(self.graphic_preview_tab), QCoreApplication.translate("ColliderScopeUI", u"Graphic Preview", None))
 #if QT_CONFIG(tooltip)
