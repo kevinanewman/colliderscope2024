@@ -1377,8 +1377,8 @@ class ColliderScopeUI(QMainWindow):
         return save_file_pathname, file_extension
 
     def closeEvent(self, event):
-        print('closeEvent!')
         self.active_plot.close()
+
 
 def status_bar():
     print(time.time())
