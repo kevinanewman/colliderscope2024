@@ -1349,7 +1349,6 @@ class ColliderScopeUI(QMainWindow):
             if self.ui.export_batch_files_listWidget.count() == 0:
                 self.ui.export_data_pushButton.setEnabled(False)
 
-
     def update_export_filename_preview(self, dummyQString=None, export_filename=None):
 
         if self.ui.export_data_prefix_filler_comboBox.currentText() == 'None':
@@ -1376,6 +1375,10 @@ class ColliderScopeUI(QMainWindow):
         self.ui.export_filename_preview_label.setText(save_file_pathname)
 
         return save_file_pathname, file_extension
+
+    def closeEvent(self, event):
+        print('closeEvent!')
+        self.active_plot.close()
 
 def status_bar():
     print(time.time())

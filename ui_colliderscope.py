@@ -1083,6 +1083,7 @@ class Ui_ColliderScopeUI(object):
         sizePolicy11.setVerticalStretch(0)
         sizePolicy11.setHeightForWidth(self.script_preview_consoleWidget.sizePolicy().hasHeightForWidth())
         self.script_preview_consoleWidget.setSizePolicy(sizePolicy11)
+        self.script_preview_consoleWidget.setFont(font1)
         self.splitter.addWidget(self.script_preview_consoleWidget)
 
         self.verticalLayout_7.addWidget(self.splitter)

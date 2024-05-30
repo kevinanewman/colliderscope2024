@@ -2218,6 +2218,11 @@ color: black;</string>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="font">
+                <font>
+                 <family>Courier New</family>
+                </font>
+               </property>
               </widget>
              </widget>
             </item>
@@ -4433,7 +4438,7 @@ color: black;</string>
   <slot>update_text_preview()</slot>
  </slots>
  <buttongroups>
-  <buttongroup name="export_options_buttonGroup"/>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="export_options_buttonGroup"/>
  </buttongroups>
 </ui>
