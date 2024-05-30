@@ -2,7 +2,7 @@ import pandas as pd
 
 print('\n--- Colliderscope executable launching, this may take a few moments ---\n')
 
-code_version = '0.0.27'
+code_version = '0.0.28'
 
 
 def print_dict(dict_in, num_tabs=0, to_string=False):
