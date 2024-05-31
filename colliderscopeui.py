@@ -357,6 +357,31 @@ def preprocess_script_keyPressEvent(event):
         mainwindow.ui.script_preview_plainTextEdit.default_keyPressEvent(event)
 
 
+def import_csv_header_row_spinBox_stepBy(step):
+    mainwindow.ui.import_csv_header_row_spinBox.default_stepBy(step)
+    mainwindow.load_file_preview()
+
+
+def import_csv_units_row_spinBox_stepBy(step):
+    mainwindow.ui.import_csv_units_row_spinBox.default_stepBy(step)
+    mainwindow.load_file_preview()
+
+
+def import_excel_header_row_spinBox_stepBy(step):
+    mainwindow.ui.import_excel_header_row_spinBox.default_stepBy(step)
+    mainwindow.load_file_preview()
+
+
+def import_excel_units_row_spinBox_stepBy(step):
+    mainwindow.ui.import_excel_units_row_spinBox.default_stepBy(step)
+    mainwindow.load_file_preview()
+
+
+def preview_size_spinBox_stepBy(step):
+    mainwindow.ui.preview_size_spinBox.default_stepBy(step)
+    mainwindow.load_file_preview()
+
+
 class ColliderScopeUI(QMainWindow):
     def __init__(self, parent=None):
         global active_numeric_fields, active_string_fields, ignore_fields, favorite_fields
@@ -467,6 +492,22 @@ class ColliderScopeUI(QMainWindow):
         self.ui.script_preview_plainTextEdit.default_keyPressEvent = \
             self.ui.script_preview_plainTextEdit.keyPressEvent
         self.ui.script_preview_plainTextEdit.keyPressEvent = preprocess_script_keyPressEvent
+
+        # intercept import spinBox button step events to trigger preview update without using valueChanged() signal
+        self.ui.import_csv_header_row_spinBox.default_stepBy = self.ui.import_csv_header_row_spinBox.stepBy
+        self.ui.import_csv_header_row_spinBox.stepBy = import_csv_header_row_spinBox_stepBy
+
+        self.ui.import_csv_units_row_spinBox.default_stepBy = self.ui.import_csv_units_row_spinBox.stepBy
+        self.ui.import_csv_units_row_spinBox.stepBy = import_csv_units_row_spinBox_stepBy
+
+        self.ui.import_excel_header_row_spinBox.default_stepBy = self.ui.import_excel_header_row_spinBox.stepBy
+        self.ui.import_excel_header_row_spinBox.stepBy = import_excel_header_row_spinBox_stepBy
+
+        self.ui.import_excel_units_row_spinBox.default_stepBy = self.ui.import_excel_units_row_spinBox.stepBy
+        self.ui.import_excel_units_row_spinBox.stepBy = import_excel_units_row_spinBox_stepBy
+
+        self.ui.preview_size_spinBox.default_stepBy = self.ui.preview_size_spinBox.stepBy
+        self.ui.preview_size_spinBox.stepBy = preview_size_spinBox_stepBy
 
         # customize font in the python interpreter input text edit
         font = QFont()
