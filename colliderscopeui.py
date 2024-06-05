@@ -302,6 +302,7 @@ class ExportWorker(QObject):
 
         combined_dfs = []
         source_filenames = []
+        skipped_filenames = []  # TODO: add this as an attribute and handle skip messaging in main thread
 
         for idx, source_file in enumerate(self.source_files):
             if not self.cancelled:
@@ -313,17 +314,21 @@ class ExportWorker(QObject):
                 else:
                     data = mainwindow.import_excel_file(file_pathname=source_file)
 
-                # run the script for calculated values, etc, but don't update triage lists, etc
-                mainwindow.ui.script_preview_consoleWidget.repl.runCmd('run()')
+                if data is not None:
+                    # run the script for calculated values, etc, but don't update triage lists, etc
+                    mainwindow.ui.script_preview_consoleWidget.repl.runCmd('run()')
 
-                data = self.handle_export_nans(data)
+                    data = self.handle_export_nans(data)
 
-                if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
-                    combined_dfs.append(data.copy())
+                    if 'Combined' in mainwindow.ui.export_data_mode_comboBox.currentText():
+                        combined_dfs.append(data.copy())
 
-                if mainwindow.ui.export_data_mode_comboBox.currentText() != 'Combined':
-                    # export source file(s) unless mode is 'Combined' only
-                    mainwindow.export_file(data, file_name)
+                    if mainwindow.ui.export_data_mode_comboBox.currentText() != 'Combined':
+                        # export source file(s) unless mode is 'Combined' only
+                        mainwindow.export_file(data, file_name)
+                else:
+                    skipped_filenames.append(source_file)
+                    print('!!! Skipping %s, no data loaded !!!' % source_file)
 
                 mainwindow.ui.export_progressBar.setMaximum(len(self.source_files))
 
@@ -337,6 +342,14 @@ class ExportWorker(QObject):
             combined_df = self.handle_export_nans(combined_df)
 
             mainwindow.export_file(combined_df, combined_filename + '-combined')
+
+        # if skipped_filenames:
+        #     sf_str = '\n'
+        #     for sf in skipped_filenames:
+        #         sf_str += 'sf\n'
+        #
+        #     QMessageBox(QMessageBox.Icon.Warning,
+        #                 'Export Warning', "Unable to export %d files: %s" % (len(skipped_filenames), '')).exec()
 
         self.finished.emit()
 
@@ -1318,27 +1331,26 @@ class ColliderScopeUI(QMainWindow):
             self.ui.export_batch_files_listWidget.default_keyPressEvent(event)
 
     def export_batch_files_listWidget_dragEnterEvent(self, event):
-        print('enter')
         if event.mimeData().hasUrls():
             event.acceptProposedAction()
 
     def export_batch_files_listWidget_dragMoveEvent(self, event):
-        print('enter')
-        if event.mimeData().hasUrls():
-            event.acceptProposedAction()
+        pass
 
     def export_batch_files_listWidget_dropEvent(self, event):
-        print('drop')
         if get_current_tabname(self.ui.file_import_tabWidget) == 'Excel':
-            file_type = 'xls'
+            file_type = 'Excel'
         else:
             file_type = 'csv'
 
         for url in event.mimeData().urls():
+            event.acceptProposedAction()
+
             file_path = url.toLocalFile()
-            if file_type == 'csv' and 'xls' not in file_path.split('.')[-1]:
+            if file_type == 'csv' or (file_type == 'Excel' and 'xls' in file_path.split('.')[-1]):
                 self.ui.export_batch_files_listWidget.addItem(file_path)
                 self.export_batch_source_files.append(file_path)
+                self.ui.export_data_pushButton.setEnabled(True)
             else:
                 QMessageBox(QMessageBox.Icon.Critical,
                             'Drop Error', "Can't accept file type '%s' with current '%s' import settings" %
