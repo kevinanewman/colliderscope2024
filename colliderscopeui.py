@@ -189,6 +189,11 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
         if units_row is not None:
             units = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, units_row)),
                                 encoding=encoding, encoding_errors='strict', on_bad_lines='skip', delimiter=delimiter)
+
+            # pad units with blanks if fewer units than columns...
+            for i in range(max(0, len(columns.values[0]) - len(units.values[0]))):
+                units[' ' * i] = ''
+
         else:  # blank units
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
 
@@ -196,7 +201,10 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
 
     for col, unit in zip(columns.values[0], units.values[0]):
         if unit not in ignore_units and pd.notna(unit) and units_row is not None:
-            unitized_columns.append('%s_%s' % (str(col).strip(), str(unit).strip()))
+            if str(unit).strip() != '':
+                unitized_columns.append('%s_%s' % (str(col).strip(), str(unit).strip()))
+            else:
+                unitized_columns.append('%s' % str(col).strip())
         else:
             unitized_columns.append('%s' % str(col).strip())
 
@@ -1009,18 +1017,40 @@ class ColliderScopeUI(QMainWindow):
                                          )
 
                         df = self.handle_import_nans(df)
-                    except:
-                        df = None
-                else:  # read in actual file
-                    df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
-                                     delimiter=delimiter, usecols=usecols,
-                                     encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                     skip_blank_lines=skip_blank_lines, on_bad_lines='warn',
-                                     skiprows=skiprows,
-                                     **keyword_args,
-                                     )
+                    except:  # try without usecols...
+                        try:
+                            df = pd.read_csv(source_file_pathname, names=unitized_columns,
+                                             header=header_row, delimiter=delimiter,  # usecols=usecols,
+                                             encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                             skip_blank_lines=skip_blank_lines,
+                                             nrows=nrows, skiprows=skiprows, on_bad_lines='warn',
+                                             **keyword_args,
+                                             )
 
-                    df = self.handle_import_nans(df)
+                            df = self.handle_import_nans(df)
+                        except:
+                            df = None
+                else:  # read in actual file
+                    try:
+                        df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
+                                         delimiter=delimiter, usecols=usecols,
+                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                         skip_blank_lines=skip_blank_lines, on_bad_lines='warn',
+                                         skiprows=skiprows,
+                                         **keyword_args,
+                                         )
+
+                        df = self.handle_import_nans(df)
+                    except:  # try without usecols...
+                        df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
+                                         delimiter=delimiter,  # usecols=usecols,
+                                         encoding=self.ui.import_csv_encoding_comboBox.currentText(),
+                                         skip_blank_lines=skip_blank_lines, on_bad_lines='warn',
+                                         skiprows=skiprows,
+                                         **keyword_args,
+                                         )
+
+                        df = self.handle_import_nans(df)
 
                     if not batch_mode:
                         data = df
