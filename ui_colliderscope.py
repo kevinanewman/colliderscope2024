@@ -308,6 +308,7 @@ class Ui_ColliderScopeUI(object):
         sizePolicy6.setHeightForWidth(self.import_csv_delimiter_comboBox.sizePolicy().hasHeightForWidth())
         self.import_csv_delimiter_comboBox.setSizePolicy(sizePolicy6)
         self.import_csv_delimiter_comboBox.setMaximumSize(QSize(16777215, 16777215))
+        self.import_csv_delimiter_comboBox.setEditable(True)
 
         self.import_csv_delimiter_horizontalLayout.addWidget(self.import_csv_delimiter_comboBox)
 
