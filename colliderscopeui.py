@@ -155,7 +155,7 @@ def two_column_tableWidget_to_dict(table_widget):
 
 
 def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='utf-8', header_row=0, units_row=None,
-                         skiprows=None):
+                         skiprows=None, delimiter=None):
     """
     Combine column labels and units row into a single combined string to identify the column.
 
@@ -184,11 +184,11 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
     else:
         columns = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, header_row)),
-                              encoding=encoding, encoding_errors='strict', on_bad_lines='skip')
+                              encoding=encoding, encoding_errors='strict', on_bad_lines='skip', delimiter=delimiter)
 
         if units_row is not None:
             units = pd.read_csv(filename, header=None, nrows=num_rows, skiprows=list(range(0, units_row)),
-                                encoding=encoding, encoding_errors='strict', on_bad_lines='skip')
+                                encoding=encoding, encoding_errors='strict', on_bad_lines='skip', delimiter=delimiter)
         else:  # blank units
             units = pd.DataFrame({'units': [''] * columns.shape[1]}).transpose()
 
@@ -986,7 +986,9 @@ class ColliderScopeUI(QMainWindow):
                 try:
                     unitized_columns = get_unitized_columns(source_file_pathname,
                                                             encoding=self.ui.import_csv_encoding_comboBox.currentText(),
-                                                            header_row=header_row, units_row=units_row)
+                                                            header_row=header_row, units_row=units_row,
+                                                            delimiter=delimiter)
+
                     usecols = list(range(0, len(unitized_columns)))
                 except:
                     unitized_columns = []
