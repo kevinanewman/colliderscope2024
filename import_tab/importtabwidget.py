@@ -14,8 +14,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, Q
 # You need to run the following command to generate the ui_form.py file
 #     pyside6-uic import_tab.ui -o ui_import_tab.py, or
 #     pyside2-uic import_tab.ui -o ui_import_tab.py
-from ui_import_tab import (Ui_ImportTabWidget)
-
+from import_tab.ui_import_tab import Ui_ImportTabWidget
 
 def set_tab_by_name(tabWidget, tab_name):
     for i in range(tabWidget.count()):

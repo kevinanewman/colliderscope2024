@@ -39,6 +39,8 @@ from ui_nanhandler_horizontal import Ui_NanHandlerHorizontal
 
 from file_io import *
 
+from import_tab.importtabwidget import ImportTabWidget
+
 timer = None
 
 app = None
@@ -277,6 +279,9 @@ class ColliderScopeUI(QMainWindow):
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
 
+        self.ui.import_tab = ImportTabWidget()
+        self.ui.tabWidget_main.insertTab(0, self.ui.import_tab, 'Import')
+
         # make sure we start on the import tab in case the .ui was left on another tab
         set_tab_by_name(self.ui.tabWidget_main, 'Import')
 
@@ -418,7 +423,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_filter_widget.inputChanged()  # update triage listWidgets
 
     @staticmethod
-    def init_plot_widget(self, plot_widget, title_str):
+    def init_plot_widget(plot_widget, title_str):
         plot_widget.plotItem.clear()
         plot_widget.showGrid(x=True, y=True)
         plot_widget.plotItem.setTitle(title_str)
