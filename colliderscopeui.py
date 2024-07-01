@@ -281,7 +281,7 @@ class ColliderScopeUI(QMainWindow):
         self.ui.setupUi(self)
 
         self.ui.import_tab = ImportTabWidget(globals_dict=globals(),
-                                             post_import_func=self.setup_initial_triage_lists())
+                                             post_import_func=self.setup_initial_triage_lists)
         self.ui.tabWidget_main.insertTab(0, self.ui.import_tab, 'Import')
 
         # make sure we start on the import tab in case the .ui was left on another tab
