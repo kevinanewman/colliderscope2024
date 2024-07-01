@@ -280,8 +280,9 @@ class ColliderScopeUI(QMainWindow):
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
 
-        self.ui.import_tab = ImportTabWidget(globals_dict=globals(),
-                                             post_import_func=self.setup_initial_triage_lists)
+        self.ui.import_tab = ImportTabWidget(init_on_preview_func=self.init_on_preview,
+                                             init_on_import_func=self.init_on_import)
+
         self.ui.tabWidget_main.insertTab(0, self.ui.import_tab, 'Import')
 
         # make sure we start on the import tab in case the .ui was left on another tab
@@ -393,6 +394,79 @@ class ColliderScopeUI(QMainWindow):
     def generic_slot(self, *args, **kwargs):
         print('generic slot...')
         print(self.ui.triage_favorites_listWidget.selectedItems())
+
+
+    def clear_triage_lists(self):
+        original_numeric_fields.clear()
+        original_string_fields.clear()
+
+        active_numeric_fields.clear()
+        active_string_fields.clear()
+        ignore_fields.clear()
+        favorite_fields.clear()
+
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
+    def init_triage_lists(self):
+        global data
+        data = data.convert_dtypes(convert_boolean=False)
+        self.clear_triage_lists()
+
+        drop_fields = set()
+        # convert mixed columns (e.g. strings and numbers) to strings
+        non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
+        for c in non_numeric_fields:
+            if not pd.api.types.is_string_dtype(data[c]):
+                data['%s__obj->str' % c] = data[c].astype('string')
+                drop_fields.add(c)
+                try:
+                    data['%s__obj->float' % c] = data[c].as_type('float')
+                    drop_fields.add(c)
+                except:
+                    data['%s__obj->float' % c] = data[c].apply(try_to_float)
+                    drop_fields.add(c)
+
+        data = data.drop(drop_fields, axis=1)
+
+        active_numeric_fields.extend(data.select_dtypes(include='number').columns)
+        active_string_fields.extend(data.select_dtypes(include='string').columns)
+
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
+    def setup_initial_triage_lists(self):
+        global data
+        self.ui.tabWidget_main.setCurrentIndex(1)
+        self.init_triage_lists()
+
+        self.ui.triage_tab.setEnabled(True)
+        self.ui.export_tab.setEnabled(True)
+        self.ui.plot_tab.setEnabled(True)
+
+    def init_on_preview(self):
+        self.clear_triage_lists()
+
+    def init_on_import(self, file_pathname, import_df):
+        global source_file_pathname, data
+
+        source_file_pathname = file_pathname
+
+        data = import_df
+
+        self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
+
+        self.ui.export_data_lineEdit.setText(get_filename(source_file_pathname))
+
+        self.setup_initial_triage_lists()
+
+        # grab non-filtered original fields for later reference:
+        original_numeric_fields.extend(active_numeric_fields)
+        original_string_fields.extend(active_string_fields)
+
+        self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                      (len(data), len(data.columns)), 10000)
+
+        self.ui.script_preview_consoleWidget.locals().update(globals())
+        # self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
     def send_right_pushbutton(self):
         if self.ui.ignore_favorites_tabWidget.currentIndex() == 0:
@@ -580,35 +654,6 @@ class ColliderScopeUI(QMainWindow):
             self.prior_nan_count = 0
             self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
-    def init_triage_lists(self):
-        global data
-        data = data.convert_dtypes(convert_boolean=False)
-        active_numeric_fields.clear()
-        active_string_fields.clear()
-        ignore_fields.clear()
-        favorite_fields.clear()
-
-        drop_fields = set()
-        # convert mixed columns (e.g. strings and numbers) to strings
-        non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
-        for c in non_numeric_fields:
-            if not pd.api.types.is_string_dtype(data[c]):
-                data['%s__obj->str' % c] = data[c].astype('string')
-                drop_fields.add(c)
-                try:
-                    data['%s__obj->float' % c] = data[c].as_type('float')
-                    drop_fields.add(c)
-                except:
-                    data['%s__obj->float' % c] = data[c].apply(try_to_float)
-                    drop_fields.add(c)
-
-        data = data.drop(drop_fields, axis=1)
-
-        active_numeric_fields.extend(data.select_dtypes(include='number').columns)
-        active_string_fields.extend(data.select_dtypes(include='string').columns)
-
-        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
-
     def ignore_deadvars(self):
         global ignore_fields
 
@@ -634,32 +679,6 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
         set_tab_by_name(self.ui.ignore_favorites_tabWidget, 'Ignore')
-
-    def setup_initial_triage_lists(self):
-        global data
-        self.ui.tabWidget_main.setCurrentIndex(1)
-        self.init_triage_lists()
-        # grab non-filtered original fields for later reference:
-        original_numeric_fields.extend(active_numeric_fields)
-        original_string_fields.extend(active_string_fields)
-
-        self.ui.triage_tab.setEnabled(True)
-        self.ui.export_tab.setEnabled(True)
-        self.ui.plot_tab.setEnabled(True)
-
-    def init_on_import(self):
-        original_numeric_fields.clear()
-        original_string_fields.clear()
-        active_numeric_fields.clear()
-        active_string_fields.clear()
-        ignore_fields.clear()
-        favorite_fields.clear()
-
-        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
-
-        self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
-
-        self.ui.export_data_lineEdit.setText(get_filename(source_file_pathname))
 
     def script_run(self):
         global original_numeric_fields, original_string_fields, active_numeric_fields, active_string_fields, \

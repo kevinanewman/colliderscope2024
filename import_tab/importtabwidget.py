@@ -16,6 +16,8 @@ from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, Q
 #     pyside2-uic import_tab.ui -o ui_import_tab.py
 from import_tab.ui_import_tab import Ui_ImportTabWidget
 
+import_widget = None
+
 
 def set_tab_by_name(tabWidget, tab_name):
     for i in range(tabWidget.count()):
@@ -162,40 +164,45 @@ def get_unitized_columns(filename, sheet_name=None, ignore_units=(), encoding='u
 
 
 def import_csv_header_row_spinBox_stepBy(step):
-    mainwindow.ui.import_csv_header_row_spinBox.default_stepBy(step)
-    mainwindow.load_file_preview()
+    import_widget.ui.import_csv_header_row_spinBox.default_stepBy(step)
+    import_widget.load_file_preview()
 
 
 def import_csv_units_row_spinBox_stepBy(step):
-    mainwindow.ui.import_csv_units_row_spinBox.default_stepBy(step)
-    mainwindow.load_file_preview()
+    import_widget.ui.import_csv_units_row_spinBox.default_stepBy(step)
+    import_widget.load_file_preview()
 
 
 def import_excel_header_row_spinBox_stepBy(step):
-    mainwindow.ui.import_excel_header_row_spinBox.default_stepBy(step)
-    mainwindow.load_file_preview()
+    import_widget.ui.import_excel_header_row_spinBox.default_stepBy(step)
+    import_widget.load_file_preview()
 
 
 def import_excel_units_row_spinBox_stepBy(step):
-    mainwindow.ui.import_excel_units_row_spinBox.default_stepBy(step)
-    mainwindow.load_file_preview()
+    import_widget.ui.import_excel_units_row_spinBox.default_stepBy(step)
+    import_widget.load_file_preview()
 
 
 def preview_size_spinBox_stepBy(step):
-    mainwindow.ui.preview_size_spinBox.default_stepBy(step)
-    mainwindow.load_file_preview()
+    import_widget.ui.preview_size_spinBox.default_stepBy(step)
+    import_widget.load_file_preview()
 
 
 class ImportTabWidget(QWidget):
-    def __init__(self, parent=None, globals_dict=None, post_import_func=None):
+    def __init__(self, parent=None, init_on_preview_func=None, init_on_import_func=None):
+        global import_widget
+
         super().__init__(parent)
         os.chdir(os.path.dirname(os.path.abspath(__file__)))  # need to do this if setupUI has local assets
         self.ui = Ui_ImportTabWidget()
         self.ui.setupUi(self)
 
+        import_widget = self
+
         self.ui.file_import_browse_pushButton.setFocus()
 
-        self.post_import_func = post_import_func
+        self.init_on_preview_func = init_on_preview_func
+        self.init_on_import_func = init_on_import_func
 
         self.import_csv_options_dict = dict()
         self.import_excel_options_dict = dict()
@@ -355,8 +362,6 @@ class ImportTabWidget(QWidget):
         return df
 
     def import_csv_file(self, preview=False, nrows=False, file_pathname=None):
-        global status_bar_message, data, source_file_pathname
-
         if file_pathname is None:
             file_pathname = self.ui.filepathname_lineEdit.text()
             batch_mode = False
@@ -364,10 +369,8 @@ class ImportTabWidget(QWidget):
             batch_mode = True
 
         if file_pathname:
-            source_file_pathname = file_pathname
-
-            if not batch_mode:
-                self.init_on_import()
+            if not batch_mode and preview and self.init_on_preview_func:
+                self.init_on_preview_func()
 
             delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
             if delimiter == 'Auto':
@@ -388,7 +391,7 @@ class ImportTabWidget(QWidget):
                     units_row = None
 
                 try:
-                    unitized_columns = get_unitized_columns(source_file_pathname,
+                    unitized_columns = get_unitized_columns(file_pathname,
                                                             encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                                             header_row=header_row, units_row=units_row,
                                                             delimiter=delimiter)
@@ -404,7 +407,7 @@ class ImportTabWidget(QWidget):
 
                 if preview:
                     try:
-                        df = pd.read_csv(source_file_pathname, names=unitized_columns,
+                        df = pd.read_csv(file_pathname, names=unitized_columns,
                                          header=header_row, delimiter=delimiter, usecols=usecols,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=skip_blank_lines,
@@ -415,7 +418,7 @@ class ImportTabWidget(QWidget):
                         df = self.handle_import_nans(df)
                     except:  # try without usecols...
                         try:
-                            df = pd.read_csv(source_file_pathname, names=unitized_columns,
+                            df = pd.read_csv(file_pathname, names=unitized_columns,
                                              header=header_row, delimiter=delimiter,  # usecols=usecols,
                                              encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                              skip_blank_lines=skip_blank_lines,
@@ -428,7 +431,7 @@ class ImportTabWidget(QWidget):
                             df = None
                 else:  # read in actual file
                     try:
-                        df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
+                        df = pd.read_csv(file_pathname, names=unitized_columns, header=header_row,
                                          delimiter=delimiter, usecols=usecols,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=skip_blank_lines, on_bad_lines='warn',
@@ -438,7 +441,7 @@ class ImportTabWidget(QWidget):
 
                         df = self.handle_import_nans(df)
                     except:  # try without usecols...
-                        df = pd.read_csv(source_file_pathname, names=unitized_columns, header=header_row,
+                        df = pd.read_csv(file_pathname, names=unitized_columns, header=header_row,
                                          delimiter=delimiter,  # usecols=usecols,
                                          encoding=self.ui.import_csv_encoding_comboBox.currentText(),
                                          skip_blank_lines=skip_blank_lines, on_bad_lines='warn',
@@ -449,17 +452,8 @@ class ImportTabWidget(QWidget):
                         df = self.handle_import_nans(df)
 
                     if not batch_mode:
-                        data = df
-
-                        if self.post_import_func:
-                            self.post_import_func()
-                        # self.setup_initial_triage_lists()
-
-                        self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                                      (len(df), len(df.columns)), 10000)
-
-                        self.ui.script_preview_consoleWidget.locals().update(globals())
-                        self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
+                        if self.init_on_import_func:
+                            self.init_on_import_func(file_pathname, df)
 
                 return df
 
@@ -474,8 +468,6 @@ class ImportTabWidget(QWidget):
                 return None
 
     def import_excel_file(self, preview=False, nrows=False, file_pathname=None):
-        global status_bar_message, data, source_file_pathname
-
         if file_pathname is None:
             file_pathname = self.ui.filepathname_lineEdit.text()
             batch_mode = False
@@ -483,11 +475,8 @@ class ImportTabWidget(QWidget):
             batch_mode = True
 
         if file_pathname:
-            source_file_pathname = file_pathname
-
-            if not batch_mode:
-                self.ui.export_data_lineEdit.setText(os.path.basename(file_pathname).rsplit('.', 1)[0])
-                self.init_on_import()
+            if not batch_mode and preview and self.init_on_preview_func:
+                self.init_on_preview_func()
 
             if self.ui.import_excel_sheet_comboBox.count() == 0:
                 from openpyxl import load_workbook
@@ -511,11 +500,11 @@ class ImportTabWidget(QWidget):
 
                 try:
                     # try loading by sheet name
-                    unitized_columns = get_unitized_columns(source_file_pathname, sheet_name=sheet_name,
+                    unitized_columns = get_unitized_columns(file_pathname, sheet_name=sheet_name,
                                                             header_row=header_row, units_row=units_row)
                 except:
                     # try loading by sheet number, in case sheet name changes across files...
-                    unitized_columns = get_unitized_columns(source_file_pathname, sheet_name=sheet_number,
+                    unitized_columns = get_unitized_columns(file_pathname, sheet_name=sheet_number,
                                                             header_row=header_row, units_row=units_row)
 
                 keyword_args = self.import_excel_options_dict
@@ -529,27 +518,21 @@ class ImportTabWidget(QWidget):
 
                 try:
                     # try loading by sheet name
-                    df = pd.read_excel(source_file_pathname, names=unitized_columns, sheet_name=sheet_name,
+                    df = pd.read_excel(file_pathname, names=unitized_columns, sheet_name=sheet_name,
                                        header=header_row, nrows=nrows, engine_kwargs=engine_kwargs, skiprows=skiprows,
                                        **keyword_args)
                 except:
                     # try loading by sheet number, in case sheet name changes across files...
-                    df = pd.read_excel(source_file_pathname, names=unitized_columns, sheet_name=sheet_number,
+                    df = pd.read_excel(file_pathname, names=unitized_columns, sheet_name=sheet_number,
                                        header=header_row, nrows=nrows, engine_kwargs=engine_kwargs, skiprows=skiprows,
                                        **keyword_args)
 
                 df = self.handle_import_nans(df)
 
-                if not batch_mode:
-                    self.ui.statusbar.showMessage('imported %d rows of df, %d columns' %
-                                                  (len(df), len(df.columns)), 10000)
-
-                    self.ui.script_preview_consoleWidget.locals().update(globals())
-                    self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
-
-                    if not preview:
-                        data = df
-                        self.setup_initial_triage_lists()
+                if not preview:
+                    if not batch_mode:
+                        if self.init_on_import_func:
+                            self.init_on_import_func(file_pathname, df)
 
                 return df
 
