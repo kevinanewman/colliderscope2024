@@ -878,35 +878,6 @@ class ColliderScopeUI(QMainWindow):
             self.prior_nan_count = 0
             self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
-    def init_triage_lists(self):
-        global data
-        data = data.convert_dtypes(convert_boolean=False)
-        active_numeric_fields.clear()
-        active_string_fields.clear()
-        ignore_fields.clear()
-        favorite_fields.clear()
-
-        drop_fields = set()
-        # convert mixed columns (e.g. strings and numbers) to strings
-        non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
-        for c in non_numeric_fields:
-            if not pd.api.types.is_string_dtype(data[c]):
-                data['%s__obj->str' % c] = data[c].astype('string')
-                drop_fields.add(c)
-                try:
-                    data['%s__obj->float' % c] = data[c].as_type('float')
-                    drop_fields.add(c)
-                except:
-                    data['%s__obj->float' % c] = data[c].apply(try_to_float)
-                    drop_fields.add(c)
-
-        data = data.drop(drop_fields, axis=1)
-
-        active_numeric_fields.extend(data.select_dtypes(include='number').columns)
-        active_string_fields.extend(data.select_dtypes(include='string').columns)
-
-        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
-
     def ignore_deadvars(self):
         global ignore_fields
 
@@ -946,17 +917,71 @@ class ColliderScopeUI(QMainWindow):
 
         return df
 
+    def clear_triage_lists(self):
+        original_numeric_fields.clear()
+        original_string_fields.clear()
+
+        active_numeric_fields.clear()
+        active_string_fields.clear()
+        ignore_fields.clear()
+        favorite_fields.clear()
+
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
+    def init_triage_lists(self):
+        global data
+        data = data.convert_dtypes(convert_boolean=False)
+        self.clear_triage_lists()
+
+        drop_fields = set()
+        # convert mixed columns (e.g. strings and numbers) to strings
+        non_numeric_fields = [c for c in data.select_dtypes(exclude=['number']).columns]
+        for c in non_numeric_fields:
+            if not pd.api.types.is_string_dtype(data[c]):
+                data['%s__obj->str' % c] = data[c].astype('string')
+                drop_fields.add(c)
+                try:
+                    data['%s__obj->float' % c] = data[c].as_type('float')
+                    drop_fields.add(c)
+                except:
+                    data['%s__obj->float' % c] = data[c].apply(try_to_float)
+                    drop_fields.add(c)
+
+        data = data.drop(drop_fields, axis=1)
+
+        active_numeric_fields.extend(data.select_dtypes(include='number').columns)
+        active_string_fields.extend(data.select_dtypes(include='string').columns)
+
+        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
+
     def setup_initial_triage_lists(self):
         global data
         self.ui.tabWidget_main.setCurrentIndex(1)
         self.init_triage_lists()
-        # grab non-filtered original fields for later reference:
-        original_numeric_fields.extend(active_numeric_fields)
-        original_string_fields.extend(active_string_fields)
 
         self.ui.triage_tab.setEnabled(True)
         self.ui.export_tab.setEnabled(True)
         self.ui.plot_tab.setEnabled(True)
+
+    def init_on_preview(self):
+        self.clear_triage_lists()
+
+    def init_on_import(self):
+        self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
+
+        self.ui.export_data_lineEdit.setText(get_filename(source_file_pathname))
+
+        self.setup_initial_triage_lists()
+
+        # grab non-filtered original fields for later reference:
+        original_numeric_fields.extend(active_numeric_fields)
+        original_string_fields.extend(active_string_fields)
+
+        self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
+                                      (len(data), len(data.columns)), 10000)
+
+        self.ui.script_preview_consoleWidget.locals().update(globals())
+        # self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
 
     def import_csv_file(self, preview=False, nrows=False, file_pathname=None):
         global status_bar_message, data, source_file_pathname
@@ -970,9 +995,8 @@ class ColliderScopeUI(QMainWindow):
         if file_pathname:
             source_file_pathname = file_pathname
 
-            if not batch_mode:
-                self.ui.export_data_lineEdit.setText(get_filename(source_file_pathname))
-                self.init_on_import()
+            if not batch_mode and preview:
+                self.init_on_preview()
 
             delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
             if delimiter == 'Auto':
@@ -1056,13 +1080,7 @@ class ColliderScopeUI(QMainWindow):
                     if not batch_mode:
                         data = df
 
-                        self.setup_initial_triage_lists()
-
-                        self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
-                                                      (len(df), len(df.columns)), 10000)
-
-                        self.ui.script_preview_consoleWidget.locals().update(globals())
-                        self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
+                        self.init_on_import()
 
                 return df
 
@@ -1088,9 +1106,8 @@ class ColliderScopeUI(QMainWindow):
         if file_pathname:
             source_file_pathname = file_pathname
 
-            if not batch_mode:
-                self.ui.export_data_lineEdit.setText(os.path.basename(file_pathname).rsplit('.', 1)[0])
-                self.init_on_import()
+            if not batch_mode and preview:
+                self.init_on_preview()
 
             if self.ui.import_excel_sheet_comboBox.count() == 0:
                 from openpyxl import load_workbook
@@ -1143,16 +1160,11 @@ class ColliderScopeUI(QMainWindow):
 
                 df = self.handle_import_nans(df)
 
-                if not batch_mode:
-                    self.ui.statusbar.showMessage('imported %d rows of df, %d columns' %
-                                                  (len(df), len(df.columns)), 10000)
-
-                    self.ui.script_preview_consoleWidget.locals().update(globals())
-                    self.ui.script_preview_consoleWidget.output.setPlainText('use run() to run user script!\n')
-
-                    if not preview:
+                if not preview:
+                    if not batch_mode:
                         data = df
-                        self.setup_initial_triage_lists()
+
+                        self.init_on_import()
 
                 return df
 
@@ -1164,18 +1176,6 @@ class ColliderScopeUI(QMainWindow):
                     print('Excel Import Error')
                     print('Error reading "%s"\n\n%s' % (file_pathname, str(e)))
                 return None
-
-    def init_on_import(self):
-        original_numeric_fields.clear()
-        original_string_fields.clear()
-        active_numeric_fields.clear()
-        active_string_fields.clear()
-        ignore_fields.clear()
-        favorite_fields.clear()
-
-        self.ui.triage_filter_widget.inputChanged()  # update triage widgets
-
-        self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
 
     def script_run(self):
         global original_numeric_fields, original_string_fields, active_numeric_fields, active_string_fields, \
