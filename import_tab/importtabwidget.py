@@ -16,6 +16,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, Q
 #     pyside2-uic import_tab.ui -o ui_import_tab.py
 from import_tab.ui_import_tab import Ui_ImportTabWidget
 
+
 def set_tab_by_name(tabWidget, tab_name):
     for i in range(tabWidget.count()):
         if tabWidget.tabText(i) == tab_name:
@@ -186,12 +187,15 @@ def preview_size_spinBox_stepBy(step):
 
 
 class ImportTabWidget(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, globals_dict=None, post_import_func=None):
         super().__init__(parent)
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))  # need to do this if setupUI has local assets
         self.ui = Ui_ImportTabWidget()
         self.ui.setupUi(self)
 
         self.ui.file_import_browse_pushButton.setFocus()
+
+        self.post_import_func = post_import_func
 
         self.import_csv_options_dict = dict()
         self.import_excel_options_dict = dict()
@@ -361,10 +365,8 @@ class ImportTabWidget(QWidget):
         if file_pathname:
             source_file_pathname = file_pathname
 
-            # TODO: reconnect these!
-            # if not batch_mode:
-            #     self.ui.export_data_lineEdit.setText(get_filename(source_file_pathname))
-            #     self.init_on_import()
+            if not batch_mode:
+                self.init_on_import()
 
             delimiter = self.ui.import_csv_delimiter_comboBox.currentText()
             if delimiter == 'Auto':
@@ -448,7 +450,9 @@ class ImportTabWidget(QWidget):
                     if not batch_mode:
                         data = df
 
-                        self.setup_initial_triage_lists()
+                        if self.post_import_func:
+                            self.post_import_func()
+                        # self.setup_initial_triage_lists()
 
                         self.ui.statusbar.showMessage('imported %d rows of data, %d columns' %
                                                       (len(df), len(df.columns)), 10000)

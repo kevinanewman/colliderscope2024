@@ -276,10 +276,12 @@ class ColliderScopeUI(QMainWindow):
         global active_numeric_fields, active_string_fields, ignore_fields, favorite_fields
 
         super().__init__(parent)
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))  # need to do this if setupUI has local assets
         self.ui = Ui_ColliderScopeUI()
         self.ui.setupUi(self)
 
-        self.ui.import_tab = ImportTabWidget()
+        self.ui.import_tab = ImportTabWidget(globals_dict=globals(),
+                                             post_import_func=self.setup_initial_triage_lists())
         self.ui.tabWidget_main.insertTab(0, self.ui.import_tab, 'Import')
 
         # make sure we start on the import tab in case the .ui was left on another tab
@@ -656,6 +658,8 @@ class ColliderScopeUI(QMainWindow):
         self.ui.triage_filter_widget.inputChanged()  # update triage widgets
 
         self.init_plot_widget(self.ui.graphic_preview_plot_widget, 'Graphic Preview')
+
+        self.ui.export_data_lineEdit.setText(get_filename(source_file_pathname))
 
     def script_run(self):
         global original_numeric_fields, original_string_fields, active_numeric_fields, active_string_fields, \

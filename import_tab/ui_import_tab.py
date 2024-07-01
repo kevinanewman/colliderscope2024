@@ -317,7 +317,7 @@ class Ui_ImportTabWidget(object):
         self.import_csv_help_toolButton = QToolButton(self.scrollAreaWidgetContents)
         self.import_csv_help_toolButton.setObjectName(u"import_csv_help_toolButton")
         icon = QIcon()
-        icon.addFile(u"../assets/info.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u"assets/info.png", QSize(), QIcon.Normal, QIcon.Off)
         self.import_csv_help_toolButton.setIcon(icon)
 
         self.horizontalLayout_4.addWidget(self.import_csv_help_toolButton)

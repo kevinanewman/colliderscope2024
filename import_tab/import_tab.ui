@@ -574,7 +574,7 @@ Preview</string>
                           </property>
                           <property name="icon">
                            <iconset>
-                            <normaloff>../assets/info.png</normaloff>../assets/info.png</iconset>
+                            <normaloff>assets/info.png</normaloff>assets/info.png</iconset>
                           </property>
                          </widget>
                         </item>
@@ -902,7 +902,7 @@ Preview</string>
                       </property>
                       <property name="icon">
                        <iconset>
-                        <normaloff>../assets/info.png</normaloff>../assets/info.png</iconset>
+                        <normaloff>assets/info.png</normaloff>assets/info.png</iconset>
                       </property>
                      </widget>
                     </item>

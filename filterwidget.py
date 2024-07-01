@@ -13,6 +13,7 @@ from ui_filterwidget import Ui_FilterWidget
 class FilterWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))  # need to do this if setupUI has local assets
         self.ui = Ui_FilterWidget()
         self.ui.setupUi(self)
         self.widget_list = []
