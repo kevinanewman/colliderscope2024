@@ -636,6 +636,10 @@ class ColliderScopeUI(QMainWindow):
     def load_file_preview(self, qstring='', file_pathname=None):
         print('load_file_preview')
 
+        # clear prior preview
+        self.ui.file_preview_tableWidget.setRowCount(0)
+        self.ui.file_preview_tableWidget.setColumnCount(1)
+
         self.ui.file_import_browse_pushButton.clearFocus()
 
         if self.ui.preview_size_checkBox.isChecked():
@@ -670,9 +674,6 @@ class ColliderScopeUI(QMainWindow):
                 self.ui.import_excel_pushButton.clearFocus()
 
                 # preview first N lines of input file
-                self.ui.file_preview_tableWidget.setRowCount(0)
-                self.ui.file_preview_tableWidget.setColumnCount(1)
-
                 df = self.import_csv_file(preview=True, nrows=num_preview_rows)
                 if df is not None and not self.ui.raw_file_preview_checkBox.isChecked():
                     self.preview_dataframe(df)
